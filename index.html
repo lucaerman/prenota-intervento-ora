@@ -14,28 +14,58 @@
 }
 
 body{
-    background: rgba(0,0,0,0.05);
+    background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617);
     min-height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
+    overflow:hidden;
+}
+
+body::before{
+    content:"";
+    position:absolute;
+    width:200%;
+    height:200%;
+    background:radial-gradient(white 1px, transparent 1px);
+    background-size:40px 40px;
+    opacity:0.1;
+    animation:move 60s linear infinite;
+}
+
+@keyframes move{
+    from{transform:translate(0,0);}
+    to{transform:translate(-200px,-200px);}
 }
 
 .container{
+    position:relative;
     width:100%;
     max-width:420px;
-    background:rgba(255,255,255,0.95);
-    backdrop-filter:blur(5px);
-    border-radius:20px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    border-radius:25px;
     padding:25px;
-    box-shadow:0 10px 40px rgba(0,0,0,0.3);
+    box-shadow:0 0 40px rgba(0,0,0,0.6);
+    border:1px solid rgba(255,255,255,0.2);
     animation:fadeIn 0.8s ease;
+}
+
+.container::before{
+    content:"";
+    position:absolute;
+    inset:-2px;
+    border-radius:25px;
+    background:linear-gradient(45deg,#3b82f6,#22c55e,#3b82f6);
+    z-index:-1;
+    filter:blur(20px);
+    opacity:0.5;
 }
 
 @keyframes fadeIn{
     from{
         opacity:0;
-        transform:translateY(20px);
+        transform:translateY(40px);
     }
     to{
         opacity:1;
@@ -46,7 +76,25 @@ body{
 h2{
     text-align:center;
     margin-bottom:20px;
-    color:#1e3a8a;
+    color:#fff;
+    font-size:24px;
+    letter-spacing:1px;
+}
+
+.fire{
+    display:inline-block;
+    animation:fire 1s infinite alternate;
+}
+
+@keyframes fire{
+    from{
+        transform:scale(1) rotate(-5deg);
+        text-shadow:0 0 5px #ff9800,0 0 15px #ff5722;
+    }
+    to{
+        transform:scale(1.2) rotate(5deg);
+        text-shadow:0 0 15px #ff5722,0 0 30px #ff0000;
+    }
 }
 
 .input-group{
@@ -56,19 +104,27 @@ h2{
 input, select{
     width:100%;
     padding:14px;
-    border-radius:10px;
-    border:1px solid #ddd;
-    font-size:16px;
+    border-radius:12px;
+    border:none;
+    background:rgba(255,255,255,0.15);
+    color:#fff;
+    font-size:15px;
+    outline:none;
+    transition:0.3s;
+}
+
+input::placeholder{
+    color:#ddd;
 }
 
 input:focus, select:focus{
-    outline:none;
-    border-color:#3b82f6;
+    background:rgba(255,255,255,0.25);
+    transform:scale(1.03);
 }
 
 label{
-    font-size:13px;
-    color:#666;
+    font-size:12px;
+    color:#ccc;
     margin-bottom:5px;
     display:block;
 }
@@ -79,27 +135,45 @@ button{
     margin-top:15px;
     border:none;
     border-radius:12px;
-    background:#1e3a8a;
+    background:linear-gradient(45deg,#22c55e,#16a34a);
     color:white;
     font-size:17px;
     font-weight:bold;
     cursor:pointer;
     transition:0.3s;
+    box-shadow:0 0 20px rgba(34,197,94,0.7);
+    position:relative;
+    overflow:hidden;
+}
+
+button::before{
+    content:"";
+    position:absolute;
+    width:200%;
+    height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,0.6),transparent);
+    top:0;
+    left:-100%;
+    transition:0.6s;
+}
+
+button:hover::before{
+    left:100%;
 }
 
 button:hover{
-    background:#2563eb;
+    transform:scale(1.05);
 }
 
 button:active{
-    transform:scale(0.98);
+    transform:scale(0.97);
 }
 
 .modal{
     position:fixed;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.6);
+    background:rgba(0,0,0,0.8);
     top:0;left:0;
     display:none;
     justify-content:center;
@@ -107,7 +181,8 @@ button:active{
 }
 
 .box{
-    background:white;
+    background:#020617;
+    color:#fff;
     padding:25px;
     border-radius:15px;
     text-align:center;
@@ -121,13 +196,13 @@ button:active{
     padding:12px;
 }
 
-.ok{background:#1e3a8a;color:white;}
-.no{background:#ccc;}
+.ok{background:#22c55e;}
+.no{background:#555;}
 
 .success{
     display:none;
     text-align:center;
-    color:#16a34a;
+    color:#22c55e;
     margin-top:10px;
     font-weight:bold;
 }
@@ -137,7 +212,7 @@ button:active{
 <body>
 
 <div class="container">
-<h2>Prenota intervento</h2>
+<h2><span class="fire">🔥</span> Prenota intervento</h2>
 
 <div class="input-group">
 <input type="text" id="nome" placeholder="Nome">
@@ -227,12 +302,15 @@ document.getElementById("btn").onclick=function(){
     }
 
     messaggio=`Prenotazione intervento
+
 Nome: ${nome} ${cognome}
 Indirizzo: ${indirizzo}
 Telefono: ${telefono}
 Telefono fisso: ${telefonoFisso}
+
 Marca stufa: ${marca}
 Modello: ${modello}
+
 Tipo intervento: ${tipo}
 Data: ${data}`;
 
