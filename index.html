@@ -148,15 +148,16 @@ button{
     animation:pulse 2s infinite;
 }
 
-/* ICONA WHATSAPP ANIMATA */
+/* ICONA WHATSAPP UFFICIALE ANIMATA */
 .whatsapp-icon{
-    font-size:20px;
+    width:24px;
+    height:24px;
     animation:iconBounce 1.2s infinite;
 }
 
 @keyframes iconBounce{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-4px);}
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(-4px); }
 }
 
 /* EFFETTO RESPIRO PULSANTE */
@@ -282,9 +283,10 @@ button:active{
 <input type="text" id="data" readonly>
 </div>
 
+<!-- PULSANTE WHATSAPP CON ICONA UFFICIALE -->
 <button id="btn">
-<span class="whatsapp-icon">📲</span>
-Prenota su WhatsApp
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="whatsapp-icon" alt="WhatsApp">
+  Prenota su WhatsApp
 </button>
 
 <div class="success" id="successMsg">
