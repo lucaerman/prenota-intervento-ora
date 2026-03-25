@@ -14,7 +14,7 @@
 }
 
 body{
-    background:linear-gradient(135deg,#1e3a8a,#3b82f6);
+    background: rgba(0,0,0,0.05);
     min-height:100vh;
     display:flex;
     align-items:center;
@@ -24,10 +24,23 @@ body{
 .container{
     width:100%;
     max-width:420px;
-    background:white;
+    background:rgba(255,255,255,0.95);
+    backdrop-filter:blur(5px);
     border-radius:20px;
     padding:25px;
-    box-shadow:0 10px 40px rgba(0,0,0,0.2);
+    box-shadow:0 10px 40px rgba(0,0,0,0.3);
+    animation:fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 h2{
@@ -71,6 +84,11 @@ button{
     font-size:17px;
     font-weight:bold;
     cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#2563eb;
 }
 
 button:active{
@@ -171,7 +189,6 @@ button:active{
 
 </div>
 
-<!-- MODALE -->
 <div class="modal" id="modal">
 <div class="box">
 <h3>Conferma</h3>
@@ -182,8 +199,6 @@ button:active{
 </div>
 
 <script>
-
-// DATA ITALIANA
 window.onload=function(){
     let oggi=new Date();
     let g=String(oggi.getDate()).padStart(2,'0');
@@ -224,19 +239,16 @@ Data: ${data}`;
     document.getElementById("modal").style.display="flex";
 };
 
-// ANNULLA
 document.getElementById("annulla").onclick=function(){
     document.getElementById("modal").style.display="none";
 };
 
-// CONFERMA
 document.getElementById("conferma").onclick=function(){
     let url="https://wa.me/390813769280?text="+encodeURIComponent(messaggio);
     window.open(url,"_blank");
     document.getElementById("modal").style.display="none";
     document.getElementById("successMsg").style.display="block";
 };
-
 </script>
 
 </body>
