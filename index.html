@@ -91,7 +91,7 @@ input,select{
     border-radius:12px;
     border:none;
     background:rgba(255,255,255,0.15);
-    color:#fff;
+    color:#f0f0f0;
     outline:none;
     transition: transform 0.2s;
 }
@@ -103,7 +103,7 @@ textarea{
     border-radius:12px;
     border:none;
     background:rgba(255,255,255,0.15);
-    color:#fff;
+    color:#f0f0f0;
     outline:none;
     resize:none;
 }
@@ -323,9 +323,9 @@ button::before{
 <div class="input-group"><input id="cognome" placeholder="Cognome"><span class="icon">👤</span></div>
 <div class="input-group"><input id="indirizzo" placeholder="Indirizzo"><span class="icon">📍</span></div>
 <div class="input-group"><input id="telefono" placeholder="Telefono"><span class="icon">📞</span></div>
-<div class="input-group"><input id="telefono_fisso" placeholder="Telefono fisso (facoltativo)"><span class="icon">☎️</span></div>
+<div class="input-group"><input id="fisso" placeholder="Numero fisso (facoltativo)"><span class="icon">☎️</span></div>
 <div class="input-group"><input id="marca" placeholder="Marca stufa"><span class="icon">🔥</span></div>
-<div class="input-group"><input id="modello" placeholder="Modello stufa (facoltativo)"><span class="icon">🖥</span></div>
+<div class="input-group"><input id="modello" placeholder="Modello stufa (facoltativo)"><span class="icon">🏷️</span></div>
 
 <div class="input-group">
 <span class="icon">🛠</span>
@@ -400,10 +400,10 @@ msg=`Prenotazione intervento
 Nome: ${nome.value} ${cognome.value}
 Indirizzo: ${indirizzo.value}
 Telefono: ${telefono.value}
-Telefono fisso: ${telefono_fisso.value}
+${fisso.value ? "Numero fisso: " + fisso.value : ""}
 
 Marca: ${marca.value}
-Modello: ${modello.value}
+${modello.value ? "Modello: " + modello.value : ""}
 Tipo: ${tipo.value}
 Data: ${data.value}
 
@@ -440,6 +440,7 @@ function createSpark(){
 }
 
 setInterval(createSpark, 150);
+
 </script>
 
 </body>
