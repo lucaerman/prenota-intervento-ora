@@ -91,7 +91,7 @@ input,select{
     border-radius:12px;
     border:none;
     background:rgba(255,255,255,0.15);
-    color:#f0f0f0;
+    color:#fff;
     outline:none;
     transition: transform 0.2s;
 }
@@ -103,7 +103,7 @@ textarea{
     border-radius:12px;
     border:none;
     background:rgba(255,255,255,0.15);
-    color:#f0f0f0;
+    color:#fff;
     outline:none;
     resize:none;
 }
@@ -323,9 +323,9 @@ button::before{
 <div class="input-group"><input id="cognome" placeholder="Cognome"><span class="icon">👤</span></div>
 <div class="input-group"><input id="indirizzo" placeholder="Indirizzo"><span class="icon">📍</span></div>
 <div class="input-group"><input id="telefono" placeholder="Telefono"><span class="icon">📞</span></div>
-<div class="input-group"><input id="fisso" placeholder="Numero fisso (facoltativo)"><span class="icon">☎️</span></div>
+<div class="input-group"><input id="fisso" placeholder="Numero fisso (opzionale)"><span class="icon">☎️</span></div>
 <div class="input-group"><input id="marca" placeholder="Marca stufa"><span class="icon">🔥</span></div>
-<div class="input-group"><input id="modello" placeholder="Modello stufa (facoltativo)"><span class="icon">🏷️</span></div>
+<div class="input-group"><input id="modello" placeholder="Modello stufa (opzionale)"><span class="icon">🏷️</span></div>
 
 <div class="input-group">
 <span class="icon">🛠</span>
@@ -401,12 +401,10 @@ Nome: ${nome.value} ${cognome.value}
 Indirizzo: ${indirizzo.value}
 Telefono: ${telefono.value}
 ${fisso.value ? "Numero fisso: " + fisso.value : ""}
-
 Marca: ${marca.value}
 ${modello.value ? "Modello: " + modello.value : ""}
 Tipo: ${tipo.value}
 Data: ${data.value}
-
 ${note.value ? "Problema: " + note.value : ""}`;
 
 modal.style.display="flex";
@@ -421,7 +419,7 @@ success.classList.add("active");
 
 setTimeout(()=>{
 success.classList.remove("active");
-window.open("https://wa.me/390813769280?text="+encodeURIComponent(msg));
+window.open("https://wa.me/390813769280?text=" + encodeURIComponent(msg), "_blank");
 },1500);
 
 }
@@ -440,7 +438,6 @@ function createSpark(){
 }
 
 setInterval(createSpark, 150);
-
 </script>
 
 </body>
