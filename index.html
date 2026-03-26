@@ -16,11 +16,10 @@
 body{
     background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617);
     min-height:100vh;
-    overflow-y:auto;
-    -webkit-overflow-scrolling: touch;
     display:flex;
+    align-items:center;
     justify-content:center;
-    padding:20px 0;
+    overflow:hidden;
 }
 
 /* CONTAINER */
@@ -41,9 +40,6 @@ h2{
     text-align:center;
     color:#fff;
     margin-bottom:20px;
-    font-size:26px;
-    animation:titlePulse 1s infinite alternate;
-    position:relative;
 }
 
 .fire{
@@ -52,14 +48,8 @@ h2{
 }
 
 @keyframes fireContinuous{
-    0% { transform: scale(1.1) rotate(-5deg); text-shadow:0 0 5px #ff9800,0 0 15px #ff5722,0 0 25px #ff0000;}
-    100% { transform: scale(1.3) rotate(5deg); text-shadow:0 0 12px #ff9800,0 0 30px #ff5722,0 0 45px #ff0000;}
-}
-
-@keyframes titlePulse{
-    0% {transform: scale(1) rotate(-2deg); text-shadow:0 0 5px #ff9800,0 0 10px #ff5722;}
-    50% {transform: scale(1.1) rotate(2deg); text-shadow:0 0 15px #ff9800,0 0 25px #ff5722,0 0 40px #ff0000;}
-    100% {transform: scale(1) rotate(-2deg); text-shadow:0 0 5px #ff9800,0 0 10px #ff5722;}
+    0% { transform: scale(1.1) rotate(-5deg); text-shadow: 0 0 5px #ff9800, 0 0 15px #ff5722, 0 0 25px #ff0000; }
+    100% { transform: scale(1.3) rotate(5deg); text-shadow: 0 0 12px #ff9800, 0 0 30px #ff5722, 0 0 45px #ff0000; }
 }
 
 /* SCINTILLE DEL TITOLO */
@@ -93,7 +83,6 @@ input,select{
     background:rgba(255,255,255,0.15);
     color:#fff;
     outline:none;
-    transition: transform 0.2s;
 }
 
 textarea{
@@ -125,19 +114,6 @@ input:focus,select:focus,textarea:focus{
     transform:translateY(-50%);
     font-size:16px;
     opacity:0.8;
-    transition: transform 0.2s;
-}
-
-.input-group input:focus + .icon,
-.input-group select:focus + .icon,
-.input-group textarea:focus + .icon{
-    animation:iconPulse 0.5s infinite alternate;
-}
-
-@keyframes iconPulse{
-    0%{transform:translateY(-50%) scale(1);}
-    50%{transform:translateY(-50%) scale(1.3);}
-    100%{transform:translateY(-50%) scale(1);}
 }
 
 /* ERRORE */
@@ -197,23 +173,6 @@ button::before{
     0%{left:-100%;}
     50%{left:100%;}
     100%{left:100%;}
-}
-
-/* TESTO SOTTO BOTTONE */
-.animatedText{
-    text-align:center;
-    margin-top:20px;
-    font-size:30px;
-    font-weight:bold;
-    color:red;
-    animation:textPulse 1.5s infinite alternate;
-    text-shadow:0 0 5px #ff0000,0 0 15px #ff5555;
-}
-
-@keyframes textPulse{
-    0%{transform:scale(1);text-shadow:0 0 5px #ff0000,0 0 10px #ff5555;}
-    50%{transform:scale(1.1);text-shadow:0 0 10px #ff0000,0 0 20px #ff8888,0 0 25px #ff0000;}
-    100%{transform:scale(1);text-shadow:0 0 5px #ff0000,0 0 10px #ff5555;}
 }
 
 /* MODAL */
@@ -303,6 +262,7 @@ button::before{
     80% { transform: translateY(-200px) scale(1); opacity:0.5; }
     100% { transform: translateY(-250px) scale(0); opacity:0; }
 }
+
 </style>
 </head>
 
@@ -319,13 +279,11 @@ button::before{
 <div class="spark" style="--x:5; --y:-30;"></div>
 </h2>
 
-<div class="input-group"><input id="nome" placeholder="Nome"><span class="icon">👤</span></div>
-<div class="input-group"><input id="cognome" placeholder="Cognome"><span class="icon">👤</span></div>
-<div class="input-group"><input id="indirizzo" placeholder="Indirizzo"><span class="icon">📍</span></div>
-<div class="input-group"><input id="telefono" placeholder="Telefono"><span class="icon">📞</span></div>
-<div class="input-group"><input id="fisso" placeholder="Numero fisso (opzionale)"><span class="icon">☎️</span></div>
-<div class="input-group"><input id="marca" placeholder="Marca stufa"><span class="icon">🔥</span></div>
-<div class="input-group"><input id="modello" placeholder="Modello stufa (opzionale)"><span class="icon">🏷️</span></div>
+<div class="input-group"><span class="icon">👤</span><input id="nome" placeholder="Nome"></div>
+<div class="input-group"><span class="icon">👤</span><input id="cognome" placeholder="Cognome"></div>
+<div class="input-group"><span class="icon">📍</span><input id="indirizzo" placeholder="Indirizzo"></div>
+<div class="input-group"><span class="icon">📞</span><input id="telefono" placeholder="Telefono"></div>
+<div class="input-group"><span class="icon">🔥</span><input id="marca" placeholder="Marca stufa"></div>
 
 <div class="input-group">
 <span class="icon">🛠</span>
@@ -351,8 +309,6 @@ button::before{
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="whatsapp-icon">
 Prenota su WhatsApp
 </button>
-
-<div class="animatedText">Compila e prenota!!</div>
 
 </div>
 
@@ -393,18 +349,18 @@ ok=false;
 
 if(!ok) return;
 
-if(navigator.vibrate) navigator.vibrate(150);
+if(navigator.vibrate) navigator.vibrate(100);
 
 msg=`Prenotazione intervento
 
 Nome: ${nome.value} ${cognome.value}
 Indirizzo: ${indirizzo.value}
 Telefono: ${telefono.value}
-${fisso.value ? "Numero fisso: " + fisso.value : ""}
+
 Marca: ${marca.value}
-${modello.value ? "Modello: " + modello.value : ""}
 Tipo: ${tipo.value}
 Data: ${data.value}
+
 ${note.value ? "Problema: " + note.value : ""}`;
 
 modal.style.display="flex";
@@ -414,12 +370,11 @@ modal.style.display="flex";
 function invia(){
 
 modal.style.display="none";
-if(navigator.vibrate) navigator.vibrate(200);
 success.classList.add("active");
 
 setTimeout(()=>{
 success.classList.remove("active");
-window.open("https://wa.me/390813769280?text=" + encodeURIComponent(msg), "_blank");
+window.open("https://wa.me/390813769280?text="+encodeURIComponent(msg));
 },1500);
 
 }
@@ -438,6 +393,7 @@ function createSpark(){
 }
 
 setInterval(createSpark, 150);
+
 </script>
 
 </body>
