@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Prenotazione intervento</title>
 
 <style>
@@ -19,27 +20,10 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
-    overflow:hidden;
 }
 
-body::before{
-    content:"";
-    position:absolute;
-    width:200%;
-    height:200%;
-    background:radial-gradient(white 1px, transparent 1px);
-    background-size:40px 40px;
-    opacity:0.1;
-    animation:move 60s linear infinite;
-}
-
-@keyframes move{
-    from{transform:translate(0,0);}
-    to{transform:translate(-200px,-200px);}
-}
-
+/* CONTAINER */
 .container{
-    position:relative;
     width:100%;
     max-width:420px;
     background:rgba(255,255,255,0.08);
@@ -47,108 +31,55 @@ body::before{
     border-radius:25px;
     padding:25px;
     box-shadow:0 0 40px rgba(0,0,0,0.6);
-    border:1px solid rgba(255,255,255,0.2);
-    animation:fadeIn 0.8s ease;
 }
 
-.container::before{
-    content:"";
-    position:absolute;
-    inset:-2px;
-    border-radius:25px;
-    background:linear-gradient(45deg,#3b82f6,#22c55e,#3b82f6);
-    z-index:-1;
-    filter:blur(20px);
-    opacity:0.5;
-}
-
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(40px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
+/* TITLE */
 h2{
     text-align:center;
-    margin-bottom:20px;
     color:#fff;
-    font-size:24px;
-    letter-spacing:1px;
-    position: relative;
+    margin-bottom:20px;
 }
 
-.fire{
-    display:inline-block;
-    animation:fireContinuous 1s infinite alternate;
-}
-
-@keyframes fireContinuous{
-    0% { transform: scale(1.1) rotate(-5deg); text-shadow: 0 0 5px #ff9800, 0 0 15px #ff5722, 0 0 25px #ff0000; }
-    25% { transform: scale(1.3) rotate(5deg); text-shadow: 0 0 10px #ff9800, 0 0 25px #ff5722, 0 0 40px #ff0000; }
-    50% { transform: scale(1.2) rotate(-3deg); text-shadow: 0 0 7px #ff9800, 0 0 20px #ff5722, 0 0 35px #ff0000; }
-    75% { transform: scale(1.35) rotate(4deg); text-shadow: 0 0 12px #ff9800, 0 0 28px #ff5722, 0 0 45px #ff0000; }
-    100% { transform: scale(1.1) rotate(-5deg); text-shadow: 0 0 5px #ff9800, 0 0 15px #ff5722, 0 0 25px #ff0000; }
-}
-
-/* SCINTILLE CASUALI */
-.spark{
-    position: absolute;
-    width:4px;
-    height:4px;
-    background:#ffec00;
-    border-radius:50%;
-    opacity:0;
-    animation:sparkAnim 1.2s infinite;
-}
-
-@keyframes sparkAnim{
-    0% { transform: translate(0,0) scale(0.5); opacity:1; }
-    50% { transform: translate(calc(var(--x)*1px), calc(var(--y)*1px)) scale(1); opacity:0.5; }
-    100% { transform: translate(calc(var(--x)*2px), calc(var(--y)*2px)) scale(0); opacity:0; }
-}
-
+/* INPUT */
 .input-group{
-    margin-bottom:12px;
+    position:relative;
+    margin-bottom:14px;
 }
 
-input, select{
+input,select{
     width:100%;
-    padding:14px;
+    padding:14px 14px 14px 42px;
     border-radius:12px;
     border:none;
     background:rgba(255,255,255,0.15);
     color:#fff;
-    font-size:15px;
     outline:none;
-    transition:0.3s;
 }
 
-input::placeholder{
-    color:#ddd;
-}
-
-input:focus, select:focus{
+input:focus,select:focus{
     background:rgba(255,255,255,0.25);
-    transform:scale(1.03);
+    transform:scale(1.02);
 }
 
-label{
-    font-size:12px;
-    color:#ccc;
-    margin-bottom:5px;
-    display:block;
+/* ICONE */
+.icon{
+    position:absolute;
+    left:12px;
+    top:50%;
+    transform:translateY(-50%);
+    opacity:0.7;
 }
 
-/* PULSANTE WHATSAPP UFFICIALE ANIMATO */
+/* ERRORE */
+.error{
+    border:2px solid #ef4444 !important;
+}
+
+/* BUTTON */
 button{
     width:100%;
     padding:16px;
-    margin-top:15px;
+    margin-top:10px;
     border:none;
     border-radius:14px;
     background:linear-gradient(45deg,#22c55e,#16a34a);
@@ -156,90 +87,32 @@ button{
     font-size:17px;
     font-weight:bold;
     cursor:pointer;
-    position:relative;
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    animation:pulse 2s infinite;
-}
-
-.whatsapp-icon{
-    width:24px;
-    height:24px;
-    animation:iconBounce 1.2s infinite;
-}
-
-@keyframes iconBounce{
-    0%,100%{ transform: translateY(0); }
-    50%{ transform: translateY(-4px); }
-}
-
-@keyframes pulse{
-    0%{ box-shadow:0 0 10px rgba(34,197,94,0.6);}
-    50%{ box-shadow:0 0 25px rgba(34,197,94,1);}
-    100%{ box-shadow:0 0 10px rgba(34,197,94,0.6);}
-}
-
-button::before{
-    content:"";
-    position:absolute;
-    width:200%;
-    height:100%;
-    background:linear-gradient(120deg,transparent,rgba(255,255,255,0.7),transparent);
-    top:0;
-    left:-100%;
-    animation:shine 3s infinite;
-}
-
-@keyframes shine{
-    0%{left:-100%;}
-    50%{left:100%;}
-    100%{left:100%;}
-}
-
-button:active{
-    transform:scale(0.95);
 }
 
 /* MODAL */
 .modal{
     position:fixed;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.8);
-    top:0;left:0;
+    inset:0;
     display:none;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,0.7);
+    backdrop-filter:blur(6px);
 }
 
 .box{
     background:#020617;
-    color:#fff;
     padding:25px;
     border-radius:15px;
     text-align:center;
-    width:90%;
-    max-width:320px;
+    color:#fff;
 }
-
-.box button{
-    width:45%;
-    margin:5px;
-    padding:12px;
-}
-
-.ok{background:#22c55e;}
-.no{background:#555;}
 
 .success{
     display:none;
-    text-align:center;
     color:#22c55e;
+    text-align:center;
     margin-top:10px;
-    font-weight:bold;
 }
 </style>
 </head>
@@ -247,128 +120,147 @@ button:active{
 <body>
 
 <div class="container">
-<h2>
-  <span class="fire">🔥</span> Prenota intervento
-  <div class="spark" style="--x:10; --y:-20;"></div>
-  <div class="spark" style="--x:-15; --y:-25;"></div>
-  <div class="spark" style="--x:5; --y:-30;"></div>
-</h2>
+<h2>🔥 Prenota intervento</h2>
 
 <div class="input-group">
-<input type="text" id="nome" placeholder="Nome">
+<span class="icon">👤</span>
+<input id="nome" placeholder="Nome" autocomplete="given-name">
 </div>
 
 <div class="input-group">
-<input type="text" id="cognome" placeholder="Cognome">
+<span class="icon">👤</span>
+<input id="cognome" placeholder="Cognome" autocomplete="family-name">
 </div>
 
 <div class="input-group">
-<input type="text" id="indirizzo" placeholder="Indirizzo completo">
+<span class="icon">📍</span>
+<input id="indirizzo" placeholder="Indirizzo">
 </div>
 
 <div class="input-group">
-<input type="tel" id="telefono" placeholder="Telefono">
+<span class="icon">📞</span>
+<input id="telefono" placeholder="Telefono" autocomplete="tel">
 </div>
 
 <div class="input-group">
-<input type="tel" id="telefono_fisso" placeholder="Telefono fisso (facoltativo)">
+<span class="icon">☎️</span>
+<input id="telefono_fisso" placeholder="Telefono fisso">
 </div>
 
 <div class="input-group">
-<input type="text" id="marca" placeholder="Marca stufa">
+<span class="icon">🔥</span>
+<input id="marca" placeholder="Marca stufa">
 </div>
 
 <div class="input-group">
-<input type="text" id="modello" placeholder="Modello stufa (facoltativo)">
+<span class="icon">⚙️</span>
+<input id="modello" placeholder="Modello">
 </div>
 
 <div class="input-group">
-<select id="tipoIntervento">
-<option value="">Tipologia intervento</option>
-<option value="Manutenzione">Manutenzione</option>
-<option value="Riparazione">Riparazione</option>
-<option value="Prima accensione">Prima accensione</option>
+<span class="icon">🛠</span>
+<select id="tipo">
+<option value="">Tipo intervento</option>
+<option>Manutenzione</option>
+<option>Riparazione</option>
+<option>Prima accensione</option>
 </select>
 </div>
 
 <div class="input-group">
-<label>Data prenotazione</label>
-<input type="text" id="data" readonly>
+<span class="icon">📅</span>
+<input id="data" readonly>
 </div>
 
-<button id="btn">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="whatsapp-icon" alt="WhatsApp">
-  Prenota su WhatsApp
-</button>
+<button id="btn">📲 Prenota su WhatsApp</button>
 
-<div class="success" id="successMsg">
-✅ Apri WhatsApp e premi INVIA
+<div class="success" id="ok">
+✅ Apri WhatsApp e invia il messaggio
 </div>
 
 </div>
 
 <div class="modal" id="modal">
 <div class="box">
-<h3>Conferma</h3>
-<p>Inviare la prenotazione su WhatsApp?</p>
-<button class="no" id="annulla">Annulla</button>
-<button class="ok" id="conferma">Invia</button>
+<h3>Conferma invio</h3>
+<p>Vuoi inviare la richiesta?</p>
+<button onclick="invia()">Invia</button>
+<button onclick="chiudi()">Annulla</button>
 </div>
 </div>
 
 <script>
-window.onload=function(){
-    let oggi=new Date();
-    let g=String(oggi.getDate()).padStart(2,'0');
-    let m=String(oggi.getMonth()+1).padStart(2,'0');
-    let a=oggi.getFullYear();
-    document.getElementById("data").value=g+"/"+m+"/"+a;
+
+/* DATA AUTOMATICA BLOCCATA */
+let oggi=new Date();
+document.getElementById("data").value =
+oggi.toLocaleDateString("it-IT");
+
+/* AUTOSALVATAGGIO */
+["nome","cognome","indirizzo","telefono"].forEach(id=>{
+let el=document.getElementById(id);
+el.value=localStorage.getItem(id)||"";
+el.oninput=()=>localStorage.setItem(id,el.value);
+});
+
+/* VALIDAZIONE */
+let msg="";
+
+document.getElementById("btn").onclick=()=>{
+
+let campi=["nome","cognome","indirizzo","telefono","marca","tipo"];
+
+let ok=true;
+
+campi.forEach(id=>{
+let el=document.getElementById(id);
+el.classList.remove("error");
+if(!el.value){
+el.classList.add("error");
+ok=false;
+}
+});
+
+if(!ok) return;
+
+/* vibrazione mobile */
+if(navigator.vibrate) navigator.vibrate(100);
+
+msg=`Prenotazione intervento
+
+Nome: ${nome.value} ${cognome.value}
+Indirizzo: ${indirizzo.value}
+Telefono: ${telefono.value}
+
+Marca: ${marca.value}
+Modello: ${modello.value}
+
+Tipo: ${tipo.value}
+Data: ${data.value}`;
+
+modal.style.display="flex";
+
 };
 
-let messaggio="";
+/* MODAL */
+function chiudi(){
+modal.style.display="none";
+}
 
-document.getElementById("btn").onclick=function(){
-    let nome=document.getElementById("nome").value;
-    let cognome=document.getElementById("cognome").value;
-    let indirizzo=document.getElementById("indirizzo").value;
-    let telefono=document.getElementById("telefono").value;
-    let telefonoFisso=document.getElementById("telefono_fisso").value;
-    let marca=document.getElementById("marca").value;
-    let modello=document.getElementById("modello").value;
-    let tipo=document.getElementById("tipoIntervento").value;
-    let data=document.getElementById("data").value;
+function invia(){
 
-    if(!nome||!cognome||!indirizzo||!telefono||!marca||!tipo){
-        alert("Compila tutti i campi obbligatori!");
-        return;
-    }
+window.open(
+"https://wa.me/390813769280?text="+encodeURIComponent(msg),
+"_blank"
+);
 
-    messaggio=`Prenotazione intervento
+modal.style.display="none";
+ok.style.display="block";
 
-Nome: ${nome} ${cognome}
-Indirizzo: ${indirizzo}
-Telefono: ${telefono}
-Telefono fisso: ${telefonoFisso}
+document.getElementById("btn").innerText="✔ Inviato";
 
-Marca stufa: ${marca}
-Modello: ${modello}
+}
 
-Tipo intervento: ${tipo}
-Data: ${data}`;
-
-    document.getElementById("modal").style.display="flex";
-};
-
-document.getElementById("annulla").onclick=function(){
-    document.getElementById("modal").style.display="none";
-};
-
-document.getElementById("conferma").onclick=function(){
-    let url="https://wa.me/390813769280?text="+encodeURIComponent(messaggio);
-    window.open(url,"_blank");
-    document.getElementById("modal").style.display="none";
-    document.getElementById("successMsg").style.display="block";
-};
 </script>
 
 </body>
