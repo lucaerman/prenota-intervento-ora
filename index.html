@@ -22,42 +22,6 @@ body{
     overflow:hidden;
 }
 
-/* SFONDO “SCINTILLE PELLET” */
-body::before{
-    content:"";
-    position:absolute;
-    width:100%;
-    height:100%;
-    background: radial-gradient(circle at center, rgba(255,200,0,0.05) 1px, transparent 1px);
-    background-size:20px 20px;
-    pointer-events:none;
-    animation:riseSparks 8s linear infinite;
-    z-index:-1;
-}
-
-@keyframes riseSparks{
-    0%{background-position:0 100%;}
-    100%{background-position:0 -100%;}
-}
-
-body::after{
-    content:"";
-    position:absolute;
-    width:100%;
-    height:100%;
-    background: radial-gradient(circle, rgba(255,140,0,0.1) 2px, transparent 2px);
-    background-size:40px 40px;
-    animation:twinkleSparks 4s ease-in-out infinite alternate;
-    pointer-events:none;
-    z-index:-1;
-}
-
-@keyframes twinkleSparks{
-    0%{opacity:0.05; transform:translateY(0);}
-    50%{opacity:0.2; transform:translateY(-10px);}
-    100%{opacity:0.05; transform:translateY(0);}
-}
-
 /* CONTAINER */
 .container{
     position:relative;
@@ -88,7 +52,7 @@ h2{
     100% { transform: scale(1.3) rotate(5deg); text-shadow: 0 0 12px #ff9800, 0 0 30px #ff5722, 0 0 45px #ff0000; }
 }
 
-/* SCINTILLE */
+/* SCINTILLE DEL TITOLO */
 .spark{
     position:absolute;
     width:4px;
@@ -274,10 +238,37 @@ button::before{
 @keyframes fadeIn{
     to{opacity:1;}
 }
+
+/* SFONDO ANIMATO SCINTILLE PELLET */
+#sparkContainer{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-2;
+}
+
+.sparkParticle{
+    position:absolute;
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background:orange;
+    opacity:0.8;
+    animation:rise 2s linear infinite;
+}
+
+@keyframes rise{
+    0% { transform: translateY(0) scale(0.5); opacity:1; }
+    80% { transform: translateY(-200px) scale(1); opacity:0.5; }
+    100% { transform: translateY(-250px) scale(0); opacity:0; }
+}
+
 </style>
 </head>
 
 <body>
+
+<div id="sparkContainer"></div>
 
 <div class="container">
 
@@ -338,7 +329,6 @@ Prenota su WhatsApp
 </div>
 
 <script>
-
 data.value=new Date().toLocaleDateString("it-IT");
 
 let msg="";
@@ -388,6 +378,21 @@ window.open("https://wa.me/390813769280?text="+encodeURIComponent(msg));
 },1500);
 
 }
+
+// ANIMAZIONE SCINTILLE PELLET
+const sparkContainer = document.getElementById("sparkContainer");
+
+function createSpark(){
+    const spark = document.createElement("div");
+    spark.className = "sparkParticle";
+    spark.style.left = Math.random() * window.innerWidth + "px";
+    spark.style.top = window.innerHeight + "px";
+    spark.style.animationDuration = (1.5 + Math.random()*1) + "s";
+    sparkContainer.appendChild(spark);
+    setTimeout(()=> spark.remove(), 2000);
+}
+
+setInterval(createSpark, 150);
 
 </script>
 
