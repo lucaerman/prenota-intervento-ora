@@ -17,10 +17,10 @@ body{
     background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617);
     min-height:100vh;
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content:center;
-    overflow-y:auto;
     padding:20px 0;
+    overflow-y:auto;
 }
 
 /* CONTAINER */
@@ -41,18 +41,18 @@ h2{
     text-align:center;
     color:#fff;
     margin-bottom:20px;
-    position:relative;
-    font-size:22px;
+    font-size:24px;
+    animation:titlePulse 1.5s infinite alternate;
+}
+
+@keyframes titlePulse{
+    0%{transform: scale(1); text-shadow:0 0 5px #ff9800,0 0 15px #ff5722,0 0 25px #ff0000;}
+    50%{transform: scale(1.05); text-shadow:0 0 10px #ff9800,0 0 25px #ff5722,0 0 40px #ff0000;}
+    100%{transform: scale(1); text-shadow:0 0 5px #ff9800,0 0 15px #ff5722,0 0 25px #ff0000;}
 }
 
 .fire{
     display:inline-block;
-    animation:fireContinuous 1s infinite alternate;
-}
-
-@keyframes fireContinuous{
-    0% { transform: scale(1.1) rotate(-5deg); text-shadow: 0 0 5px #ff9800, 0 0 15px #ff5722, 0 0 25px #ff0000; }
-    100% { transform: scale(1.3) rotate(5deg); text-shadow: 0 0 12px #ff9800, 0 0 30px #ff5722, 0 0 45px #ff0000; }
 }
 
 /* SCINTILLE DEL TITOLO */
@@ -84,29 +84,34 @@ input,select,textarea{
     border-radius:12px;
     border:none;
     background:rgba(255,255,255,0.15);
-    color:#fff;
+    color:#f0f0f0;
     outline:none;
-    transition: all 0.3s;
+    transition:0.3s;
 }
 
-/* Effetto glow testo */
+textarea{
+    min-height:90px;
+    resize:none;
+}
+
+input::placeholder, textarea::placeholder{
+    color:#ddd;
+}
+
 input:focus,select:focus,textarea:focus{
     background:rgba(255,255,255,0.25);
     transform:scale(1.02);
-    color:#ffffaa;
-    box-shadow:0 0 10px rgba(255,255,0,0.7);
+    box-shadow:0 0 15px rgba(255,200,0,0.7);
 }
 
-/* Placeholder shimmer */
-input::placeholder, textarea::placeholder{
-    color:#ddd;
-    animation:placeholderShimmer 2s infinite linear;
+/* ANIMAZIONE TEXT INPUT */
+@keyframes textPulse{
+    0%{text-shadow:0 0 2px rgba(255,255,255,0.3);}
+    50%{text-shadow:0 0 5px rgba(255,255,255,0.5);}
+    100%{text-shadow:0 0 2px rgba(255,255,255,0.3);}
 }
-
-@keyframes placeholderShimmer {
-    0% { color: #ccc; }
-    50% { color: #fff; }
-    100% { color: #ccc; }
+input:focus,textarea:focus{
+    animation:textPulse 1s infinite;
 }
 
 /* ICONE */
@@ -117,12 +122,12 @@ input::placeholder, textarea::placeholder{
     transform:translateY(-50%);
     font-size:16px;
     opacity:0.8;
-    animation:iconPulse 1.5s infinite;
+    animation:iconPulse 2s infinite;
 }
 
 @keyframes iconPulse{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.2);}
+    0%,100%{transform:translateY(-50%) scale(1);}
+    50%{transform:translateY(-50%) scale(1.1);}
 }
 
 /* ERRORE */
@@ -151,22 +156,6 @@ button{
     animation:pulse 2s infinite;
 }
 
-.whatsapp-icon{
-    width:24px;
-    animation:iconBounce 1.2s infinite;
-}
-
-@keyframes iconBounce{
-    0%,100%{ transform: translateY(0); }
-    50%{ transform: translateY(-4px); }
-}
-
-@keyframes pulse{
-    0%{ box-shadow:0 0 10px rgba(34,197,94,0.6);}
-    50%{ box-shadow:0 0 25px rgba(34,197,94,1);}
-    100%{ box-shadow:0 0 10px rgba(34,197,94,0.6);}
-}
-
 button::before{
     content:"";
     position:absolute;
@@ -178,10 +167,31 @@ button::before{
     animation:shine 3s infinite;
 }
 
-@keyframes shine{
-    0%{left:-100%;}
-    50%{left:100%;}
-    100%{left:100%;}
+@keyframes pulse{
+    0%{ box-shadow:0 0 10px rgba(34,197,94,0.6);}
+    50%{ box-shadow:0 0 25px rgba(34,197,94,1);}
+    100%{ box-shadow:0 0 10px rgba(34,197,94,0.6);}
+}
+
+@keyframes iconBounce{
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(-4px); }
+}
+
+/* FRASE ANIMATA SOTTO IL BOTTONE */
+#animatedText{
+    text-align:center;
+    margin-top:12px;
+    font-size:18px;
+    font-weight:bold;
+    color:#ff0000;
+    animation:textGlow 1.5s infinite alternate;
+}
+
+@keyframes textGlow{
+    0%{color:#ff0000; text-shadow:0 0 5px #fff,0 0 10px #ff0000;}
+    50%{color:#ff4444; text-shadow:0 0 10px #fff,0 0 20px #ff5555;}
+    100%{color:#ff0000; text-shadow:0 0 5px #fff,0 0 10px #ff0000;}
 }
 
 /* MODAL */
@@ -272,20 +282,12 @@ button::before{
     100% { transform: translateY(-250px) scale(0); opacity:0; }
 }
 
-/* SCRITTA ANIMATA SOTTO BOTTONE */
-.animatedText{
-    text-align:center;
-    font-size:18px;
-    font-weight:bold;
-    color:#ff4444;
-    margin-top:12px;
-    animation:textGlow 1.5s infinite alternate;
-}
-
-@keyframes textGlow{
-    0%{ text-shadow: 0 0 5px #ff4444, 0 0 10px #ff8888;}
-    50%{ text-shadow: 0 0 15px #ff4444, 0 0 25px #ff8888;}
-    100%{ text-shadow: 0 0 5px #ff4444, 0 0 10px #ff8888;}
+/* RESPONSIVO */
+@media (max-width:480px){
+    h2{font-size:22px;}
+    #animatedText{font-size:16px;}
+    input, select, textarea{font-size:15px;padding:12px;}
+    button{font-size:16px;padding:12px;}
 }
 
 </style>
@@ -302,9 +304,6 @@ button::before{
 <div class="spark" style="--x:10; --y:-20;"></div>
 <div class="spark" style="--x:-15; --y:-25;"></div>
 <div class="spark" style="--x:5; --y:-30;"></div>
-<div class="spark" style="--x:20; --y:-35;"></div>
-<div class="spark" style="--x:-25; --y:-40;"></div>
-<div class="spark" style="--x:30; --y:-45;"></div>
 </h2>
 
 <div class="input-group"><span class="icon">👤</span><input id="nome" placeholder="Nome"></div>
@@ -313,7 +312,7 @@ button::before{
 <div class="input-group"><span class="icon">📞</span><input id="telefono" placeholder="Telefono"></div>
 <div class="input-group"><span class="icon">☎️</span><input id="telefono_fisso" placeholder="Telefono fisso (facoltativo)"></div>
 <div class="input-group"><span class="icon">🔥</span><input id="marca" placeholder="Marca stufa"></div>
-<div class="input-group"><span class="icon">🔥</span><input id="modello" placeholder="Modello stufa (facoltativo)"></div>
+<div class="input-group"><span class="icon">🖥</span><input id="modello" placeholder="Modello stufa (facoltativo)"></div>
 
 <div class="input-group">
 <span class="icon">🛠</span>
@@ -340,7 +339,7 @@ button::before{
 Prenota su WhatsApp
 </button>
 
-<div class="animatedText">COMPILA E PRENOTA!!</div>
+<div id="animatedText">Compila e prenota!!</div>
 
 </div>
 
@@ -404,7 +403,7 @@ modal.style.display="flex";
 function invia(){
 
 modal.style.display="none";
-if(navigator.vibrate) navigator.vibrate([100,50,100]);
+if(navigator.vibrate) navigator.vibrate(150);
 success.classList.add("active");
 
 setTimeout(()=>{
@@ -427,7 +426,7 @@ function createSpark(){
     setTimeout(()=> spark.remove(), 2000);
 }
 
-setInterval(createSpark, 100);
+setInterval(createSpark, 150);
 
 </script>
 
