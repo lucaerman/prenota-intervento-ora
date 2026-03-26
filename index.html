@@ -22,21 +22,40 @@ body{
     overflow:hidden;
 }
 
-/* SFONDO */
+/* SFONDO “SCINTILLE PELLET” */
 body::before{
     content:"";
     position:absolute;
-    width:200%;
-    height:200%;
-    background:radial-gradient(white 1px, transparent 1px);
-    background-size:40px 40px;
-    opacity:0.1;
-    animation:move 60s linear infinite;
+    width:100%;
+    height:100%;
+    background: radial-gradient(circle at center, rgba(255,200,0,0.05) 1px, transparent 1px);
+    background-size:20px 20px;
+    pointer-events:none;
+    animation:riseSparks 8s linear infinite;
+    z-index:-1;
 }
 
-@keyframes move{
-    from{transform:translate(0,0);}
-    to{transform:translate(-200px,-200px);}
+@keyframes riseSparks{
+    0%{background-position:0 100%;}
+    100%{background-position:0 -100%;}
+}
+
+body::after{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: radial-gradient(circle, rgba(255,140,0,0.1) 2px, transparent 2px);
+    background-size:40px 40px;
+    animation:twinkleSparks 4s ease-in-out infinite alternate;
+    pointer-events:none;
+    z-index:-1;
+}
+
+@keyframes twinkleSparks{
+    0%{opacity:0.05; transform:translateY(0);}
+    50%{opacity:0.2; transform:translateY(-10px);}
+    100%{opacity:0.05; transform:translateY(0);}
 }
 
 /* CONTAINER */
