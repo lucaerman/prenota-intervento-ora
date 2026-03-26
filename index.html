@@ -22,7 +22,7 @@ body{
     overflow:hidden;
 }
 
-/* SFONDO ANIMATO */
+/* SFONDO */
 body::before{
     content:"";
     position:absolute;
@@ -94,7 +94,7 @@ h2{
 
 input,select{
     width:100%;
-    padding:14px;
+    padding:14px 14px 14px 45px;
     border-radius:12px;
     border:none;
     background:rgba(255,255,255,0.15);
@@ -102,13 +102,35 @@ input,select{
     outline:none;
 }
 
-input::placeholder{
+textarea{
+    width:100%;
+    min-height:90px;
+    padding:14px 14px 14px 45px;
+    border-radius:12px;
+    border:none;
+    background:rgba(255,255,255,0.15);
+    color:#fff;
+    outline:none;
+    resize:none;
+}
+
+input::placeholder, textarea::placeholder{
     color:#ddd;
 }
 
-input:focus,select:focus{
+input:focus,select:focus,textarea:focus{
     background:rgba(255,255,255,0.25);
     transform:scale(1.02);
+}
+
+/* ICONE */
+.icon{
+    position:absolute;
+    left:12px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:16px;
+    opacity:0.8;
 }
 
 /* ERRORE */
@@ -205,7 +227,6 @@ button::before{
 
 .successOverlay.active{
     opacity:1;
-    pointer-events:auto;
 }
 
 .successBox{
@@ -248,13 +269,14 @@ button::before{
 <div class="spark" style="--x:5; --y:-30;"></div>
 </h2>
 
-<div class="input-group"><input id="nome" placeholder="Nome"></div>
-<div class="input-group"><input id="cognome" placeholder="Cognome"></div>
-<div class="input-group"><input id="indirizzo" placeholder="Indirizzo"></div>
-<div class="input-group"><input id="telefono" placeholder="Telefono"></div>
-<div class="input-group"><input id="marca" placeholder="Marca stufa"></div>
+<div class="input-group"><span class="icon">👤</span><input id="nome" placeholder="Nome"></div>
+<div class="input-group"><span class="icon">👤</span><input id="cognome" placeholder="Cognome"></div>
+<div class="input-group"><span class="icon">📍</span><input id="indirizzo" placeholder="Indirizzo"></div>
+<div class="input-group"><span class="icon">📞</span><input id="telefono" placeholder="Telefono"></div>
+<div class="input-group"><span class="icon">🔥</span><input id="marca" placeholder="Marca stufa"></div>
 
 <div class="input-group">
+<span class="icon">🛠</span>
 <select id="tipo">
 <option value="">Tipo intervento</option>
 <option>Manutenzione</option>
@@ -264,6 +286,12 @@ button::before{
 </div>
 
 <div class="input-group">
+<span class="icon">📝</span>
+<textarea id="note" placeholder="Descrivi brevemente il problema (facoltativo)"></textarea>
+</div>
+
+<div class="input-group">
+<span class="icon">📅</span>
 <input id="data" readonly>
 </div>
 
@@ -292,7 +320,6 @@ Prenota su WhatsApp
 
 <script>
 
-/* DATA AUTOMATICA */
 data.value=new Date().toLocaleDateString("it-IT");
 
 let msg="";
@@ -323,7 +350,9 @@ Telefono: ${telefono.value}
 
 Marca: ${marca.value}
 Tipo: ${tipo.value}
-Data: ${data.value}`;
+Data: ${data.value}
+
+${note.value ? "Problema: " + note.value : ""}`;
 
 modal.style.display="flex";
 
