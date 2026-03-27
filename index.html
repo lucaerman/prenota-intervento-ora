@@ -63,17 +63,31 @@ h2{
     font-size:18px;
     cursor:pointer;
     transition:0.2s;
+    animation: floatIcon 2s ease-in-out infinite;
+}
+
+@keyframes floatIcon{
+    0%{ transform: translateY(0);}
+    50%{ transform: translateY(-3px);}
+    100%{ transform: translateY(0);}
 }
 
 .input-icon span:active{ transform:scale(0.8); }
 .input-icon span:hover{ transform:scale(1.2); }
 
 .input-icon input,
-.input-icon select{
+.input-icon select,
+.input-icon textarea{
     padding-left:40px;
 }
 
-input, select{
+.input-icon.active span{
+    color:#22c55e;
+    transform: scale(1.2);
+    text-shadow:0 0 10px #22c55e;
+}
+
+input, select, textarea{
     width:100%;
     padding:14px;
     border-radius:12px;
@@ -81,6 +95,11 @@ input, select{
     background:rgba(255,255,255,0.15);
     color:#fff;
     font-size:15px;
+}
+
+textarea{
+    min-height:90px;
+    resize:none;
 }
 
 label{
@@ -111,6 +130,17 @@ button{
     100%{ box-shadow:0 0 10px #22c55e;}
 }
 
+/* TAP EFFECT */
+@keyframes tap{
+    0%{ transform:scale(1);}
+    50%{ transform:scale(0.92);}
+    100%{ transform:scale(1);}
+}
+
+.tap{
+    animation:tap 0.15s ease;
+}
+
 /* TESTO WHATSAPP ANIMATO */
 .success{
     text-align:center;
@@ -123,6 +153,17 @@ button{
 @keyframes blink{
     0%,100%{opacity:1;}
     50%{opacity:0.4;}
+}
+
+/* ANTEPRIMA */
+#previewBox p{
+    background:#22c55e;
+    color:#000;
+    padding:10px;
+    border-radius:12px;
+    max-width:90%;
+    margin-left:auto;
+    font-weight:500;
 }
 
 /* MODAL */
@@ -220,7 +261,7 @@ button{
 <label>Problematica (facoltativo)</label>
 <div class="input-icon">
 <span>🛠️</span>
-<input type="text" id="problema" placeholder="Descrivi il problema">
+<textarea id="problema" placeholder="Descrivi il problema"></textarea>
 </div>
 </div>
 
@@ -230,6 +271,13 @@ button{
 </div>
 
 <button id="btn">Prenota su WhatsApp</button>
+
+<div id="previewBox" style="display:none; margin-top:15px;">
+    <div style="background:#111; padding:15px; border-radius:15px;">
+        <strong>Anteprima messaggio:</strong>
+        <p id="previewText" style="margin-top:10px; white-space:pre-line;"></p>
+    </div>
+</div>
 
 <div class="success">
 ✅ Apri WhatsApp e premi INVIA
@@ -289,6 +337,9 @@ ${problema ? "Problematica: " + problema : ""}
 
 Data: ${data}`;
 
+    document.getElementById("previewText").innerText = messaggio;
+    document.getElementById("previewBox").style.display = "block";
+
     document.getElementById("modal").style.display="flex";
 };
 
@@ -301,6 +352,26 @@ document.getElementById("conferma").onclick=function(){
     window.open(url,"_blank");
     document.getElementById("modal").style.display="none";
 };
+
+/* ICONA ATTIVA */
+document.querySelectorAll(".input-icon input, .input-icon select, .input-icon textarea")
+.forEach(el => {
+    el.addEventListener("input", function(){
+        if(this.value.trim() !== ""){
+            this.parentElement.classList.add("active");
+        } else {
+            this.parentElement.classList.remove("active");
+        }
+    });
+});
+
+/* TAP EFFECT */
+document.querySelectorAll("input, select, textarea, button").forEach(el=>{
+    el.addEventListener("click", function(){
+        this.classList.add("tap");
+        setTimeout(()=> this.classList.remove("tap"),150);
+    });
+});
 </script>
 
 </body>
