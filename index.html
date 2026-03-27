@@ -22,7 +22,22 @@ body{
     overflow:hidden;
 }
 
-/* CONTAINER */
+body::before{
+    content:"";
+    position:absolute;
+    width:200%;
+    height:200%;
+    background:radial-gradient(white 1px, transparent 1px);
+    background-size:40px 40px;
+    opacity:0.1;
+    animation:move 60s linear infinite;
+}
+
+@keyframes move{
+    from{transform:translate(0,0);}
+    to{transform:translate(-200px,-200px);}
+}
+
 .container{
     position:relative;
     width:100%;
@@ -33,13 +48,38 @@ body{
     padding:25px;
     box-shadow:0 0 40px rgba(0,0,0,0.6);
     border:1px solid rgba(255,255,255,0.2);
+    animation:fadeIn 0.8s ease;
 }
 
-/* TITOLO */
+.container::before{
+    content:"";
+    position:absolute;
+    inset:-2px;
+    border-radius:25px;
+    background:linear-gradient(45deg,#3b82f6,#22c55e,#3b82f6);
+    z-index:-1;
+    filter:blur(20px);
+    opacity:0.5;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
 h2{
     text-align:center;
-    color:#fff;
     margin-bottom:20px;
+    color:#fff;
+    font-size:24px;
+    letter-spacing:1px;
+    position: relative;
 }
 
 .fire{
@@ -49,12 +89,15 @@ h2{
 
 @keyframes fireContinuous{
     0% { transform: scale(1.1) rotate(-5deg); text-shadow: 0 0 5px #ff9800, 0 0 15px #ff5722, 0 0 25px #ff0000; }
-    100% { transform: scale(1.3) rotate(5deg); text-shadow: 0 0 12px #ff9800, 0 0 30px #ff5722, 0 0 45px #ff0000; }
+    25% { transform: scale(1.3) rotate(5deg); text-shadow: 0 0 10px #ff9800, 0 0 25px #ff5722, 0 0 40px #ff0000; }
+    50% { transform: scale(1.2) rotate(-3deg); text-shadow: 0 0 7px #ff9800, 0 0 20px #ff5722, 0 0 35px #ff0000; }
+    75% { transform: scale(1.35) rotate(4deg); text-shadow: 0 0 12px #ff9800, 0 0 28px #ff5722, 0 0 45px #ff0000; }
+    100% { transform: scale(1.1) rotate(-5deg); text-shadow: 0 0 5px #ff9800, 0 0 15px #ff5722, 0 0 25px #ff0000; }
 }
 
-/* SCINTILLE DEL TITOLO */
+/* SCINTILLE CASUALI */
 .spark{
-    position:absolute;
+    position: absolute;
     width:4px;
     height:4px;
     background:#ffec00;
@@ -69,59 +112,39 @@ h2{
     100% { transform: translate(calc(var(--x)*2px), calc(var(--y)*2px)) scale(0); opacity:0; }
 }
 
-/* INPUT */
 .input-group{
-    position:relative;
     margin-bottom:12px;
 }
 
-input,select{
+input, select{
     width:100%;
-    padding:14px 14px 14px 45px;
+    padding:14px;
     border-radius:12px;
     border:none;
     background:rgba(255,255,255,0.15);
     color:#fff;
+    font-size:15px;
     outline:none;
+    transition:0.3s;
 }
 
-textarea{
-    width:100%;
-    min-height:90px;
-    padding:14px 14px 14px 45px;
-    border-radius:12px;
-    border:none;
-    background:rgba(255,255,255,0.15);
-    color:#fff;
-    outline:none;
-    resize:none;
-}
-
-input::placeholder, textarea::placeholder{
+input::placeholder{
     color:#ddd;
 }
 
-input:focus,select:focus,textarea:focus{
+input:focus, select:focus{
     background:rgba(255,255,255,0.25);
-    transform:scale(1.02);
+    transform:scale(1.03);
 }
 
-/* ICONE */
-.icon{
-    position:absolute;
-    left:12px;
-    top:50%;
-    transform:translateY(-50%);
-    font-size:16px;
-    opacity:0.8;
+label{
+    font-size:12px;
+    color:#ccc;
+    margin-bottom:5px;
+    display:block;
 }
 
-/* ERRORE */
-.error{
-    border:2px solid red !important;
-}
-
-/* BOTTONE WHATSAPP */
+/* PULSANTE WHATSAPP UFFICIALE ANIMATO */
 button{
     width:100%;
     padding:16px;
@@ -133,17 +156,18 @@ button{
     font-size:17px;
     font-weight:bold;
     cursor:pointer;
+    position:relative;
+    overflow:hidden;
     display:flex;
     align-items:center;
     justify-content:center;
     gap:10px;
-    position:relative;
-    overflow:hidden;
     animation:pulse 2s infinite;
 }
 
 .whatsapp-icon{
     width:24px;
+    height:24px;
     animation:iconBounce 1.2s infinite;
 }
 
@@ -175,15 +199,20 @@ button::before{
     100%{left:100%;}
 }
 
+button:active{
+    transform:scale(0.95);
+}
+
 /* MODAL */
 .modal{
     position:fixed;
-    inset:0;
-    display:none;
-    align-items:center;
-    justify-content:center;
+    width:100%;
+    height:100%;
     background:rgba(0,0,0,0.8);
-    backdrop-filter:blur(6px);
+    top:0;left:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
 }
 
 .box{
@@ -192,208 +221,154 @@ button::before{
     padding:25px;
     border-radius:15px;
     text-align:center;
+    width:90%;
+    max-width:320px;
 }
 
-/* SUCCESS IOS */
-.successOverlay{
-    position:fixed;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(0,0,0,0.6);
-    backdrop-filter:blur(10px);
-    opacity:0;
-    pointer-events:none;
-    transition:0.4s;
+.box button{
+    width:45%;
+    margin:5px;
+    padding:12px;
 }
 
-.successOverlay.active{
-    opacity:1;
-}
+.ok{background:#22c55e;}
+.no{background:#555;}
 
-.successBox{
-    width:120px;
-    height:120px;
-    border-radius:50%;
-    background:#22c55e;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transform:scale(0.5);
-    animation:pop 0.5s forwards;
+.success{
+    display:none;
+    text-align:center;
+    color:#22c55e;
+    margin-top:10px;
+    font-weight:bold;
 }
-
-@keyframes pop{
-    to{transform:scale(1);}
-}
-
-.check{
-    font-size:50px;
-    color:white;
-    animation:fadeIn 0.5s 0.3s forwards;
-    opacity:0;
-}
-
-@keyframes fadeIn{
-    to{opacity:1;}
-}
-
-/* SFONDO ANIMATO SCINTILLE PELLET */
-#sparkContainer{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:-2;
-}
-
-.sparkParticle{
-    position:absolute;
-    width:4px;
-    height:4px;
-    border-radius:50%;
-    background:orange;
-    opacity:0.8;
-    animation:rise 2s linear infinite;
-}
-
-@keyframes rise{
-    0% { transform: translateY(0) scale(0.5); opacity:1; }
-    80% { transform: translateY(-200px) scale(1); opacity:0.5; }
-    100% { transform: translateY(-250px) scale(0); opacity:0; }
-}
-
 </style>
 </head>
 
 <body>
 
-<div id="sparkContainer"></div>
-
 <div class="container">
-
 <h2>
-<span class="fire">🔥</span> Prenota intervento
-<div class="spark" style="--x:10; --y:-20;"></div>
-<div class="spark" style="--x:-15; --y:-25;"></div>
-<div class="spark" style="--x:5; --y:-30;"></div>
+  <span class="fire">🔥</span> Prenota intervento
+  <div class="spark" style="--x:10; --y:-20;"></div>
+  <div class="spark" style="--x:-15; --y:-25;"></div>
+  <div class="spark" style="--x:5; --y:-30;"></div>
 </h2>
 
-<div class="input-group"><span class="icon">👤</span><input id="nome" placeholder="Nome"></div>
-<div class="input-group"><span class="icon">👤</span><input id="cognome" placeholder="Cognome"></div>
-<div class="input-group"><span class="icon">📍</span><input id="indirizzo" placeholder="Indirizzo"></div>
-<div class="input-group"><span class="icon">📞</span><input id="telefono" placeholder="Telefono"></div>
-<div class="input-group"><span class="icon">🔥</span><input id="marca" placeholder="Marca stufa"></div>
+<div class="input-group">
+<input type="text" id="nome" placeholder="Nome">
+</div>
 
 <div class="input-group">
-<span class="icon">🛠</span>
-<select id="tipo">
-<option value="">Tipo intervento</option>
-<option>Manutenzione</option>
-<option>Riparazione</option>
-<option>Prima accensione</option>
+<input type="text" id="cognome" placeholder="Cognome">
+</div>
+
+<div class="input-group">
+<input type="text" id="indirizzo" placeholder="Indirizzo completo">
+</div>
+
+<div class="input-group">
+<input type="tel" id="telefono" placeholder="Telefono">
+</div>
+
+<div class="input-group">
+<input type="tel" id="telefono_fisso" placeholder="Telefono fisso (facoltativo)">
+</div>
+
+<div class="input-group">
+<input type="text" id="marca" placeholder="Marca stufa">
+</div>
+
+<div class="input-group">
+<input type="text" id="modello" placeholder="Modello stufa (facoltativo)">
+</div>
+
+<div class="input-group">
+<select id="tipoIntervento">
+<option value="">Tipologia intervento</option>
+<option value="Manutenzione">Manutenzione</option>
+<option value="Riparazione">Riparazione</option>
+<option value="Prima accensione">Prima accensione</option>
 </select>
 </div>
 
 <div class="input-group">
-<span class="icon">📝</span>
-<textarea id="note" placeholder="Descrivi brevemente il problema (facoltativo)"></textarea>
-</div>
-
-<div class="input-group">
-<span class="icon">📅</span>
-<input id="data" readonly>
+<label>Data prenotazione</label>
+<input type="text" id="data" readonly>
 </div>
 
 <button id="btn">
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="whatsapp-icon">
-Prenota su WhatsApp
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="whatsapp-icon" alt="WhatsApp">
+  Prenota su WhatsApp
 </button>
 
+<div class="success" id="successMsg">
+✅ Apri WhatsApp e premi INVIA
 </div>
 
-<!-- MODAL -->
+</div>
+
 <div class="modal" id="modal">
 <div class="box">
-<h3>Conferma invio</h3>
-<button onclick="invia()">Invia</button>
-<button onclick="modal.style.display='none'">Annulla</button>
-</div>
-</div>
-
-<!-- SUCCESS -->
-<div class="successOverlay" id="success">
-<div class="successBox">
-<div class="check">✓</div>
+<h3>Conferma</h3>
+<p>Inviare la prenotazione su WhatsApp?</p>
+<button class="no" id="annulla">Annulla</button>
+<button class="ok" id="conferma">Invia</button>
 </div>
 </div>
 
 <script>
-data.value=new Date().toLocaleDateString("it-IT");
-
-let msg="";
-
-btn.onclick=()=>{
-
-let campi=["nome","cognome","indirizzo","telefono","marca","tipo"];
-let ok=true;
-
-campi.forEach(id=>{
-let el=document.getElementById(id);
-el.classList.remove("error");
-if(!el.value){
-el.classList.add("error");
-ok=false;
-}
-});
-
-if(!ok) return;
-
-if(navigator.vibrate) navigator.vibrate(100);
-
-msg=`Prenotazione intervento
-
-Nome: ${nome.value} ${cognome.value}
-Indirizzo: ${indirizzo.value}
-Telefono: ${telefono.value}
-
-Marca: ${marca.value}
-Tipo: ${tipo.value}
-Data: ${data.value}
-
-${note.value ? "Problema: " + note.value : ""}`;
-
-modal.style.display="flex";
-
+window.onload=function(){
+    let oggi=new Date();
+    let g=String(oggi.getDate()).padStart(2,'0');
+    let m=String(oggi.getMonth()+1).padStart(2,'0');
+    let a=oggi.getFullYear();
+    document.getElementById("data").value=g+"/"+m+"/"+a;
 };
 
-function invia(){
+let messaggio="";
 
-modal.style.display="none";
-success.classList.add("active");
+document.getElementById("btn").onclick=function(){
+    let nome=document.getElementById("nome").value;
+    let cognome=document.getElementById("cognome").value;
+    let indirizzo=document.getElementById("indirizzo").value;
+    let telefono=document.getElementById("telefono").value;
+    let telefonoFisso=document.getElementById("telefono_fisso").value;
+    let marca=document.getElementById("marca").value;
+    let modello=document.getElementById("modello").value;
+    let tipo=document.getElementById("tipoIntervento").value;
+    let data=document.getElementById("data").value;
 
-setTimeout(()=>{
-success.classList.remove("active");
-window.open("https://wa.me/390813769280?text="+encodeURIComponent(msg));
-},1500);
+    if(!nome||!cognome||!indirizzo||!telefono||!marca||!tipo){
+        alert("Compila tutti i campi obbligatori!");
+        return;
+    }
 
-}
+    messaggio=`Prenotazione intervento
 
-// ANIMAZIONE SCINTILLE PELLET
-const sparkContainer = document.getElementById("sparkContainer");
+Nome: ${nome} ${cognome}
+Indirizzo: ${indirizzo}
+Telefono: ${telefono}
+Telefono fisso: ${telefonoFisso}
 
-function createSpark(){
-    const spark = document.createElement("div");
-    spark.className = "sparkParticle";
-    spark.style.left = Math.random() * window.innerWidth + "px";
-    spark.style.top = window.innerHeight + "px";
-    spark.style.animationDuration = (1.5 + Math.random()*1) + "s";
-    sparkContainer.appendChild(spark);
-    setTimeout(()=> spark.remove(), 2000);
-}
+Marca stufa: ${marca}
+Modello: ${modello}
 
-setInterval(createSpark, 150);
+Tipo intervento: ${tipo}
+Data: ${data}`;
 
+    document.getElementById("modal").style.display="flex";
+};
+
+document.getElementById("annulla").onclick=function(){
+    document.getElementById("modal").style.display="none";
+};
+
+document.getElementById("conferma").onclick=function(){
+    let url="https://wa.me/390813769280?text="+encodeURIComponent(messaggio);
+    window.open(url,"_blank");
+    document.getElementById("modal").style.display="none";
+    document.getElementById("successMsg").style.display="block";
+};
 </script>
 
 </body>
