@@ -4,232 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Prenotazione Intervento</title>
-
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-        }
-
-        body {
-            background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px; /* Spazio ai bordi su mobile */
-        }
-
-        .container {
-            width: 100%;
-            max-width: 420px;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 25px;
-            box-shadow: 0 0 40px rgba(0,0,0,0.6);
-            margin: auto;
-        }
-
-        /* TITOLO ANIMATO */
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #fff;
-            font-size: 24px;
-            letter-spacing: 1px;
-            animation: titleGlow 2s infinite alternate;
-        }
-
-        @keyframes titleGlow {
-            0% { text-shadow: 0 0 5px #3b82f6; transform: scale(1); }
-            100% { text-shadow: 0 0 20px #22c55e; transform: scale(1.05); }
-        }
-
-        /* INPUT */
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-icon {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-icon span {
-            position: absolute;
-            left: 12px;
-            font-size: 18px;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 14px 14px 14px 40px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255, 255, 255, 0.15);
-            color: #fff;
-            font-size: 16px; /* Evita lo zoom automatico su iPhone */
-            outline: none;
-            transition: 0.3s;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: #22c55e;
-        }
-
-        textarea {
-            min-height: 90px;
-            resize: none;
-        }
-
-        label {
-            font-size: 12px;
-            color: #ccc;
-            margin-bottom: 5px;
-            display: block;
-            margin-left: 5px;
-        }
-
-        /* BOTTONE */
-        button {
-            width: 100%;
-            padding: 16px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 14px;
-            background: linear-gradient(45deg, #22c55e, #16a34a);
-            color: white;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-
-        button:active {
-            transform: scale(0.95);
-        }
-
-        /* TESTO WHATSAPP */
-        .success {
-            text-align: center;
-            color: #22c55e;
-            margin-top: 15px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        /* ANTEPRIMA */
-        #previewBox {
-            margin-top: 20px;
-        }
-        
-        #previewText {
-            background: #22c55e;
-            color: #000;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        /* MODAL */
-        .modal {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            top: 0; left: 0;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .box {
-            background: #020617;
-            color: #fff;
-            padding: 25px;
-            border-radius: 20px;
-            text-align: center;
-            width: 100%;
-            max-width: 300px;
-            border: 1px solid #22c55e;
-        }
-
-        .modal button { margin-top: 10px; }
-        .ok { background: #22c55e; }
-        .no { background: #444; }
-
-        /* Icona Attiva (JS) */
-        .input-icon.active span {
-            color: #22c55e;
-            text-shadow: 0 0 10px #22c55e;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial; }
+        body { background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .container { width: 100%; max-width: 420px; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; padding: 25px; box-shadow: 0 0 40px rgba(0,0,0,0.6); margin: auto; }
+        h2 { text-align: center; margin-bottom: 20px; color: #fff; font-size: 24px; animation: titleGlow 2s infinite alternate; }
+        @keyframes titleGlow { 0% { text-shadow: 0 0 5px #3b82f6; } 100% { text-shadow: 0 0 20px #22c55e; } }
+        .input-group { margin-bottom: 15px; }
+        .input-icon { position: relative; display: flex; align-items: center; }
+        .input-icon span { position: absolute; left: 12px; font-size: 18px; z-index: 1; pointer-events: none; }
+        input, select, textarea { width: 100%; padding: 14px 14px 14px 40px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255, 255, 255, 0.15); color: #fff; font-size: 16px; outline: none; }
+        label { font-size: 12px; color: #ccc; margin-bottom: 5px; display: block; margin-left: 5px; }
+        button { width: 100%; padding: 16px; margin-top: 15px; border: none; border-radius: 14px; background: linear-gradient(45deg, #22c55e, #16a34a); color: white; font-size: 17px; font-weight: bold; cursor: pointer; }
+        #previewText { background: #22c55e; color: #000; padding: 12px; border-radius: 12px; font-size: 14px; white-space: pre-line; margin-top: 10px; }
+        .modal { position: fixed; width: 100%; height: 100%; background: rgba(0,0,0,0.85); top: 0; left: 0; display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+        .box { background: #020617; color: #fff; padding: 25px; border-radius: 20px; text-align: center; width: 100%; max-width: 300px; border: 1px solid #22c55e; }
+        .ok { background: #22c55e; margin-bottom: 10px; width: 100%; padding: 10px; border:none; border-radius: 10px; color: white; font-weight: bold;}
+        .no { background: #444; width: 100%; padding: 10px; border:none; border-radius: 10px; color: white;}
     </style>
 </head>
-
 <body>
 
 <div class="container">
     <h2>🔥 Prenota intervento</h2>
 
-    <div class="input-group">
-        <div class="input-icon">
-            <span>👤</span>
-            <input type="text" id="nome" placeholder="Nome">
-        </div>
-    </div>
-
-    <div class="input-group">
-        <div class="input-icon">
-            <span>👤</span>
-            <input type="text" id="cognome" placeholder="Cognome">
-        </div>
-    </div>
-
-    <div class="input-group">
-        <div class="input-icon">
-            <span>📍</span>
-            <input type="text" id="indirizzo" placeholder="Indirizzo completo">
-        </div>
-    </div>
-
-    <div class="input-group">
-        <div class="input-icon">
-            <span>📱</span>
-            <input type="tel" id="telefono" placeholder="Telefono cellulare">
-        </div>
-    </div>
-
-    <div class="input-group">
-        <div class="input-icon">
-            <span>☎️</span>
-            <input type="tel" id="telefono_fisso" placeholder="Telefono fisso (facoltativo)">
-        </div>
-    </div>
-
-    <div class="input-group">
-        <div class="input-icon">
-            <span>🔥</span>
-            <input type="text" id="marca" placeholder="Marca stufa">
-        </div>
-    </div>
-
-    <div class="input-group">
-        <div class="input-icon">
-            <span>⚙️</span>
-            <input type="text" id="modello" placeholder="Modello stufa (facoltativo)">
-        </div>
-    </div>
+    <div class="input-group"><div class="input-icon"><span>👤</span><input type="text" id="nome" placeholder="Nome"></div></div>
+    <div class="input-group"><div class="input-icon"><span>👤</span><input type="text" id="cognome" placeholder="Cognome"></div></div>
+    <div class="input-group"><div class="input-icon"><span>📍</span><input type="text" id="indirizzo" placeholder="Indirizzo completo"></div></div>
+    <div class="input-group"><div class="input-icon"><span>📱</span><input type="tel" id="telefono" placeholder="Telefono cellulare"></div></div>
+    <div class="input-group"><div class="input-icon"><span>☎️</span><input type="tel" id="telefono_fisso" placeholder="Telefono fisso (facoltativo)"></div></div>
+    <div class="input-group"><div class="input-icon"><span>🔥</span><input type="text" id="marca" placeholder="Marca stufa"></div></div>
+    <div class="input-group"><div class="input-icon"><span>⚙️</span><input type="text" id="modello" placeholder="Modello (facoltativo)"></div></div>
 
     <div class="input-group">
         <div class="input-icon">
@@ -243,28 +48,46 @@
         </div>
     </div>
 
-    <div class="input-group" id="problemaGroup">
-        <label>Problematica (facoltativo)</label>
-        <div class="input-icon">
-            <span>🛠️</span>
-            <select id="problema">
-                <option value="">Seleziona problema</option>
-                <option value="Stufa non si accende">Stufa non si accende</option>
-                <option value="Errore sul display">Errore sul display</option>
-                <option value="Si spegne da sola">Si spegne da sola</option>
-                <option value="Non carica pellet">Non carica pellet</option>
-                <option value="Fiamma debole o assente">Fiamma debole o assente</option>
-                <option value="Fa fumo">Fa fumo</option>
-                <option value="Rumori anomali">Rumori anomali</option>
-                <option value="Richiesta manutenzione">Richiesta manutenzione</option>
-                <option value="Altro">Altro (descrivi sotto)</option>
-            </select>
+    <div id="sezioneProblemi">
+        <div class="input-group" id="problemaGroup">
+            <label>Problematica</label>
+            <div class="input-icon">
+                <span>🛠️</span>
+                <select id="problema">
+                    <option value="">Seleziona problema</option>
+                    <option value="Stufa non si accende">Stufa non si accende</option>
+                    <option value="Errore sul display">Errore sul display ⚠️</option>
+                    <option value="Si spegne da sola">Si spegne da sola</option>
+                    <option value="Non carica pellet">Non carica pellet</option>
+                    <option value="Altro">Altro</option>
+                </select>
+            </div>
         </div>
-    </div>
 
-    <div class="input-group" id="altroBox" style="display:none;">
-        <label>Descrivi il problema</label>
-        <textarea id="problemaAltro" placeholder="Scrivi qui i dettagli..."></textarea>
+        <div class="input-group" id="erroriDisplayGroup" style="display:none;">
+            <label>Quale errore appare?</label>
+            <div class="input-icon">
+                <span>📟</span>
+                <select id="listaErrori">
+                    <option value="">Seleziona tipo di errore</option>
+                    <option value="Errore Sonda K">Errore Sonda K</option>
+                    <option value="Errore Autopulizia">Errore Autopulizia</option>
+                    <option value="Errore Pressione Alta">Errore Pressione Alta</option>
+                    <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
+                    <option value="Errore Debimetro">Errore Debimetro</option>
+                    <option value="Errore No Flusso">Errore No Flusso</option>
+                    <option value="Errore Porta Aperta">Errore Porta Aperta</option>
+                    <option value="Errore Depressione">Errore Depressione</option>
+                    <option value="Errore Sicurezza Termica">Errore Sicurezza Termica</option>
+                    <option value="Altro errore non in lista">Altro errore non in lista</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-group" id="altroBox" style="display:none;">
+            <label>Descrivi il problema</label>
+            <textarea id="problemaAltro" placeholder="Scrivi qui i dettagli..."></textarea>
+        </div>
     </div>
 
     <div class="input-group">
@@ -275,21 +98,16 @@
     <button id="btn">Prenota su WhatsApp</button>
 
     <div id="previewBox" style="display:none;">
-        <div style="background:#111; padding:15px; border-radius:15px;">
-            <strong style="color:#fff; font-size:12px;">Anteprima messaggio:</strong>
-            <p id="previewText" style="margin-top:10px; white-space:pre-line;"></p>
+        <div style="background:#111; padding:15px; border-radius:15px; margin-top:20px;">
+            <p id="previewText"></p>
         </div>
-    </div>
-
-    <div class="success">
-        ✅ Verrai reindirizzato a WhatsApp
     </div>
 </div>
 
 <div class="modal" id="modal">
     <div class="box">
         <h3>Conferma Invio</h3>
-        <p style="margin: 15px 0; font-size: 14px;">Vuoi inviare i dati su WhatsApp?</p>
+        <p style="margin: 15px 0;">Inviare la richiesta a assistenza?</p>
         <button class="ok" id="conferma">SÌ, INVIA</button>
         <button class="no" id="annulla">MODIFICA</button>
     </div>
@@ -300,100 +118,65 @@
 
     window.onload = function() {
         let oggi = new Date();
-        let g = String(oggi.getDate()).padStart(2, '0');
-        let m = String(oggi.getMonth() + 1).padStart(2, '0');
-        let a = oggi.getFullYear();
-        document.getElementById("data").value = g + "/" + m + "/" + a;
+        document.getElementById("data").value = oggi.toLocaleDateString('it-IT');
     };
 
-    // Logica selezione tipo intervento
     const tipoSelect = document.getElementById("tipoIntervento");
     const problemaGroup = document.getElementById("problemaGroup");
     const selectProblema = document.getElementById("problema");
+    const erroriDisplayGroup = document.getElementById("erroriDisplayGroup");
+    const listaErrori = document.getElementById("listaErrori");
     const altroBox = document.getElementById("altroBox");
 
-    tipoSelect.addEventListener("change", function() {
-        if (this.value === "Prima accensione") {
-            problemaGroup.style.display = "none";
-            altroBox.style.display = "none";
-            selectProblema.value = "";
-        } else {
-            problemaGroup.style.display = "block";
-        }
-    });
+    tipoSelect.onchange = function() {
+        document.getElementById("sezioneProblemi").style.display = (this.value === "Prima accensione") ? "none" : "block";
+    };
 
-    selectProblema.addEventListener("change", function() {
+    selectProblema.onchange = function() {
+        erroriDisplayGroup.style.display = (this.value === "Errore sul display") ? "block" : "none";
         altroBox.style.display = (this.value === "Altro") ? "block" : "none";
-    });
+        if(this.value !== "Errore sul display") listaErrori.value = "";
+    };
 
-    // Funzione Bottone Principale
     document.getElementById("btn").onclick = function() {
         const nome = document.getElementById("nome").value.trim();
         const cognome = document.getElementById("cognome").value.trim();
         const indirizzo = document.getElementById("indirizzo").value.trim();
         const telefono = document.getElementById("telefono").value.trim();
-        const telefonoFisso = document.getElementById("telefono_fisso").value.trim();
         const marca = document.getElementById("marca").value.trim();
-        const modello = document.getElementById("modello").value.trim();
-        const tipo = document.getElementById("tipoIntervento").value;
-        const problema = document.getElementById("problema").value;
-        const problemaAltro = document.getElementById("problemaAltro").value.trim();
-        const data = document.getElementById("data").value;
+        const tipo = tipoSelect.value;
 
         if (!nome || !cognome || !indirizzo || !telefono || !marca || !tipo) {
-            alert("Per favore, compila tutti i campi obbligatori.");
-            return;
+            alert("Compila i campi obbligatori!"); return;
         }
 
-        let testoProblema = problema;
-        if (problema === "Altro") testoProblema = "Altro: " + problemaAltro;
+        let dettaglioProblema = selectProblema.value;
+        if (dettaglioProblema === "Errore sul display" && listaErrori.value) {
+            dettaglioProblema = "Errore Display: " + listaErrori.value;
+        } else if (dettaglioProblema === "Altro") {
+            dettaglioProblema = "Altro: " + document.getElementById("problemaAltro").value;
+        }
 
         messaggioGenerato = `*PRENOTAZIONE INTERVENTO*
-
-*Dati Cliente:*
-👤 Nome: ${nome} ${cognome}
-📍 Indirizzo: ${indirizzo}
-📱 Cell: ${telefono}
-${telefonoFisso ? "☎️ Fisso: " + telefonoFisso : ""}
-
-*Dati Stufa:*
-🔥 Marca: ${marca}
-⚙️ Modello: ${modello ? modello : "Non specificato"}
-
-*Intervento:*
-🧰 Tipo: ${tipo}
-${testoProblema ? "🛠️ Problema: " + testoProblema : ""}
-
-📅 Data invio: ${data}`;
+👤 *Cliente:* ${nome} ${cognome}
+📍 *Indirizzo:* ${indirizzo}
+📱 *Tel:* ${telefono}
+${document.getElementById("telefono_fisso").value ? "☎️ *Fisso:* " + document.getElementById("telefono_fisso").value : ""}
+🔥 *Stufa:* ${marca} (${document.getElementById("modello").value || 'N.D.'})
+🧰 *Tipo:* ${tipo}
+${dettaglioProblema ? "🛠️ *Problema:* " + dettaglioProblema : ""}
+📅 *Data:* ${document.getElementById("data").value}`;
 
         document.getElementById("previewText").innerText = messaggioGenerato;
         document.getElementById("previewBox").style.display = "block";
         document.getElementById("modal").style.display = "flex";
     };
 
-    // Azioni Modale
-    document.getElementById("annulla").onclick = function() {
-        document.getElementById("modal").style.display = "none";
+    document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
+    document.getElementById("conferma").onclick = () => {
+        window.open("https://wa.me/390813769280?text=" + encodeURIComponent(messaggioGenerato), "_blank");
+        document.getElementById("modal").style.display="none";
     };
-
-    document.getElementById("conferma").onclick = function() {
-        let numeroTel = "390813769280";
-        let url = "https://wa.me/" + numeroTel + "?text=" + encodeURIComponent(messaggioGenerato);
-        window.open(url, "_blank");
-        document.getElementById("modal").style.display = "none";
-    };
-
-    // Effetto icone attive
-    document.querySelectorAll(".input-icon input, .input-icon select, .input-icon textarea").forEach(el => {
-        el.addEventListener("input", function() {
-            if (this.value !== "") {
-                this.parentElement.classList.add("active");
-            } else {
-                this.parentElement.classList.remove("active");
-            }
-        });
-    });
 </script>
-
 </body>
 </html>
