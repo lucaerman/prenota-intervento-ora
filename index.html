@@ -58,11 +58,7 @@
             -moz-appearance: none;
         }
 
-        select option {
-            background-color: #0f172a; 
-            color: #ffffff;
-            padding: 12px;
-        }
+        select option { background-color: #0f172a; color: #ffffff; padding: 12px; }
 
         .select-wrapper { position: relative; width: 100%; }
         .select-wrapper::after {
@@ -76,24 +72,13 @@
             pointer-events: none;
         }
 
-        input:focus, select:focus, textarea:focus { 
-            background: rgba(255, 255, 255, 0.18); 
-            border-color: #22c55e; 
-        }
+        input:focus, select:focus, textarea:focus { background: rgba(255, 255, 255, 0.18); border-color: #22c55e; }
 
         button#mainBtn { 
-            width: 100%; 
-            padding: 16px; 
-            margin-top: 10px; 
-            border: none; 
-            border-radius: 14px; 
-            background: linear-gradient(45deg, #22c55e, #16a34a); 
-            color: white; 
-            font-size: 17px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3);
-            transition: transform 0.2s;
+            width: 100%; padding: 16px; margin-top: 10px; border: none; border-radius: 14px; 
+            background: linear-gradient(45deg, #22c55e, #16a34a); color: white; 
+            font-size: 17px; font-weight: bold; cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3); transition: transform 0.2s;
         }
         button#mainBtn:active { transform: scale(0.97); }
 
@@ -138,9 +123,15 @@
             <input type="tel" id="telefono" placeholder="Telefono Cellulare">
         </div>
     </div>
+    <div class="input-group">
+        <div class="field-container">
+            <span class="field-icon">📞</span>
+            <input type="tel" id="fisso" placeholder="Telefono Fisso (facoltativo)">
+        </div>
+    </div>
 
     <div class="input-group">
-        <label>Dati Prodotto</label>
+        <label>Dati Stufa</label>
         <div class="field-container">
             <span class="field-icon">🔥</span>
             <input type="text" id="marca" placeholder="Inserisci marca">
@@ -258,23 +249,30 @@
     });
 
     selectProblema.addEventListener("change", function() {
-        erroriDisplayGroup.style.display = (this.value === "Errore sul display") ? "block" : "none";
-        altroBox.style.display = (this.value === "Altro" || this.value === "Rumore eccessivo") ? "block" : "none";
-        if (this.value !== "Errore sul display") document.getElementById("listaErrori").value = "";
+        if (this.value === "Errore sul display") {
+            erroriDisplayGroup.style.display = "block";
+        } else {
+            erroriDisplayGroup.style.display = "none";
+            document.getElementById("listaErrori").value = "";
+        }
+        if (this.value === "Altro" || this.value === "Rumore eccessivo") {
+            altroBox.style.display = "block";
+        } else {
+            altroBox.style.display = "none";
+        }
     });
-
-    let messaggioWhatsApp = "";
 
     document.getElementById("mainBtn").onclick = function() {
         const nome = document.getElementById("nome").value.trim();
         const cognome = document.getElementById("cognome").value.trim();
         const indirizzo = document.getElementById("indirizzo").value.trim();
-        const telefono = document.getElementById("telefono").value.trim();
+        const cellulare = document.getElementById("telefono").value.trim();
+        const fisso = document.getElementById("fisso").value.trim();
         const marca = document.getElementById("marca").value.trim();
         const modello = document.getElementById("modello").value.trim();
         const tipo = tipoSelect.value;
 
-        if (!nome || !cognome || !indirizzo || !telefono || !marca || !tipo) {
+        if (!nome || !cognome || !indirizzo || !cellulare || !marca || !tipo) {
             alert("⚠️ Per favore, compila tutti i dati richiesti.");
             return;
         }
@@ -292,27 +290,28 @@
         }
 
         const dataOggi = new Date().toLocaleDateString('it-IT');
+        const telefoni = fisso ? `${cellulare} / ${fisso}` : cellulare;
+        const stufa = modello ? `${marca} (${modello})` : marca;
 
-        messaggioWhatsApp = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n` +
-                            `------------------------------\n` +
-                            `👤 *Cliente:* ${nome} ${cognome}\n` +
-                            `📍 *Indirizzo:* ${indirizzo}\n` +
-                            `📱 *WhatsApp:* ${telefono}\n` +
-                            `🔥 *Stufa:* ${marca}${modello ? ' ' + modello : ''}\n` +
-                            `🧰 *Servizio:* ${tipo}\n` +
-                            (dettaglio ? `🛠️ *Dettaglio:* ${dettaglio}\n` : "") +
-                            `📅 *Data:* ${dataOggi}`;
+        const messaggio = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n` +
+                          `------------------------------\n` +
+                          `👤 *Cliente:* ${nome} ${cognome}\n` +
+                          `📍 *Indirizzo:* ${indirizzo}\n` +
+                          `📱 *Tel:* ${telefoni}\n` +
+                          `🔥 *Stufa:* ${stufa}\n` +
+                          `🧰 *Servizio:* ${tipo}\n` +
+                          (dettaglio ? `🛠️ *Dettaglio:* ${dettaglio}\n` : "") +
+                          `📅 *Data:* ${dataOggi}`;
 
+        const url = "https://wa.me/390813769280?text=" + encodeURIComponent(messaggio);
         document.getElementById("modal").style.display = "flex";
+        document.getElementById("conferma").onclick = () => {
+            window.open(url, "_blank");
+            document.getElementById("modal").style.display = "none";
+        };
     };
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
-    
-    document.getElementById("conferma").onclick = () => {
-        const url = "https://wa.me/390813769280?text=" + encodeURIComponent(messaggioWhatsApp);
-        window.open(url, "_blank");
-        document.getElementById("modal").style.display="none";
-    };
 </script>
 </body>
 </html>
