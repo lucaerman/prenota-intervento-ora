@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Prenotazione Intervento</title>
     <style>
-        /* RESET E COMPATIBILITÀ */
         * { 
             box-sizing: border-box; 
             margin: 0; 
@@ -59,11 +58,11 @@
             -moz-appearance: none;
         }
 
-        /* FIX PC: Sfondo menu a tendina */
+        /* FIX PER PC: Sfondo solido per i menu a tendina */
         select option {
             background-color: #0f172a; 
             color: #ffffff;
-            padding: 12px;
+            padding: 10px;
         }
 
         .select-wrapper { position: relative; width: 100%; }
@@ -114,7 +113,7 @@
     <h2>🔥 Prenota Intervento</h2>
 
     <div class="input-group">
-        <label>Nome e Cognome</label>
+        <label>Cliente</label>
         <div class="field-container">
             <span class="field-icon">👤</span>
             <input type="text" id="nome" placeholder="Nome">
@@ -131,26 +130,26 @@
         <label>Recapito</label>
         <div class="field-container">
             <span class="field-icon">📍</span>
-            <input type="text" id="indirizzo" placeholder="Via, Civico, Città">
+            <input type="text" id="indirizzo" placeholder="Indirizzo completo">
         </div>
     </div>
     <div class="input-group">
         <div class="field-container">
             <span class="field-icon">📱</span>
-            <input type="tel" id="telefono" placeholder="Telefono Cellulare">
+            <input type="tel" id="telefono" placeholder="Cellulare">
         </div>
     </div>
 
     <div class="input-group">
-        <label>Modello Stufa</label>
+        <label>Prodotto</label>
         <div class="field-container">
             <span class="field-icon">🔥</span>
-            <input type="text" id="marca" placeholder="Marca (es. Nordica, Edilkamin...)">
+            <input type="text" id="marca" placeholder="Marca stufa">
         </div>
     </div>
 
     <div class="input-group">
-        <label>Tipo Intervento</label>
+        <label>Servizio richiesto</label>
         <div class="select-wrapper">
             <div class="field-container">
                 <span class="field-icon">🧰</span>
@@ -166,53 +165,48 @@
 
     <div id="sezioneProblemi">
         <div class="input-group">
-            <label>Sintomo Riscontrato</label>
+            <label>Sintomo</label>
             <div class="select-wrapper">
                 <div class="field-container">
                     <span class="field-icon">🛠️</span>
                     <select id="problema">
                         <option value="">Cosa succede?</option>
-                        <option value="Errore sul display">Appare un Errore/Allarme ⚠️</option>
-                        <option value="Mancata Accensione">Non si accende la fiamma</option>
-                        <option value="Si spegne da sola">Si spegne durante il lavoro</option>
-                        <option value="Vetro molto nero">Il vetro si sporca subito</option>
-                        <option value="Rumore eccessivo">Fa un rumore anomalo</option>
-                        <option value="Altro">Altro (specifica sotto)</option>
+                        <option value="Mancata Accensione">Mancata Accensione (No fire)</option>
+                        <option value="Errore sul display">Errore specifico sul display ⚠️</option>
+                        <option value="Si spegne dopo l'avvio">Si spegne dopo l'avvio</option>
+                        <option value="Vetro molto nero">Vetro si sporca subito</option>
+                        <option value="Rumore eccessivo">Fa rumore strano</option>
+                        <option value="Altro">Altro (scrivi nei dettagli)</option>
                     </select>
                 </div>
             </div>
         </div>
 
         <div class="input-group" id="erroriDisplayGroup" style="display:none;">
-            <label>Codice Errore/Allarme</label>
+            <label>Codice Errore</label>
             <div class="select-wrapper">
                 <div class="field-container">
                     <span class="field-icon">📟</span>
                     <select id="listaErrori">
-                        <option value="">Seleziona l'allarme...</option>
-                        
-                        <option value="Allarme 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
-                        <option value="Allarme 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
-                        <option value="Allarme 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
-                        <option value="Allarme 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
-                        <option value="Allarme 5 - No Accensione">AL 5 - Mancata Accensione</option>
-                        <option value="Allarme 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
-                        <option value="Allarme 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
-                        <option value="Allarme 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
-                        <option value="Allarme 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
-                        <option value="Service">Scritta 'SERVICE' / Scadenza Ore</option>
-
-                        <option value="Errore Sonda K">Errore Sonda K</option>
+                        <option value="">Quale errore leggi?</option>
+                        <option value="Errore Sonda K">Errore Sonda K (Fumi)</option>
                         <option value="Errore Autopulizia">Errore Autopulizia</option>
-                        <option value="Errore Pressione Alta">Errore Pressione Alta</option>
-                        <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
-                        <option value="Errore Debimetro">Errore Debimetro</option>
-                        <option value="Errore No Flusso">Errore No Flusso</option>
-                        <option value="Errore Porta Aperta">Errore Porta Aperta</option>
-                        <option value="Errore Depressione">Errore Depressione (Specifico)</option>
-                        <option value="Errore Sicurezza Termica">Errore Sicurezza Termica (Specifico)</option>
-                        
-                        <option value="Altro">Altro errore non in lista</option>
+                        <option value="Errore Pressione">Errore Pressione / Depressimetro</option>
+                        <option value="Errore Debimetro">Errore Debimetro / Flusso</option>
+                        <option value="Errore Porta Aperta">Errore Porta / Carico</option>
+                        <option value="Errore Depressione">Errore Depressione</option>
+                        <option value="Errore Sicurezza">Errore Sicurezza Termica (Reset)</option>
+                        <option value="Allarme 1 - Blackout">AL 1 - Blackout</option>
+                        <option value="Allarme 2 - Sonda Fumi">AL 2 - Sonda Fumi</option>
+                        <option value="Allarme 3 - Hot Fumi">AL 3 - Hot Fumi (Sovratemperatura)</option>
+                        <option value="Allarme 4 - Guasto Aspiratore">AL 4 - Guasto Aspiratore / Encoder</option>
+                        <option value="Allarme 5 - Mancata Accensione">AL 5 - No Accensione / No Pellet</option>
+                        <option value="Allarme 6 - No Pellet">AL 6 - Fine Pellet / No Fiamma</option>
+                        <option value="Allarme 7 - Termico">AL 7 - Sicurezza Termica</option>
+                        <option value="Allarme 8 - No Depressione">AL 8 - No Depressione / Canna Fumaria</option>
+                        <option value="Allarme 9 - Coclea">AL 9 - Blocco Coclea / Triac</option>
+                        <option value="Service">Scritta 'SERVICE' (Manutenzione scaduta)</option>
+                        <option value="Altro">Altro errore non presente</option>
                     </select>
                 </div>
             </div>
@@ -221,19 +215,19 @@
         <div class="input-group" id="altroBox" style="display:none;">
             <div class="field-container">
                 <span class="field-icon">📝</span>
-                <textarea id="problemaAltro" placeholder="Descrivi brevemente qui..."></textarea>
+                <textarea id="problemaAltro" placeholder="Aggiungi dettagli extra..."></textarea>
             </div>
         </div>
     </div>
 
-    <button id="mainBtn">Prenota su WhatsApp</button>
+    <button id="mainBtn">Invia su WhatsApp</button>
 </div>
 
 <div class="modal" id="modal">
     <div class="box">
-        <h3>Conferma Prenotazione</h3>
-        <p style="margin-bottom: 20px; font-size: 14px; color: #cbd5e1;">Vuoi inviare la richiesta tecnica tramite WhatsApp?</p>
-        <button class="ok" id="conferma">SÌ, INVIA ORA</button>
+        <h3>Conferma Invio</h3>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #cbd5e1;">Vuoi inviare i dati all'assistenza tecnica?</p>
+        <button class="ok" id="conferma">SÌ, INVIA</button>
         <button class="no" id="annulla">MODIFICA</button>
     </div>
 </div>
@@ -264,33 +258,27 @@
         const tipo = tipoSelect.value;
 
         if (!nome || !cognome || !indirizzo || !telefono || !marca || !tipo) {
-            alert("⚠️ Per favore, compila tutti i dati richiesti.");
+            alert("Compila i campi obbligatori!");
             return;
         }
 
         let dettaglio = "";
         if (tipo !== "Prima accensione") {
             dettaglio = selectProblema.value;
-            if (dettaglio === "Errore sul display") {
-                const err = document.getElementById("listaErrori").value;
-                if (!err) { alert("⚠️ Seleziona il tipo di errore."); return; }
-                dettaglio = "Allarme: " + err;
-            }
-            const note = document.getElementById("problemaAltro").value.trim();
-            if (note) dettaglio += " - Note: " + note;
+            if (dettaglio === "Errore sul display") dettaglio = "Allarme: " + document.getElementById("listaErrori").value;
+            if (document.getElementById("problemaAltro").value) dettaglio += " - Note: " + document.getElementById("problemaAltro").value;
         }
 
         const dataOggi = new Date().toLocaleDateString('it-IT');
 
-        messaggioWhatsApp = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n` +
-                            `------------------------------\n` +
-                            `👤 *Cliente:* ${nome} ${cognome}\n` +
-                            `📍 *Indirizzo:* ${indirizzo}\n` +
-                            `📱 *WhatsApp:* ${telefono}\n` +
-                            `🔥 *Stufa:* ${marca}\n` +
-                            `🧰 *Servizio:* ${tipo}\n` +
-                            (dettaglio ? `🛠️ *Dettaglio:* ${dettaglio}\n` : "") +
-                            `📅 *Data:* ${dataOggi}`;
+        messaggioWhatsApp = `*🔥 PRENOTAZIONE INTERVENTO*\n` +
+                            `👤 Cliente: ${nome} ${cognome}\n` +
+                            `📍 Indirizzo: ${indirizzo}\n` +
+                            `📱 WhatsApp: ${telefono}\n` +
+                            `🔥 Stufa: ${marca}\n` +
+                            `🧰 Servizio: ${tipo}\n` +
+                            (dettaglio ? `🛠️ Problema: ${dettaglio}\n` : "") +
+                            `📅 Data: ${dataOggi}`;
 
         document.getElementById("modal").style.display = "flex";
     };
