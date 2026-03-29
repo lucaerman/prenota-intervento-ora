@@ -5,87 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Prenotazione Intervento</title>
     <style>
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        body { 
-            background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617); 
-            min-height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 20px; 
-        }
-
-        .container { 
-            width: 100%; 
-            max-width: 420px; 
-            background: rgba(255, 255, 255, 0.08); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px); 
-            border-radius: 25px; 
-            padding: 25px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
+        /* ... IL TUO CSS RIMANE IDENTICO ... */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .container { width: 100%; max-width: 420px; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; padding: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
         h2 { text-align: center; margin-bottom: 25px; color: #fff; font-size: 24px; animation: titleGlow 2s infinite alternate; }
         @keyframes titleGlow { 0% { text-shadow: 0 0 5px #3b82f6; } 100% { text-shadow: 0 0 15px #22c55e; } }
-
         .input-group { margin-bottom: 18px; }
         label { font-size: 11px; color: #aaa; margin-bottom: 6px; display: block; margin-left: 5px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
-
         .field-container { position: relative; display: flex; align-items: center; }
         .field-icon { position: absolute; left: 12px; font-size: 18px; z-index: 2; pointer-events: none; }
-
-        input, select, textarea { 
-            width: 100%; 
-            padding: 14px 40px 14px 40px; 
-            border-radius: 12px; 
-            border: 1px solid rgba(255,255,255,0.2); 
-            background: rgba(255, 255, 255, 0.1); 
-            color: #ffffff !important; 
-            font-size: 16px; 
-            outline: none; 
-            transition: all 0.3s ease;
-            appearance: none;
-            -webkit-appearance: none;
-        }
-
+        input, select, textarea { width: 100%; padding: 14px 40px 14px 40px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255, 255, 255, 0.1); color: #ffffff !important; font-size: 16px; outline: none; transition: all 0.3s ease; appearance: none; -webkit-appearance: none; }
         select option { background-color: #0f172a; color: #ffffff; padding: 12px; }
-
         .select-wrapper { position: relative; width: 100%; }
-        .select-wrapper::after {
-            content: "▼";
-            font-size: 10px;
-            color: rgba(255,255,255,0.5);
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-        }
-
+        .select-wrapper::after { content: "▼"; font-size: 10px; color: rgba(255,255,255,0.5); position: absolute; right: 15px; top: 50%; transform: translateY(-50%); pointer-events: none; }
         input:focus, select:focus, textarea:focus { background: rgba(255, 255, 255, 0.18); border-color: #22c55e; }
-
-        button#mainBtn { 
-            width: 100%; padding: 16px; margin-top: 10px; border: none; border-radius: 14px; 
-            background: linear-gradient(45deg, #22c55e, #16a34a); color: white; 
-            font-size: 17px; font-weight: bold; cursor: pointer; 
-            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3); transition: transform 0.2s;
-        }
+        button#mainBtn { width: 100%; padding: 16px; margin-top: 10px; border: none; border-radius: 14px; background: linear-gradient(45deg, #22c55e, #16a34a); color: white; font-size: 17px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3); transition: transform 0.2s; }
         button#mainBtn:active { transform: scale(0.97); }
-
         .modal { position: fixed; width: 100%; height: 100%; background: rgba(0,0,0,0.85); top: 0; left: 0; display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
         .box { background: #0f172a; color: #fff; padding: 30px; border-radius: 20px; text-align: center; width: 100%; max-width: 320px; border: 1px solid #22c55e; }
         .ok { background: #22c55e; margin-bottom: 10px; width: 100%; padding: 14px; border:none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; }
         .no { background: #334155; width: 100%; padding: 14px; border:none; border-radius: 12px; color: white; cursor: pointer; }
-        
         textarea { height: 100px; resize: none; padding-top: 14px; }
         ::placeholder { color: rgba(255,255,255,0.4); }
     </style>
@@ -97,50 +37,28 @@
 
     <div class="input-group">
         <label>Nome e Cognome</label>
-        <div class="field-container">
-            <span class="field-icon">👤</span>
-            <input type="text" id="nome" placeholder="Nome">
-        </div>
+        <div class="field-container"><span class="field-icon">👤</span><input type="text" id="nome" placeholder="Nome"></div>
     </div>
     <div class="input-group">
-        <div class="field-container">
-            <span class="field-icon">👤</span>
-            <input type="text" id="cognome" placeholder="Cognome">
-        </div>
+        <div class="field-container"><span class="field-icon">👤</span><input type="text" id="cognome" placeholder="Cognome"></div>
     </div>
-
     <div class="input-group">
         <label>Recapito</label>
-        <div class="field-container">
-            <span class="field-icon">📍</span>
-            <input type="text" id="indirizzo" placeholder="Via, Civico, Città">
-        </div>
+        <div class="field-container"><span class="field-icon">📍</span><input type="text" id="indirizzo" placeholder="Via, Civico, Città"></div>
     </div>
     <div class="input-group">
-        <div class="field-container">
-            <span class="field-icon">📱</span>
-            <input type="tel" id="telefono" placeholder="Telefono Cellulare">
-        </div>
+        <div class="field-container"><span class="field-icon">📱</span><input type="tel" id="telefono" placeholder="Telefono Cellulare"></div>
     </div>
     <div class="input-group">
-        <div class="field-container">
-            <span class="field-icon">📞</span>
-            <input type="tel" id="fisso" placeholder="Telefono Fisso (facoltativo)">
-        </div>
+        <div class="field-container"><span class="field-icon">📞</span><input type="tel" id="fisso" placeholder="Telefono Fisso (facoltativo)"></div>
     </div>
 
     <div class="input-group">
         <label>Dati Stufa</label>
-        <div class="field-container">
-            <span class="field-icon">🔥</span>
-            <input type="text" id="marca" placeholder="Inserisci marca">
-        </div>
+        <div class="field-container"><span class="field-icon">🔥</span><input type="text" id="marca" placeholder="Inserisci marca"></div>
     </div>
     <div class="input-group">
-        <div class="field-container">
-            <span class="field-icon">⚙️</span>
-            <input type="text" id="modello" placeholder="Modello stufa (facoltativo)">
-        </div>
+        <div class="field-container"><span class="field-icon">⚙️</span><input type="text" id="modello" placeholder="Modello stufa (facoltativo)"></div>
     </div>
 
     <div class="input-group">
@@ -184,16 +102,6 @@
                     <span class="field-icon">📟</span>
                     <select id="listaErrori">
                         <option value="">Seleziona l'allarme...</option>
-                        <option value="AL 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
-                        <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
-                        <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
-                        <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
-                        <option value="AL 5 - No Accensione">AL 5 - Mancata Accensione</option>
-                        <option value="AL 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
-                        <option value="AL 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
-                        <option value="AL 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
-                        <option value="AL 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
-                        <option value="Service">Scritta 'SERVICE' / Scadenza Ore</option>
                         <option value="Errore Sonda K">Errore Sonda K</option>
                         <option value="Errore Autopulizia">Errore Autopulizia</option>
                         <option value="Errore Pressione Alta">Errore Pressione Alta</option>
@@ -201,8 +109,8 @@
                         <option value="Errore Debimetro">Errore Debimetro</option>
                         <option value="Errore No Flusso">Errore No Flusso</option>
                         <option value="Errore Porta Aperta">Errore Porta Aperta</option>
-                        <option value="Errore Depressione">Errore Depressione (Specifico)</option>
-                        <option value="Errore Sicurezza Termica">Errore Sicurezza Termica (Specifico)</option>
+                        <option value="Errore Depressione">Errore Depressione</option>
+                        <option value="Errore Sicurezza Termica">Errore Sicurezza Termica</option>
                         <option value="Altro">Altro errore non in lista</option>
                     </select>
                 </div>
@@ -230,23 +138,26 @@
 </div>
 
 <script>
+    const selectTipo = document.getElementById("tipoIntervento");
+    const sezioneProblemi = document.getElementById("sezioneProblemi");
     const selectProblema = document.getElementById("problema");
     const erroriDisplayGroup = document.getElementById("erroriDisplayGroup");
     const altroBox = document.getElementById("altroBox");
 
-    // Mostra sottomenu solo se selezionati
+    // Nasconde problemi se è Prima Accensione
+    selectTipo.addEventListener("change", function() {
+        if (this.value === "Prima accensione") {
+            sezioneProblemi.style.display = "none";
+        } else {
+            sezioneProblemi.style.display = "block";
+        }
+    });
+
+    // Mostra sottomenu errori o altro
     selectProblema.addEventListener("change", function() {
-        if (this.value === "Errore sul display") {
-            erroriDisplayGroup.style.display = "block";
-        } else {
-            erroriDisplayGroup.style.display = "none";
-            document.getElementById("listaErrori").value = "";
-        }
-        if (this.value === "Altro" || this.value === "Rumore eccessivo") {
-            altroBox.style.display = "block";
-        } else {
-            altroBox.style.display = "none";
-        }
+        erroriDisplayGroup.style.display = (this.value === "Errore sul display") ? "block" : "none";
+        altroBox.style.display = (this.value === "Altro" || this.value === "Rumore eccessivo") ? "block" : "none";
+        if (this.value !== "Errore sul display") document.getElementById("listaErrori").value = "";
     });
 
     document.getElementById("mainBtn").onclick = function() {
@@ -257,36 +168,29 @@
         const fisso = document.getElementById("fisso").value.trim();
         const marca = document.getElementById("marca").value.trim();
         const modello = document.getElementById("modello").value.trim();
-        const tipo = document.getElementById("tipoIntervento").value;
+        const tipo = selectTipo.value;
 
-        // Campi obbligatori principali
         if (!nome || !cognome || !indirizzo || !cellulare || !marca || !tipo) {
-            alert("⚠️ Per favore, compila tutti i dati richiesti.");
+            alert("⚠️ Compila i campi obbligatori.");
             return;
         }
 
         let dettaglio = selectProblema.value;
         if (dettaglio === "Errore sul display") {
             const err = document.getElementById("listaErrori").value;
-            if (err) dettaglio = "Allarme: " + err;
+            dettaglio = err ? "Allarme: " + err : "Errore Display";
         }
         const note = document.getElementById("problemaAltro").value.trim();
-        if (note) dettaglio += (dettaglio ? " - Note: " : "") + note;
+        if (note) dettaglio += (dettaglio ? " | Note: " : "") + note;
 
-        const dataOggi = new Date().toLocaleDateString('it-IT');
-        const telefoni = fisso ? `${cellulare} / ${fisso}` : cellulare;
-        const stufaInfo = modello ? `${marca} (${modello})` : marca;
-
-        // Messaggio con Emoji standard supportate da WhatsApp
         const messaggio = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n` +
-                          `------------------------------\n` +
                           `👤 *Cliente:* ${nome} ${cognome}\n` +
                           `📍 *Indirizzo:* ${indirizzo}\n` +
-                          `📱 *Tel:* ${telefoni}\n` +
-                          `🔥 *Stufa:* ${stufaInfo}\n` +
+                          `📱 *Tel:* ${fisso ? cellulare + " / " + fisso : cellulare}\n` +
+                          `🔥 *Stufa:* ${modello ? marca + " (" + modello + ")" : marca}\n` +
                           `🧰 *Servizio:* ${tipo}\n` +
                           (dettaglio ? `🛠️ *Dettaglio:* ${dettaglio}\n` : "") +
-                          `📅 *Data:* ${dataOggi}`;
+                          `📅 *Data:* ${new Date().toLocaleDateString('it-IT')}`;
 
         const url = "https://wa.me/390813769280?text=" + encodeURIComponent(messaggio);
         document.getElementById("modal").style.display = "flex";
