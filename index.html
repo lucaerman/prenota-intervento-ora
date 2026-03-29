@@ -291,14 +291,14 @@
 
         const dataOggi = new Date().toLocaleDateString('it-IT');
         const telefoni = fisso ? `${cellulare} / ${fisso}` : cellulare;
-        const stufa = modello ? `${marca} (${modello})` : marca;
+        const stufaInfo = modello ? `${marca} (${modello})` : marca;
 
         const messaggio = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n` +
                           `------------------------------\n` +
                           `👤 *Cliente:* ${nome} ${cognome}\n` +
                           `📍 *Indirizzo:* ${indirizzo}\n` +
                           `📱 *Tel:* ${telefoni}\n` +
-                          `🔥 *Stufa:* ${stufa}\n` +
+                          `🔥 *Stufa:* ${stufaInfo}\n` +
                           `🧰 *Servizio:* ${tipo}\n` +
                           (dettaglio ? `🛠️ *Dettaglio:* ${dettaglio}\n` : "") +
                           `📅 *Data:* ${dataOggi}`;
