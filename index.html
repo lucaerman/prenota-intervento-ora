@@ -140,10 +140,16 @@
     </div>
 
     <div class="input-group">
-        <label>Modello Stufa</label>
+        <label>Dati Prodotto</label>
         <div class="field-container">
             <span class="field-icon">🔥</span>
-            <input type="text" id="marca" placeholder="Marca (es. Nordica, Edilkamin...)">
+            <input type="text" id="marca" placeholder="Inserisci marca">
+        </div>
+    </div>
+    <div class="input-group">
+        <div class="field-container">
+            <span class="field-icon">⚙️</span>
+            <input type="text" id="modello" placeholder="Modello stufa (facoltativo)">
         </div>
     </div>
 
@@ -240,13 +246,11 @@
     const erroriDisplayGroup = document.getElementById("erroriDisplayGroup");
     const altroBox = document.getElementById("altroBox");
 
-    // Logica visualizzazione sezioni
     tipoSelect.addEventListener("change", function() {
         if (this.value === "Manutenzione" || this.value === "Riparazione") {
             sezioneProblemi.style.display = "block";
         } else {
             sezioneProblemi.style.display = "none";
-            // Reset campi se nascosti
             selectProblema.value = "";
             erroriDisplayGroup.style.display = "none";
             altroBox.style.display = "none";
@@ -254,20 +258,9 @@
     });
 
     selectProblema.addEventListener("change", function() {
-        // Mostra lista errori solo se selezionato "Errore sul display"
-        if (this.value === "Errore sul display") {
-            erroriDisplayGroup.style.display = "block";
-        } else {
-            erroriDisplayGroup.style.display = "none";
-            document.getElementById("listaErrori").value = "";
-        }
-
-        // Mostra textarea per "Altro" o "Rumore"
-        if (this.value === "Altro" || this.value === "Rumore eccessivo") {
-            altroBox.style.display = "block";
-        } else {
-            altroBox.style.display = "none";
-        }
+        erroriDisplayGroup.style.display = (this.value === "Errore sul display") ? "block" : "none";
+        altroBox.style.display = (this.value === "Altro" || this.value === "Rumore eccessivo") ? "block" : "none";
+        if (this.value !== "Errore sul display") document.getElementById("listaErrori").value = "";
     });
 
     let messaggioWhatsApp = "";
@@ -278,6 +271,7 @@
         const indirizzo = document.getElementById("indirizzo").value.trim();
         const telefono = document.getElementById("telefono").value.trim();
         const marca = document.getElementById("marca").value.trim();
+        const modello = document.getElementById("modello").value.trim();
         const tipo = tipoSelect.value;
 
         if (!nome || !cognome || !indirizzo || !telefono || !marca || !tipo) {
@@ -304,7 +298,7 @@
                             `👤 *Cliente:* ${nome} ${cognome}\n` +
                             `📍 *Indirizzo:* ${indirizzo}\n` +
                             `📱 *WhatsApp:* ${telefono}\n` +
-                            `🔥 *Stufa:* ${marca}\n` +
+                            `🔥 *Stufa:* ${marca}${modello ? ' ' + modello : ''}\n` +
                             `🧰 *Servizio:* ${tipo}\n` +
                             (dettaglio ? `🛠️ *Dettaglio:* ${dettaglio}\n` : "") +
                             `📅 *Data:* ${dataOggi}`;
