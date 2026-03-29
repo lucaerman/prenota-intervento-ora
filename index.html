@@ -58,11 +58,10 @@
             -moz-appearance: none;
         }
 
-        /* FIX PER PC: Sfondo solido per i menu a tendina */
         select option {
             background-color: #0f172a; 
             color: #ffffff;
-            padding: 10px;
+            padding: 12px;
         }
 
         .select-wrapper { position: relative; width: 100%; }
@@ -113,7 +112,7 @@
     <h2>🔥 Prenota Intervento</h2>
 
     <div class="input-group">
-        <label>Cliente</label>
+        <label>Nome e Cognome</label>
         <div class="field-container">
             <span class="field-icon">👤</span>
             <input type="text" id="nome" placeholder="Nome">
@@ -130,26 +129,26 @@
         <label>Recapito</label>
         <div class="field-container">
             <span class="field-icon">📍</span>
-            <input type="text" id="indirizzo" placeholder="Indirizzo completo">
+            <input type="text" id="indirizzo" placeholder="Via, Civico, Città">
         </div>
     </div>
     <div class="input-group">
         <div class="field-container">
             <span class="field-icon">📱</span>
-            <input type="tel" id="telefono" placeholder="Cellulare">
+            <input type="tel" id="telefono" placeholder="Telefono Cellulare">
         </div>
     </div>
 
     <div class="input-group">
-        <label>Prodotto</label>
+        <label>Modello Stufa</label>
         <div class="field-container">
             <span class="field-icon">🔥</span>
-            <input type="text" id="marca" placeholder="Marca stufa">
+            <input type="text" id="marca" placeholder="Marca (es. Nordica, Edilkamin...)">
         </div>
     </div>
 
     <div class="input-group">
-        <label>Servizio richiesto</label>
+        <label>Tipo Intervento</label>
         <div class="select-wrapper">
             <div class="field-container">
                 <span class="field-icon">🧰</span>
@@ -163,50 +162,52 @@
         </div>
     </div>
 
-    <div id="sezioneProblemi">
+    <div id="sezioneProblemi" style="display:none;">
         <div class="input-group">
-            <label>Sintomo</label>
+            <label>Sintomo Riscontrato</label>
             <div class="select-wrapper">
                 <div class="field-container">
                     <span class="field-icon">🛠️</span>
                     <select id="problema">
                         <option value="">Cosa succede?</option>
-                        <option value="Mancata Accensione">Mancata Accensione (No fire)</option>
-                        <option value="Errore sul display">Errore specifico sul display ⚠️</option>
-                        <option value="Si spegne dopo l'avvio">Si spegne dopo l'avvio</option>
-                        <option value="Vetro molto nero">Vetro si sporca subito</option>
-                        <option value="Rumore eccessivo">Fa rumore strano</option>
-                        <option value="Altro">Altro (scrivi nei dettagli)</option>
+                        <option value="Errore sul display">Appare un Errore/Allarme ⚠️</option>
+                        <option value="Mancata Accensione">Non si accende la fiamma</option>
+                        <option value="Si spegne da sola">Si spegne durante il lavoro</option>
+                        <option value="Vetro molto nero">Il vetro si sporca subito</option>
+                        <option value="Rumore eccessivo">Fa un rumore anomalo</option>
+                        <option value="Altro">Altro (specifica sotto)</option>
                     </select>
                 </div>
             </div>
         </div>
 
         <div class="input-group" id="erroriDisplayGroup" style="display:none;">
-            <label>Codice Errore</label>
+            <label>Codice Errore/Allarme</label>
             <div class="select-wrapper">
                 <div class="field-container">
                     <span class="field-icon">📟</span>
                     <select id="listaErrori">
-                        <option value="">Quale errore leggi?</option>
-                        <option value="Errore Sonda K">Errore Sonda K (Fumi)</option>
+                        <option value="">Seleziona l'allarme...</option>
+                        <option value="AL 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
+                        <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
+                        <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
+                        <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
+                        <option value="AL 5 - No Accensione">AL 5 - Mancata Accensione</option>
+                        <option value="AL 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
+                        <option value="AL 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
+                        <option value="AL 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
+                        <option value="AL 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
+                        <option value="Service">Scritta 'SERVICE' / Scadenza Ore</option>
+                        <option value="Errore Sonda K">Errore Sonda K</option>
                         <option value="Errore Autopulizia">Errore Autopulizia</option>
-                        <option value="Errore Pressione">Errore Pressione / Depressimetro</option>
-                        <option value="Errore Debimetro">Errore Debimetro / Flusso</option>
-                        <option value="Errore Porta Aperta">Errore Porta / Carico</option>
-                        <option value="Errore Depressione">Errore Depressione</option>
-                        <option value="Errore Sicurezza">Errore Sicurezza Termica (Reset)</option>
-                        <option value="Allarme 1 - Blackout">AL 1 - Blackout</option>
-                        <option value="Allarme 2 - Sonda Fumi">AL 2 - Sonda Fumi</option>
-                        <option value="Allarme 3 - Hot Fumi">AL 3 - Hot Fumi (Sovratemperatura)</option>
-                        <option value="Allarme 4 - Guasto Aspiratore">AL 4 - Guasto Aspiratore / Encoder</option>
-                        <option value="Allarme 5 - Mancata Accensione">AL 5 - No Accensione / No Pellet</option>
-                        <option value="Allarme 6 - No Pellet">AL 6 - Fine Pellet / No Fiamma</option>
-                        <option value="Allarme 7 - Termico">AL 7 - Sicurezza Termica</option>
-                        <option value="Allarme 8 - No Depressione">AL 8 - No Depressione / Canna Fumaria</option>
-                        <option value="Allarme 9 - Coclea">AL 9 - Blocco Coclea / Triac</option>
-                        <option value="Service">Scritta 'SERVICE' (Manutenzione scaduta)</option>
-                        <option value="Altro">Altro errore non presente</option>
+                        <option value="Errore Pressione Alta">Errore Pressione Alta</option>
+                        <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
+                        <option value="Errore Debimetro">Errore Debimetro</option>
+                        <option value="Errore No Flusso">Errore No Flusso</option>
+                        <option value="Errore Porta Aperta">Errore Porta Aperta</option>
+                        <option value="Errore Depressione">Errore Depressione (Specifico)</option>
+                        <option value="Errore Sicurezza Termica">Errore Sicurezza Termica (Specifico)</option>
+                        <option value="Altro">Altro errore non in lista</option>
                     </select>
                 </div>
             </div>
@@ -215,39 +216,61 @@
         <div class="input-group" id="altroBox" style="display:none;">
             <div class="field-container">
                 <span class="field-icon">📝</span>
-                <textarea id="problemaAltro" placeholder="Aggiungi dettagli extra..."></textarea>
+                <textarea id="problemaAltro" placeholder="Descrivi brevemente qui..."></textarea>
             </div>
         </div>
     </div>
 
-    <button id="mainBtn">Invia su WhatsApp</button>
+    <button id="mainBtn">Prenota su WhatsApp</button>
 </div>
 
 <div class="modal" id="modal">
     <div class="box">
-        <h3>Conferma Invio</h3>
-        <p style="margin-bottom: 20px; font-size: 14px; color: #cbd5e1;">Vuoi inviare i dati all'assistenza tecnica?</p>
-        <button class="ok" id="conferma">SÌ, INVIA</button>
+        <h3>Conferma Prenotazione</h3>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #cbd5e1;">Vuoi inviare la richiesta tecnica tramite WhatsApp?</p>
+        <button class="ok" id="conferma">SÌ, INVIA ORA</button>
         <button class="no" id="annulla">MODIFICA</button>
     </div>
 </div>
 
 <script>
-    let messaggioWhatsApp = "";
     const tipoSelect = document.getElementById("tipoIntervento");
     const sezioneProblemi = document.getElementById("sezioneProblemi");
     const selectProblema = document.getElementById("problema");
     const erroriDisplayGroup = document.getElementById("erroriDisplayGroup");
     const altroBox = document.getElementById("altroBox");
 
-    tipoSelect.onchange = function() {
-        sezioneProblemi.style.display = (this.value === "Prima accensione") ? "none" : "block";
-    };
+    // Logica visualizzazione sezioni
+    tipoSelect.addEventListener("change", function() {
+        if (this.value === "Manutenzione" || this.value === "Riparazione") {
+            sezioneProblemi.style.display = "block";
+        } else {
+            sezioneProblemi.style.display = "none";
+            // Reset campi se nascosti
+            selectProblema.value = "";
+            erroriDisplayGroup.style.display = "none";
+            altroBox.style.display = "none";
+        }
+    });
 
-    selectProblema.onchange = function() {
-        erroriDisplayGroup.style.display = (this.value === "Errore sul display") ? "block" : "none";
-        altroBox.style.display = (this.value === "Altro" || this.value === "Rumore eccessivo") ? "block" : "none";
-    };
+    selectProblema.addEventListener("change", function() {
+        // Mostra lista errori solo se selezionato "Errore sul display"
+        if (this.value === "Errore sul display") {
+            erroriDisplayGroup.style.display = "block";
+        } else {
+            erroriDisplayGroup.style.display = "none";
+            document.getElementById("listaErrori").value = "";
+        }
+
+        // Mostra textarea per "Altro" o "Rumore"
+        if (this.value === "Altro" || this.value === "Rumore eccessivo") {
+            altroBox.style.display = "block";
+        } else {
+            altroBox.style.display = "none";
+        }
+    });
+
+    let messaggioWhatsApp = "";
 
     document.getElementById("mainBtn").onclick = function() {
         const nome = document.getElementById("nome").value.trim();
@@ -258,27 +281,33 @@
         const tipo = tipoSelect.value;
 
         if (!nome || !cognome || !indirizzo || !telefono || !marca || !tipo) {
-            alert("Compila i campi obbligatori!");
+            alert("⚠️ Per favore, compila tutti i dati richiesti.");
             return;
         }
 
         let dettaglio = "";
         if (tipo !== "Prima accensione") {
             dettaglio = selectProblema.value;
-            if (dettaglio === "Errore sul display") dettaglio = "Allarme: " + document.getElementById("listaErrori").value;
-            if (document.getElementById("problemaAltro").value) dettaglio += " - Note: " + document.getElementById("problemaAltro").value;
+            if (dettaglio === "Errore sul display") {
+                const err = document.getElementById("listaErrori").value;
+                if (!err) { alert("⚠️ Seleziona il tipo di errore."); return; }
+                dettaglio = "Allarme: " + err;
+            }
+            const note = document.getElementById("problemaAltro").value.trim();
+            if (note) dettaglio += " - Note: " + note;
         }
 
         const dataOggi = new Date().toLocaleDateString('it-IT');
 
-        messaggioWhatsApp = `*🔥 PRENOTAZIONE INTERVENTO*\n` +
-                            `👤 Cliente: ${nome} ${cognome}\n` +
-                            `📍 Indirizzo: ${indirizzo}\n` +
-                            `📱 WhatsApp: ${telefono}\n` +
-                            `🔥 Stufa: ${marca}\n` +
-                            `🧰 Servizio: ${tipo}\n` +
-                            (dettaglio ? `🛠️ Problema: ${dettaglio}\n` : "") +
-                            `📅 Data: ${dataOggi}`;
+        messaggioWhatsApp = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n` +
+                            `------------------------------\n` +
+                            `👤 *Cliente:* ${nome} ${cognome}\n` +
+                            `📍 *Indirizzo:* ${indirizzo}\n` +
+                            `📱 *WhatsApp:* ${telefono}\n` +
+                            `🔥 *Stufa:* ${marca}\n` +
+                            `🧰 *Servizio:* ${tipo}\n` +
+                            (dettaglio ? `🛠️ *Dettaglio:* ${dettaglio}\n` : "") +
+                            `📅 *Data:* ${dataOggi}`;
 
         document.getElementById("modal").style.display = "flex";
     };
