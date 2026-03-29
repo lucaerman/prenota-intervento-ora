@@ -257,12 +257,43 @@ button{
 </div>
 </div>
 
-<div class="input-group">
+<div class="input-group" id="problemaGroup">
 <label>Problematica (facoltativo)</label>
 <div class="input-icon">
 <span>🛠️</span>
-<textarea id="problema" placeholder="Descrivi il problema"></textarea>
+<select id="problema">
+<option value="">Seleziona problema</option>
+
+<option value="Stufa non si accende">Stufa non si accende</option>
+<option value="Errore sul display">Errore sul display</option>
+<option value="Si spegne da sola">Si spegne da sola</option>
+
+<option value="Non carica pellet">Non carica pellet</option>
+<option value="Pellet non scende correttamente">Pellet non scende correttamente</option>
+
+<option value="Fiamma debole o assente">Fiamma debole o assente</option>
+<option value="Scalda poco">Scalda poco</option>
+
+<option value="Fa fumo">Fa fumo</option>
+<option value="Cattivo odore">Cattivo odore</option>
+
+<option value="Rumori anomali">Rumori anomali</option>
+<option value="Ventola rumorosa">Ventola rumorosa</option>
+
+<option value="Vetro sporco subito">Vetro sporco subito</option>
+<option value="Braciere sporco o intasato">Braciere sporco o intasato</option>
+
+<option value="Richiesta manutenzione / pulizia">Richiesta manutenzione / pulizia</option>
+
+<option value="Altro">Altro</option>
+
+</select>
 </div>
+</div>
+
+<div class="input-group" id="altroBox" style="display:none;">
+<label>Descrivi il problema</label>
+<textarea id="problemaAltro" placeholder="Scrivi qui il problema"></textarea>
 </div>
 
 <div class="input-group">
@@ -314,7 +345,14 @@ document.getElementById("btn").onclick=function(){
     let marca=document.getElementById("marca").value;
     let modello=document.getElementById("modello").value;
     let tipo=document.getElementById("tipoIntervento").value;
-    let problema=document.getElementById("problema").value;
+    let problema = document.getElementById("problema").value;
+let problemaAltro = document.getElementById("problemaAltro") ? document.getElementById("problemaAltro").value : "";
+
+let testoProblema = problema;
+
+if(problema === "Altro" && problemaAltro){
+    testoProblema = problemaAltro;
+}
     let data=document.getElementById("data").value;
 
     if(!nome||!cognome||!indirizzo||!telefono||!marca||!tipo){
@@ -333,7 +371,7 @@ Marca stufa: ${marca}
 Modello: ${modello}
 
 Tipo intervento: ${tipo}
-${problema ? "Problematica: " + problema : ""}
+${testoProblema ? "Problematica: " + testoProblema : ""}
 
 Data: ${data}`;
 
@@ -373,6 +411,38 @@ document.querySelectorAll("input, select, textarea, button").forEach(el=>{
     });
 });
 </script>
+
+    // MOSTRA CAMPO ALTRO
+let selectProblema = document.getElementById("problema");
+let altroBox = document.getElementById("altroBox");
+
+selectProblema.addEventListener("change", function(){
+    if(this.value === "Altro"){
+        altroBox.style.display = "block";
+    } else {
+        altroBox.style.display = "none";
+    }
+});
+
+// NASCONDE PROBLEMATICA SE PRIMA ACCENSIONE
+let tipoSelect = document.getElementById("tipoIntervento");
+let problemaGroup = document.getElementById("problemaGroup");
+
+tipoSelect.addEventListener("change", function(){
+
+    if(this.value === "Prima accensione"){
+        problemaGroup.style.display = "none";
+        altroBox.style.display = "none";
+
+        selectProblema.value = "";
+        let altro = document.getElementById("problemaAltro");
+        if(altro) altro.value = "";
+
+    } else {
+        problemaGroup.style.display = "block";
+    }
+
+});
 
 </body>
 </html>
