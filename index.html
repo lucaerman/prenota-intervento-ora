@@ -55,7 +55,6 @@
             transition: all 0.3s ease;
             appearance: none;
             -webkit-appearance: none;
-            -moz-appearance: none;
         }
 
         select option { background-color: #0f172a; color: #ffffff; padding: 12px; }
@@ -159,9 +158,9 @@
         </div>
     </div>
 
-    <div id="sezioneProblemi" style="display:none;">
+    <div id="sezioneProblemi">
         <div class="input-group">
-            <label>Sintomo Riscontrato</label>
+            <label>Sintomo Riscontrato (facoltativo)</label>
             <div class="select-wrapper">
                 <div class="field-container">
                     <span class="field-icon">🛠️</span>
@@ -231,23 +230,11 @@
 </div>
 
 <script>
-    const tipoSelect = document.getElementById("tipoIntervento");
-    const sezioneProblemi = document.getElementById("sezioneProblemi");
     const selectProblema = document.getElementById("problema");
     const erroriDisplayGroup = document.getElementById("erroriDisplayGroup");
     const altroBox = document.getElementById("altroBox");
 
-    tipoSelect.addEventListener("change", function() {
-        if (this.value === "Manutenzione" || this.value === "Riparazione") {
-            sezioneProblemi.style.display = "block";
-        } else {
-            sezioneProblemi.style.display = "none";
-            selectProblema.value = "";
-            erroriDisplayGroup.style.display = "none";
-            altroBox.style.display = "none";
-        }
-    });
-
+    // Mostra sottomenu solo se selezionati
     selectProblema.addEventListener("change", function() {
         if (this.value === "Errore sul display") {
             erroriDisplayGroup.style.display = "block";
@@ -270,29 +257,27 @@
         const fisso = document.getElementById("fisso").value.trim();
         const marca = document.getElementById("marca").value.trim();
         const modello = document.getElementById("modello").value.trim();
-        const tipo = tipoSelect.value;
+        const tipo = document.getElementById("tipoIntervento").value;
 
+        // Campi obbligatori principali
         if (!nome || !cognome || !indirizzo || !cellulare || !marca || !tipo) {
             alert("⚠️ Per favore, compila tutti i dati richiesti.");
             return;
         }
 
-        let dettaglio = "";
-        if (tipo !== "Prima accensione") {
-            dettaglio = selectProblema.value;
-            if (dettaglio === "Errore sul display") {
-                const err = document.getElementById("listaErrori").value;
-                if (!err) { alert("⚠️ Seleziona il tipo di errore."); return; }
-                dettaglio = "Allarme: " + err;
-            }
-            const note = document.getElementById("problemaAltro").value.trim();
-            if (note) dettaglio += " - Note: " + note;
+        let dettaglio = selectProblema.value;
+        if (dettaglio === "Errore sul display") {
+            const err = document.getElementById("listaErrori").value;
+            if (err) dettaglio = "Allarme: " + err;
         }
+        const note = document.getElementById("problemaAltro").value.trim();
+        if (note) dettaglio += (dettaglio ? " - Note: " : "") + note;
 
         const dataOggi = new Date().toLocaleDateString('it-IT');
         const telefoni = fisso ? `${cellulare} / ${fisso}` : cellulare;
         const stufaInfo = modello ? `${marca} (${modello})` : marca;
 
+        // Messaggio con Emoji standard supportate da WhatsApp
         const messaggio = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n` +
                           `------------------------------\n` +
                           `👤 *Cliente:* ${nome} ${cognome}\n` +
