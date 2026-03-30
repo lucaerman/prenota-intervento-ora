@@ -22,6 +22,24 @@
             padding: 20px; 
         }
 
+        /* --- ANIMAZIONE GLOW APERTURA POTENZIATA --- */
+        @keyframes openingGlow {
+            0% { 
+                opacity: 0; 
+                transform: translateY(40px) scale(0.92); 
+                box-shadow: 0 0 0px rgba(34, 197, 94, 0);
+            }
+            40% {
+                /* Picco del bagliore */
+                box-shadow: 0 0 60px rgba(34, 197, 94, 0.6);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+                box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
+            }
+        }
+
         .container { 
             width: 100%; 
             max-width: 420px; 
@@ -30,8 +48,11 @@
             -webkit-backdrop-filter: blur(20px); 
             border-radius: 25px; 
             padding: 25px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
             border: 1px solid rgba(255,255,255,0.1);
+            
+            /* LOGICA DI APERTURA */
+            opacity: 0; /* Inizia invisibile */
+            animation: openingGlow 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
         }
 
         h2 { text-align: center; margin-bottom: 25px; color: #fff; font-size: 24px; animation: titleGlow 2s infinite alternate; }
@@ -42,7 +63,6 @@
 
         .field-container { position: relative; display: flex; align-items: center; }
         
-        /* --- EFFETTO EMOJI LUMINOSA --- */
         .field-icon { 
             position: absolute; 
             left: 12px; 
@@ -52,7 +72,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Quando l'input vicino all'icona è in focus, l'icona brilla */
         input:focus + .field-icon, 
         select:focus + .field-icon, 
         textarea:focus + .field-icon,
@@ -82,7 +101,6 @@
             box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
         }
 
-        /* --- BOTTONE LUMINOSO --- */
         button#mainBtn { 
             width: 100%; padding: 16px; margin-top: 10px; border: none; border-radius: 14px; 
             background: linear-gradient(45deg, #22c55e, #16a34a); color: white; 
@@ -100,7 +118,6 @@
 
         button#mainBtn:active { transform: scale(0.97); }
 
-        /* --- TESTO SOTTO BOTTONE LUMINOSO --- */
         .info-footer {
             text-align: center;
             margin-top: 15px;
@@ -116,7 +133,6 @@
             to { opacity: 1; text-shadow: 0 0 12px rgba(34, 197, 94, 0.9); }
         }
 
-        /* Resto dello stile invariato */
         select option { background-color: #0f172a; color: #ffffff; padding: 12px; }
         .select-wrapper { position: relative; width: 100%; }
         .select-wrapper::after {
