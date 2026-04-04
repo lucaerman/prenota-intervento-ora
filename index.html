@@ -22,21 +22,18 @@
             padding: 20px; 
         }
 
-        /* --- ANIMAZIONE GLOW APERTURA POTENZIATA --- */
+        /* --- PROGRESS BAR --- */
+        .progress-bar {
+            position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+            background: linear-gradient(90deg, #22c55e, #3b82f6);
+            z-index: 9999; transition: 0.3s;
+        }
+
+        /* --- ANIMAZIONE APERTURA --- */
         @keyframes openingGlow {
-            0% { 
-                opacity: 0; 
-                transform: translateY(40px) scale(0.92); 
-                box-shadow: 0 0 0px rgba(34, 197, 94, 0);
-            }
-            40% {
-                box-shadow: 0 0 60px rgba(34, 197, 94, 0.6);
-            }
-            100% { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
-                box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
-            }
+            0% { opacity: 0; transform: translateY(40px) scale(0.92); box-shadow: 0 0 0px rgba(34, 197, 94, 0); }
+            40% { box-shadow: 0 0 60px rgba(34, 197, 94, 0.6); }
+            100% { opacity: 1; transform: translateY(0) scale(1); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
         }
 
         .container { 
@@ -51,7 +48,6 @@
             opacity: 0; 
             animation: openingGlow 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
             position: relative;
-            overflow: hidden;
         }
 
         h2 { text-align: center; margin-bottom: 25px; color: #fff; font-size: 24px; animation: titleGlow 2s infinite alternate; }
@@ -63,43 +59,24 @@
         .field-container { position: relative; display: flex; align-items: center; }
         
         .field-icon { 
-            position: absolute; 
-            left: 12px; 
-            font-size: 18px; 
-            z-index: 2; 
-            pointer-events: none; 
-            transition: all 0.3s ease;
-        }
-
-        input:focus + .field-icon, 
-        select:focus + .field-icon, 
-        textarea:focus + .field-icon,
-        .field-container:focus-within .field-icon {
-            text-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e;
-            transform: scale(1.2);
-            filter: drop-shadow(0 0 5px #22c55e);
+            position: absolute; left: 12px; font-size: 18px; z-index: 2; 
+            pointer-events: none; transition: all 0.3s ease;
         }
 
         input, select, textarea { 
-            width: 100%; 
-            padding: 14px 40px 14px 40px; 
-            border-radius: 12px; 
-            border: 1px solid rgba(255,255,255,0.2); 
-            background: rgba(255, 255, 255, 0.1); 
-            color: #ffffff !important; 
-            font-size: 16px; 
-            outline: none; 
-            transition: all 0.3s ease;
-            appearance: none;
-            -webkit-appearance: none;
+            width: 100%; padding: 14px 40px 14px 40px; border-radius: 12px; 
+            border: 1px solid rgba(255,255,255,0.2); background: rgba(255, 255, 255, 0.1); 
+            color: #ffffff !important; font-size: 16px; outline: none; transition: all 0.3s ease;
+            appearance: none; -webkit-appearance: none;
         }
 
-        /* MICRO INTERAZIONI INPUT */
         input:focus, select:focus, textarea:focus { 
-            background: rgba(255, 255, 255, 0.18); 
-            border-color: #22c55e; 
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
-            transform: scale(1.02);
+            background: rgba(255, 255, 255, 0.18); border-color: #22c55e; 
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.2); transform: scale(1.02);
+        }
+
+        input:focus + .field-icon, .field-container:focus-within .field-icon {
+            text-shadow: 0 0 10px #22c55e; transform: scale(1.2);
         }
 
         button#mainBtn { 
@@ -107,59 +84,36 @@
             background: linear-gradient(45deg, #22c55e, #16a34a); color: white; 
             font-size: 17px; font-weight: bold; cursor: pointer; 
             box-shadow: 0 0 20px rgba(34, 197, 94, 0.4); 
-            animation: pulseBtn 2s infinite;
-            transition: transform 0.2s ease;
+            animation: pulseBtn 2s infinite; transition: transform 0.2s ease;
         }
         
         @keyframes pulseBtn {
-            0% { box-shadow: 0 0 10px rgba(34, 197, 94, 0.4); }
+            0%, 100% { box-shadow: 0 0 10px rgba(34, 197, 94, 0.4); }
             50% { box-shadow: 0 0 25px rgba(34, 197, 94, 0.8); }
-            100% { box-shadow: 0 0 10px rgba(34, 197, 94, 0.4); }
         }
 
-        button#mainBtn:active { transform: scale(0.97); }
-
-        /* PROGRESS BAR */
-        .progress-bar {
-            position: fixed; top: 0; left: 0; height: 4px; width: 0%;
-            background: linear-gradient(90deg, #22c55e, #3b82f6);
-            z-index: 9999; transition: 0.3s;
-        }
-
-        /* PREVIEW WHATSAPP */
+        /* --- PREVIEW BOX --- */
         .preview-box {
-            background: rgba(2, 6, 23, 0.6);
-            border: 1px solid #22c55e;
-            border-radius: 12px;
-            padding: 12px;
-            margin-top: 15px;
-            font-size: 13px;
-            color: #22c55e;
-            white-space: pre-line;
-            display: none;
+            background: rgba(2, 6, 23, 0.8); border: 1px solid #22c55e;
+            border-radius: 12px; padding: 12px; margin-top: 15px;
+            font-size: 13px; color: #22c55e; white-space: pre-line; display: none;
         }
 
         .info-footer {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 13px;
-            color: #22c55e;
-            font-weight: 600;
-            text-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+            text-align: center; margin-top: 15px; font-size: 13px; color: #22c55e;
+            font-weight: 600; text-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
             animation: textFade 1.5s infinite alternate;
         }
 
-        @keyframes textFade {
-            from { opacity: 0.7; }
-            to { opacity: 1; text-shadow: 0 0 12px rgba(34, 197, 94, 0.9); }
-        }
+        @keyframes textFade { from { opacity: 0.7; } to { opacity: 1; } }
 
-        select option { background-color: #0f172a; color: #ffffff; padding: 12px; }
+        select option { background-color: #0f172a; color: #ffffff; }
         .select-wrapper { position: relative; width: 100%; }
         .select-wrapper::after {
             content: "▼"; font-size: 10px; color: rgba(255,255,255,0.5);
             position: absolute; right: 15px; top: 50%; transform: translateY(-50%); pointer-events: none;
         }
+
         .modal { position: fixed; width: 100%; height: 100%; background: rgba(0,0,0,0.85); top: 0; left: 0; display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
         .box { background: #0f172a; color: #fff; padding: 30px; border-radius: 20px; text-align: center; width: 100%; max-width: 320px; border: 1px solid #22c55e; }
         .ok { background: #22c55e; margin-bottom: 10px; width: 100%; padding: 14px; border:none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; }
@@ -300,9 +254,7 @@
     <button id="mainBtn">Prenota su WhatsApp</button>
     <div class="preview-box" id="previewBox"></div>
     
-    <div class="info-footer">
-        Premi invia e conferma prenotazione su whatsapp ✅
-    </div>
+    <div class="info-footer">Premi invia e conferma su WhatsApp ✅</div>
 </div>
 
 <div class="modal" id="modal">
@@ -319,22 +271,7 @@
     const erroriDisplayGroup = document.getElementById("erroriDisplayGroup");
     const altroBox = document.getElementById("altroBox");
     const previewBox = document.getElementById("previewBox");
-
-    /* ================= GESTIONE PROBLEMI ================= */
-    selectProblema.addEventListener("change", function() {
-        if (this.value === "Errore sul display") {
-            erroriDisplayGroup.style.display = "block";
-        } else {
-            erroriDisplayGroup.style.display = "none";
-            document.getElementById("listaErrori").value = "";
-        }
-        if (this.value === "Altro" || this.value === "Rumore eccessivo") {
-            altroBox.style.display = "block";
-        } else {
-            altroBox.style.display = "none";
-        }
-        updatePreview();
-    });
+    const btn = document.getElementById("mainBtn");
 
     /* ================= AUTO COMPILAZIONE & STORAGE ================= */
     const fields = ["nome","cognome","indirizzo","telefono","fisso","marca","modello"];
@@ -342,10 +279,8 @@
     fields.forEach(id=>{
         const el = document.getElementById(id);
         if(!el) return;
-
         const saved = localStorage.getItem(id);
         if(saved) el.value = saved;
-
         el.addEventListener("input", ()=>{
             localStorage.setItem(id, el.value);
             updateProgress();
@@ -355,46 +290,56 @@
 
     /* ================= PROGRESS BAR ================= */
     function updateProgress(){
-        let filled=0;
-        let total=5;
-        if(document.getElementById("nome").value) filled++;
-        if(document.getElementById("cognome").value) filled++;
-        if(document.getElementById("indirizzo").value) filled++;
-        if(document.getElementById("telefono").value) filled++;
-        if(document.getElementById("marca").value) filled++;
-
-        let percent = (filled/total)*100;
-        document.getElementById("progressBar").style.width = percent+"%";
+        const essential = ["nome", "cognome", "indirizzo", "telefono", "marca"];
+        let filled = 0;
+        essential.forEach(id => { if(document.getElementById(id).value.trim()) filled++; });
+        let percent = (filled / essential.length) * 100;
+        document.getElementById("progressBar").style.width = percent + "%";
     }
 
-    /* ================= PREVIEW WHATSAPP ================= */
+    /* ================= PREVIEW WHATSAPP POTENZIATA ================= */
     function updatePreview(){
         const nome = document.getElementById("nome").value;
         const cognome = document.getElementById("cognome").value;
         const indirizzo = document.getElementById("indirizzo").value;
         const telefono = document.getElementById("telefono").value;
         const marca = document.getElementById("marca").value;
+        const modello = document.getElementById("modello").value;
+        const tipo = document.getElementById("tipoIntervento").value;
+        const prob = document.getElementById("problema").value;
+        const err = document.getElementById("listaErrori").value;
 
-        if(!nome && !telefono){
-            previewBox.style.display="none";
-            return;
-        }
-
+        if(!nome && !telefono){ previewBox.style.display="none"; return; }
         previewBox.style.display="block";
-        previewBox.innerText = `👤 ${nome} ${cognome}\n📍 ${indirizzo}\n📱 ${telefono}\n🔥 ${marca}`;
+
+        let testo = `👤 ${nome} ${cognome}\n📍 ${indirizzo}\n📱 ${telefono}\n🔥 ${marca} ${modello}`;
+        if(tipo) testo += `\n🧰 Servizio: ${tipo}`;
+        if(prob) {
+            let dett = (prob === "Errore sul display") ? (err || "Seleziona allarme...") : prob;
+            testo += `\n🛠️ Stato: ${dett}`;
+        }
+        previewBox.innerText = testo;
     }
 
+    /* ================= GESTIONE INPUT DINAMICI ================= */
+    selectProblema.addEventListener("change", function() {
+        erroriDisplayGroup.style.display = (this.value === "Errore sul display") ? "block" : "none";
+        altroBox.style.display = (this.value === "Altro" || this.value === "Rumore eccessivo") ? "block" : "none";
+        updatePreview();
+    });
+
+    document.getElementById("tipoIntervento").addEventListener("change", updatePreview);
+    document.getElementById("listaErrori").addEventListener("change", updatePreview);
+    document.getElementById("problemaAltro").addEventListener("input", updatePreview);
+
     /* ================= BOTTONE MAGNETICO ================= */
-    const btn = document.getElementById("mainBtn");
     btn.addEventListener("mousemove", (e)=>{
         const rect = btn.getBoundingClientRect();
         const x = e.clientX - rect.left - rect.width/2;
         const y = e.clientY - rect.top - rect.height/2;
         btn.style.transform = `translate(${x*0.2}px, ${y*0.2}px)`;
     });
-    btn.addEventListener("mouseleave", ()=>{
-        btn.style.transform="translate(0,0)";
-    });
+    btn.addEventListener("mouseleave", () => btn.style.transform="translate(0,0)");
 
     /* ================= LUCE DINAMICA ================= */
     document.addEventListener("mousemove",(e)=>{
@@ -402,11 +347,13 @@
         const rect = container.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        container.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(34,197,94,0.15), rgba(255,255,255,0.08))`;
+        if(x > 0 && y > 0 && x < rect.width && y < rect.height) {
+            container.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(34,197,94,0.15), rgba(255,255,255,0.08))`;
+        }
     });
 
-    /* ================= INVIO DATI ================= */
-    document.getElementById("mainBtn").onclick = function() {
+    /* ================= LOGICA INVIO (WhatsApp) ================= */
+    btn.onclick = function() {
         const nome = document.getElementById("nome").value.trim();
         const cognome = document.getElementById("cognome").value.trim();
         const indirizzo = document.getElementById("indirizzo").value.trim();
@@ -433,7 +380,7 @@
                           `👤 *Cliente:* ${nome} ${cognome}\n` +
                           `📍 *Indirizzo:* ${indirizzo}\n` +
                           `📱 *Tel:* ${cellulare}\n` +
-                          `🔥 *Stufa:* ${marca}\n` +
+                          `🔥 *Stufa:* ${marca} ${document.getElementById("modello").value}\n` +
                           `🧰 *Servizio:* ${tipo}\n` +
                           (dettaglio ? `🛠️ *Dettaglio:* ${dettaglio}\n` : "") +
                           `📅 *Data:* ${dataOggi}`;
@@ -448,7 +395,7 @@
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
 
-    // Init finali
+    // Inizializzazione
     updateProgress();
     updatePreview();
 </script>
