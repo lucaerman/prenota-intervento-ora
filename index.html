@@ -30,7 +30,6 @@
                 box-shadow: 0 0 0px rgba(34, 197, 94, 0);
             }
             40% {
-                /* Picco del bagliore */
                 box-shadow: 0 0 60px rgba(34, 197, 94, 0.6);
             }
             100% { 
@@ -49,10 +48,10 @@
             border-radius: 25px; 
             padding: 25px; 
             border: 1px solid rgba(255,255,255,0.1);
-            
-            /* LOGICA DI APERTURA */
-            opacity: 0; /* Inizia invisibile */
+            opacity: 0; 
             animation: openingGlow 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+            position: relative;
+            overflow: hidden;
         }
 
         h2 { text-align: center; margin-bottom: 25px; color: #fff; font-size: 24px; animation: titleGlow 2s infinite alternate; }
@@ -95,10 +94,12 @@
             -webkit-appearance: none;
         }
 
+        /* MICRO INTERAZIONI INPUT */
         input:focus, select:focus, textarea:focus { 
             background: rgba(255, 255, 255, 0.18); 
             border-color: #22c55e; 
             box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+            transform: scale(1.02);
         }
 
         button#mainBtn { 
@@ -107,7 +108,7 @@
             font-size: 17px; font-weight: bold; cursor: pointer; 
             box-shadow: 0 0 20px rgba(34, 197, 94, 0.4); 
             animation: pulseBtn 2s infinite;
-            transition: transform 0.2s;
+            transition: transform 0.2s ease;
         }
         
         @keyframes pulseBtn {
@@ -117,6 +118,26 @@
         }
 
         button#mainBtn:active { transform: scale(0.97); }
+
+        /* PROGRESS BAR */
+        .progress-bar {
+            position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+            background: linear-gradient(90deg, #22c55e, #3b82f6);
+            z-index: 9999; transition: 0.3s;
+        }
+
+        /* PREVIEW WHATSAPP */
+        .preview-box {
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid #22c55e;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #22c55e;
+            white-space: pre-line;
+            display: none;
+        }
 
         .info-footer {
             text-align: center;
@@ -148,6 +169,8 @@
     </style>
 </head>
 <body>
+
+<div class="progress-bar" id="progressBar"></div>
 
 <div class="container">
     <h2>🔥 Prenota Intervento</h2>
@@ -275,6 +298,7 @@
     </div>
 
     <button id="mainBtn">Prenota su WhatsApp</button>
+    <div class="preview-box" id="previewBox"></div>
     
     <div class="info-footer">
         Premi invia e conferma prenotazione su whatsapp ✅
@@ -294,7 +318,9 @@
     const selectProblema = document.getElementById("problema");
     const erroriDisplayGroup = document.getElementById("erroriDisplayGroup");
     const altroBox = document.getElementById("altroBox");
+    const previewBox = document.getElementById("previewBox");
 
+    /* ================= GESTIONE PROBLEMI ================= */
     selectProblema.addEventListener("change", function() {
         if (this.value === "Errore sul display") {
             erroriDisplayGroup.style.display = "block";
@@ -307,8 +333,79 @@
         } else {
             altroBox.style.display = "none";
         }
+        updatePreview();
     });
 
+    /* ================= AUTO COMPILAZIONE & STORAGE ================= */
+    const fields = ["nome","cognome","indirizzo","telefono","fisso","marca","modello"];
+
+    fields.forEach(id=>{
+        const el = document.getElementById(id);
+        if(!el) return;
+
+        const saved = localStorage.getItem(id);
+        if(saved) el.value = saved;
+
+        el.addEventListener("input", ()=>{
+            localStorage.setItem(id, el.value);
+            updateProgress();
+            updatePreview();
+        });
+    });
+
+    /* ================= PROGRESS BAR ================= */
+    function updateProgress(){
+        let filled=0;
+        let total=5;
+        if(document.getElementById("nome").value) filled++;
+        if(document.getElementById("cognome").value) filled++;
+        if(document.getElementById("indirizzo").value) filled++;
+        if(document.getElementById("telefono").value) filled++;
+        if(document.getElementById("marca").value) filled++;
+
+        let percent = (filled/total)*100;
+        document.getElementById("progressBar").style.width = percent+"%";
+    }
+
+    /* ================= PREVIEW WHATSAPP ================= */
+    function updatePreview(){
+        const nome = document.getElementById("nome").value;
+        const cognome = document.getElementById("cognome").value;
+        const indirizzo = document.getElementById("indirizzo").value;
+        const telefono = document.getElementById("telefono").value;
+        const marca = document.getElementById("marca").value;
+
+        if(!nome && !telefono){
+            previewBox.style.display="none";
+            return;
+        }
+
+        previewBox.style.display="block";
+        previewBox.innerText = `👤 ${nome} ${cognome}\n📍 ${indirizzo}\n📱 ${telefono}\n🔥 ${marca}`;
+    }
+
+    /* ================= BOTTONE MAGNETICO ================= */
+    const btn = document.getElementById("mainBtn");
+    btn.addEventListener("mousemove", (e)=>{
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width/2;
+        const y = e.clientY - rect.top - rect.height/2;
+        btn.style.transform = `translate(${x*0.2}px, ${y*0.2}px)`;
+    });
+    btn.addEventListener("mouseleave", ()=>{
+        btn.style.transform="translate(0,0)";
+    });
+
+    /* ================= LUCE DINAMICA ================= */
+    document.addEventListener("mousemove",(e)=>{
+        const container = document.querySelector(".container");
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        container.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(34,197,94,0.15), rgba(255,255,255,0.08))`;
+    });
+
+    /* ================= INVIO DATI ================= */
     document.getElementById("mainBtn").onclick = function() {
         const nome = document.getElementById("nome").value.trim();
         const cognome = document.getElementById("cognome").value.trim();
@@ -350,6 +447,10 @@
     };
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
+
+    // Init finali
+    updateProgress();
+    updatePreview();
 </script>
 </body>
 </html>
