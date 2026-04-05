@@ -198,7 +198,7 @@
                     <option value="Errore Pressione Alta">Errore Pressione Alta</option>
                     <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
                     <option value="Errore Debimetro/No flusso">Errore Debimetro/No flusso</option>
-                     <option value="Errore Porta Apert/sportello pellet">Errore Porta Aperta/sportello pellet</option>
+                    <option value="Errore Porta Apert/sportello pellet">Errore Porta Aperta/sportello pellet</option>
                     <option value="Errore NO SEGNALE">Errore NO SEGNALE</option>
                     <option value="Altro">Altro errore non in lista</option>
                 </select>
@@ -232,6 +232,7 @@
 </div>
 
 <script>
+    // Configurazione campi e recupero LocalStorage
     const fields = ["nomeCompleto","indirizzo","telefono","fisso","marca","modello"];
     fields.forEach(id => {
         const el = document.getElementById(id);
@@ -243,6 +244,7 @@
         });
     });
 
+    // Funzione Aggiornamento Interfaccia (Percentuale e Anteprima)
     function updateUI() {
         const essential = ["nomeCompleto", "indirizzo", "telefono", "marca", "tipoIntervento"];
         let filled = 0;
@@ -275,18 +277,23 @@
         document.getElementById("sezioneProblemi").style.display = (tipo === "Prima accensione") ? "none" : "block";
     }
 
+    // Listener per tutti gli input per aggiornare la UI
     document.querySelectorAll('input, select, textarea').forEach(el => {
         el.addEventListener('input', updateUI);
         el.addEventListener('change', updateUI);
     });
 
+    // Gestione visualizzazione dinamica sottocampi problemi
     document.getElementById("problema").addEventListener("change", function() {
         document.getElementById("erroriDisplayGroup").style.display = (this.value === "Errore sul display") ? "block" : "none";
         document.getElementById("altroBox").style.display = (this.value === "Altro" || this.value === "Rumore eccessivo") ? "block" : "none";
     });
 
+    // LOGICA DI INVIO - OTTIMIZZATA PER PC E MOBILE
     document.getElementById("mainBtn").onclick = function() {
         const d = (id) => document.getElementById(id).value.trim();
+        
+        // Controllo validità
         if (!d("nomeCompleto") || !d("indirizzo") || !d("telefono") || !d("marca") || !d("tipoIntervento")) {
             alert("⚠️ Per favore, compila i dati principali.");
             return;
@@ -297,28 +304,49 @@
         
         if (tipo !== "Prima accensione") {
             dettaglio = d("problema");
-            if (dettaglio === "Errore sul display") dettaglio = "Allarme: " + d("listaErrori");
-            if (d("problemaAltro")) dettaglio += " - Note: " + d("problemaAltro");
+            if (dettaglio === "Errore sul display") {
+                dettaglio = "Allarme: " + d("listaErrori");
+            }
+            if (d("problemaAltro")) {
+                dettaglio += " - Note: " + d("problemaAltro");
+            }
         }
 
         const dataOggi = new Date().toLocaleDateString('it-IT');
-        const messaggio = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n` +
-                          `------------------------------\n` +
-                          `👤 *Cliente:* ${d("nomeCompleto")}\n` +
-                          `📍 *Indirizzo:* ${d("indirizzo")}\n` +
-                          `📱 *Tel:* ${d("telefono")} ${d("fisso") ? '/ '+d("fisso") : ''}\n` +
-                          `🔥 *Stufa:* ${d("marca")} ${d("modello")}\n` +
-                          `🧰 *Servizio:* ${tipo}\n` +
-                          (dettaglio ? `🛠️ *Dettaglio:* ${dettaglio}\n` : "") +
-                          `📅 *Data:* ${dataOggi}`;
+
+        // Costruzione del messaggio con caratteri sicuri
+        const messaggio = 
+            "*🔥 NUOVA RICHIESTA ASSISTENZA*\n" +
+            "------------------------------\n" +
+            "👤 *Cliente:* " + d("nomeCompleto") + "\n" +
+            "📍 *Indirizzo:* " + d("indirizzo") + "\n" +
+            "📱 *Tel:* " + d("telefono") + (d("fisso") ? " / " + d("fisso") : "") + "\n" + 
+            "🔥 *Stufa:* " + d("marca") + " " + d("modello") + "\n" +
+            "🧰 *Servizio:* " + tipo + "\n" +
+            (dettaglio ? "🛠️ *Dettaglio:* " + dettaglio + "\n" : "") +
+            "📅 *Data:* " + dataOggi;
         
-        const url = "https://wa.me/390813769280?text=" + encodeURIComponent(messaggio);
+        // Endpoint universale (api.whatsapp.com è più stabile per il passaggio dati da PC)
+        const url = "https://api.whatsapp.com/send?phone=390813769280&text=" + encodeURIComponent(messaggio);
+        
+        // Mostra Modale
         document.getElementById("modal").style.display = "flex";
-        document.getElementById("conferma").onclick = () => window.open(url, "_blank");
+        
+        // Azione al click su Conferma
+        document.getElementById("conferma").onclick = function() {
+            window.open(url, "_blank");
+            document.getElementById("modal").style.display = "none";
+            
+            // Opzionale: pulizia dopo l'invio
+            // localStorage.clear();
+            // location.reload();
+        };
     };
 
+    // Chiusura modale
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
     
+    // Inizializzazione UI al caricamento
     updateUI();
 </script>
 </body>
