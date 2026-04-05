@@ -17,7 +17,6 @@
 
         @keyframes openingGlow { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- PROGRESS BAR --- */
         .progress-container {
             width: 100%; background: rgba(0, 0, 0, 0.3); border-radius: 50px;
             margin-bottom: 25px; height: 24px; position: relative; overflow: hidden;
@@ -53,7 +52,6 @@
         }
         input:focus, select:focus, textarea:focus { border-color: #22c55e; background: rgba(255, 255, 255, 0.15); }
 
-        /* --- BOTTONE WHATSAPP ANIMATO --- */
         button#mainBtn { 
             width: 100%; padding: 18px; margin-top: 15px; border: none; border-radius: 14px; 
             background: linear-gradient(45deg, #22c55e, #16a34a, #22c55e); background-size: 200% auto;
@@ -87,7 +85,6 @@
             display: none; white-space: pre-line; text-align: left;
         }
 
-        /* Modal */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; }
         .box { background: #0f172a; padding: 25px; border-radius: 20px; text-align: center; width: 90%; max-width: 320px; border: 1px solid #22c55e; }
         .ok { background: #22c55e; width: 100%; padding: 12px; border:none; border-radius: 10px; color: white; font-weight: bold; margin-bottom: 10px; cursor: pointer;}
@@ -185,12 +182,26 @@
             <div class="field-container">
                 <select id="listaErrori">
                     <option value="">Seleziona l'allarme...</option>
-                    <option value="AL 1 - Blackout">AL 1 - Blackout</option>
-                    <option value="AL 5 - No Accensione">AL 5 - No Accensione</option>
-                    <option value="AL 6 - No Pellet">AL 6 - No Pellet</option>
-                    <option value="AL 8 - No Depressione">AL 8 - No Depressione</option>
-                    <option value="Service">Scritta 'SERVICE'</option>
-                    <option value="Altro">Altro errore</option>
+                    <option value="AL 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
+                    <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
+                    <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
+                    <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
+                    <option value="AL 5 - No Accensione">AL 5 - Mancata Accensione</option>
+                    <option value="AL 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
+                    <option value="AL 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
+                    <option value="AL 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
+                    <option value="AL 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
+                    <option value="Service">Scritta 'SERVICE' / Scadenza Ore</option>
+                    <option value="Errore Sonda K">Errore Sonda K</option>
+                    <option value="Errore Autopulizia">Errore Autopulizia</option>
+                    <option value="Errore Pressione Alta">Errore Pressione Alta</option>
+                    <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
+                    <option value="Errore Debimetro">Errore Debimetro</option>
+                    <option value="Errore No Flusso">Errore No Flusso</option>
+                    <option value="Errore Porta Aperta">Errore Porta Aperta</option>
+                    <option value="Errore Depressione">Errore Depressione (Specifico)</option>
+                    <option value="Errore Sicurezza Termica">Errore Sicurezza Termica (Specifico)</option>
+                    <option value="Altro">Altro errore non in lista</option>
                 </select>
                 <span class="field-icon">📟</span>
             </div>
@@ -222,8 +233,18 @@
 </div>
 
 <script>
+    const fields = ["nomeCompleto","indirizzo","telefono","fisso","marca","modello"];
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        const saved = localStorage.getItem(id);
+        if(saved) el.value = saved;
+        el.addEventListener("input", () => {
+            localStorage.setItem(id, el.value);
+            updateUI();
+        });
+    });
+
     function updateUI() {
-        // Calcolo progresso
         const essential = ["nomeCompleto", "indirizzo", "telefono", "marca", "tipoIntervento"];
         let filled = 0;
         essential.forEach(id => {
@@ -234,7 +255,6 @@
         document.getElementById("progressFill").style.width = percent + "%";
         document.getElementById("progressText").innerText = percent + "% COMPLETATO";
 
-        // LOGICA ANTEPRIMA AGGIORNATA
         const preview = document.getElementById("previewBox");
         const d = (id) => document.getElementById(id).value.trim();
 
@@ -250,9 +270,12 @@
         } else {
             preview.style.display = "none";
         }
+        
+        // Logica specifica: Prima Accensione nasconde i problemi
+        const tipo = document.getElementById("tipoIntervento").value;
+        document.getElementById("sezioneProblemi").style.display = (tipo === "Prima accensione") ? "none" : "block";
     }
 
-    // Listener per tutti gli input
     document.querySelectorAll('input, select, textarea').forEach(el => {
         el.addEventListener('input', updateUI);
         el.addEventListener('change', updateUI);
@@ -270,11 +293,25 @@
             return;
         }
 
-        let dettaglio = d("problema");
-        if (dettaglio === "Errore sul display") dettaglio = "Allarme: " + d("listaErrori");
-        if (d("problemaAltro")) dettaglio += " - Note: " + d("problemaAltro");
+        const tipo = d("tipoIntervento");
+        let dettaglio = "";
+        
+        if (tipo !== "Prima accensione") {
+            dettaglio = d("problema");
+            if (dettaglio === "Errore sul display") dettaglio = "Allarme: " + d("listaErrori");
+            if (d("problemaAltro")) dettaglio += " - Note: " + d("problemaAltro");
+        }
 
-        const messaggio = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n👤 *Cliente:* ${d("nomeCompleto")}\n📍 *Indirizzo:* ${d("indirizzo")}\n📱 *Tel:* ${d("telefono")}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${d("tipoIntervento")}\n🛠️ *Dettaglio:* ${dettaglio}`;
+        const dataOggi = new Date().toLocaleDateString('it-IT');
+        const messaggio = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n` +
+                          `------------------------------\n` +
+                          `👤 *Cliente:* ${d("nomeCompleto")}\n` +
+                          `📍 *Indirizzo:* ${d("indirizzo")}\n` +
+                          `📱 *Tel:* ${d("telefono")} ${d("fisso") ? '/ '+d("fisso") : ''}\n` +
+                          `🔥 *Stufa:* ${d("marca")} ${d("modello")}\n` +
+                          `🧰 *Servizio:* ${tipo}\n` +
+                          (dettaglio ? `🛠️ *Dettaglio:* ${dettaglio}\n` : "") +
+                          `📅 *Data:* ${dataOggi}`;
         
         const url = "https://wa.me/390813769280?text=" + encodeURIComponent(messaggio);
         document.getElementById("modal").style.display = "flex";
