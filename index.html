@@ -5,121 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Prenotazione Intervento</title>
     <style>
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
         
-        body { 
-            background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617); 
-            min-height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 20px; 
-        }
-
-        /* --- PROGRESS BAR --- */
-        .progress-bar {
-            position: fixed; top: 0; left: 0; height: 4px; width: 0%;
-            background: linear-gradient(90deg, #22c55e, #3b82f6);
-            z-index: 9999; transition: 0.3s;
-        }
-
-        /* --- ANIMAZIONE APERTURA --- */
-        @keyframes openingGlow {
-            0% { opacity: 0; transform: translateY(40px) scale(0.92); box-shadow: 0 0 0px rgba(34, 197, 94, 0); }
-            40% { box-shadow: 0 0 60px rgba(34, 197, 94, 0.6); }
-            100% { opacity: 1; transform: translateY(0) scale(1); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
-        }
-
+        .progress-bar { position: fixed; top: 0; left: 0; height: 4px; width: 0%; background: linear-gradient(90deg, #22c55e, #3b82f6); z-index: 9999; transition: 0.3s; }
+        
         .container { 
-            width: 100%; 
-            max-width: 420px; 
-            background: rgba(255, 255, 255, 0.08); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px); 
-            border-radius: 25px; 
-            padding: 25px; 
-            border: 1px solid rgba(255,255,255,0.1);
-            opacity: 0; 
-            animation: openingGlow 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
-            position: relative;
+            width: 100%; max-width: 420px; background: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
+            border-radius: 25px; padding: 25px; border: 1px solid rgba(255,255,255,0.1);
+            animation: openingGlow 1.2s ease-out forwards;
         }
 
-        h2 { text-align: center; margin-bottom: 25px; color: #fff; font-size: 24px; animation: titleGlow 2s infinite alternate; }
-        @keyframes titleGlow { 0% { text-shadow: 0 0 5px #3b82f6; } 100% { text-shadow: 0 0 15px #22c55e; } }
+        @keyframes openingGlow { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .input-group { margin-bottom: 18px; }
-        label { font-size: 11px; color: #aaa; margin-bottom: 6px; display: block; margin-left: 5px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+        h2 { text-align: center; margin-bottom: 20px; color: #fff; font-size: 22px; }
+        .input-group { margin-bottom: 15px; }
+        label { font-size: 10px; color: #22c55e; margin-bottom: 5px; display: block; margin-left: 5px; text-transform: uppercase; font-weight: 700; }
+
+        .field-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        .field-row .input-group { flex: 1; margin-bottom: 0; }
 
         .field-container { position: relative; display: flex; align-items: center; }
-        
-        .field-icon { 
-            position: absolute; left: 12px; font-size: 18px; z-index: 2; 
-            pointer-events: none; transition: all 0.3s ease;
-        }
+        .field-icon { position: absolute; left: 12px; font-size: 16px; pointer-events: none; }
 
         input, select, textarea { 
-            width: 100%; padding: 14px 40px 14px 40px; border-radius: 12px; 
+            width: 100%; padding: 12px 12px 12px 38px; border-radius: 12px; 
             border: 1px solid rgba(255,255,255,0.2); background: rgba(255, 255, 255, 0.1); 
-            color: #ffffff !important; font-size: 16px; outline: none; transition: all 0.3s ease;
-            appearance: none; -webkit-appearance: none;
+            color: #fff; font-size: 15px; outline: none; transition: 0.3s;
         }
 
-        input:focus, select:focus, textarea:focus { 
-            background: rgba(255, 255, 255, 0.18); border-color: #22c55e; 
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.2); transform: scale(1.02);
-        }
-
-        input:focus + .field-icon, .field-container:focus-within .field-icon {
-            text-shadow: 0 0 10px #22c55e; transform: scale(1.2);
-        }
+        input:focus, select:focus, textarea:focus { border-color: #22c55e; background: rgba(255, 255, 255, 0.15); }
 
         button#mainBtn { 
             width: 100%; padding: 16px; margin-top: 10px; border: none; border-radius: 14px; 
             background: linear-gradient(45deg, #22c55e, #16a34a); color: white; 
-            font-size: 17px; font-weight: bold; cursor: pointer; 
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4); 
-            animation: pulseBtn 2s infinite; transition: transform 0.2s ease;
+            font-size: 17px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
         }
+
+        .preview-box { background: rgba(2, 6, 23, 0.6); border: 1px solid #22c55e; border-radius: 12px; padding: 12px; margin-top: 15px; font-size: 13px; color: #22c55e; display: none; white-space: pre-line; }
+        .info-footer { text-align: center; margin-top: 15px; font-size: 12px; color: #aaa; }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .box { background: #0f172a; padding: 25px; border-radius: 20px; text-align: center; width: 90%; max-width: 320px; border: 1px solid #22c55e; }
+        .ok { background: #22c55e; width: 100%; padding: 12px; border:none; border-radius: 10px; color: white; font-weight: bold; margin-bottom: 10px; cursor: pointer;}
+        .no { background: transparent; color: #aaa; border: none; cursor: pointer; font-size: 13px; }
         
-        @keyframes pulseBtn {
-            0%, 100% { box-shadow: 0 0 10px rgba(34, 197, 94, 0.4); }
-            50% { box-shadow: 0 0 25px rgba(34, 197, 94, 0.8); }
-        }
-
-        /* --- PREVIEW BOX --- */
-        .preview-box {
-            background: rgba(2, 6, 23, 0.8); border: 1px solid #22c55e;
-            border-radius: 12px; padding: 12px; margin-top: 15px;
-            font-size: 13px; color: #22c55e; white-space: pre-line; display: none;
-        }
-
-        .info-footer {
-            text-align: center; margin-top: 15px; font-size: 13px; color: #22c55e;
-            font-weight: 600; text-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
-            animation: textFade 1.5s infinite alternate;
-        }
-
-        @keyframes textFade { from { opacity: 0.7; } to { opacity: 1; } }
-
         select option { background-color: #0f172a; color: #ffffff; }
-        .select-wrapper { position: relative; width: 100%; }
-        .select-wrapper::after {
-            content: "▼"; font-size: 10px; color: rgba(255,255,255,0.5);
-            position: absolute; right: 15px; top: 50%; transform: translateY(-50%); pointer-events: none;
-        }
-
-        .modal { position: fixed; width: 100%; height: 100%; background: rgba(0,0,0,0.85); top: 0; left: 0; display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
-        .box { background: #0f172a; color: #fff; padding: 30px; border-radius: 20px; text-align: center; width: 100%; max-width: 320px; border: 1px solid #22c55e; }
-        .ok { background: #22c55e; margin-bottom: 10px; width: 100%; padding: 14px; border:none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; }
-        .no { background: #334155; width: 100%; padding: 14px; border:none; border-radius: 12px; color: white; cursor: pointer; }
-        textarea { height: 100px; resize: none; padding-top: 14px; }
-        ::placeholder { color: rgba(255,255,255,0.4); }
+        textarea { height: 80px; resize: none; padding-top: 12px; }
     </style>
 </head>
 <body>
@@ -127,119 +60,108 @@
 <div class="progress-bar" id="progressBar"></div>
 
 <div class="container">
-    <h2>🔥 Prenota Intervento</h2>
+    <h2>🔥 Prenota Assistenza</h2>
 
     <div class="input-group">
-        <label>Nome e Cognome</label>
+        <label>Anagrafica</label>
         <div class="field-container">
-            <input type="text" id="nome" placeholder="Nome">
-            <span class="field-icon">👤</span>
-        </div>
-    </div>
-    <div class="input-group">
-        <div class="field-container">
-            <input type="text" id="cognome" placeholder="Cognome">
+            <input type="text" id="nomeCompleto" placeholder="Nome e Cognome">
             <span class="field-icon">👤</span>
         </div>
     </div>
 
     <div class="input-group">
-        <label>Recapito</label>
         <div class="field-container">
-            <input type="text" id="indirizzo" placeholder="Via, Civico, Città">
+            <input type="text" id="indirizzo" placeholder="Indirizzo (Via, Civico, Città)">
             <span class="field-icon">📍</span>
         </div>
     </div>
-    <div class="input-group">
-        <div class="field-container">
-            <input type="tel" id="telefono" placeholder="Telefono Cellulare">
-            <span class="field-icon">📱</span>
-        </div>
-    </div>
-    <div class="input-group">
-        <div class="field-container">
-            <input type="tel" id="fisso" placeholder="Telefono Fisso (facoltativo)">
-            <span class="field-icon">📞</span>
-        </div>
-    </div>
 
-    <div class="input-group">
-        <label>Dati Stufa</label>
-        <div class="field-container">
-            <input type="text" id="marca" placeholder="Inserisci marca">
-            <span class="field-icon">🔥</span>
-        </div>
-    </div>
-    <div class="input-group">
-        <div class="field-container">
-            <input type="text" id="modello" placeholder="Modello stufa (facoltativo)">
-            <span class="field-icon">⚙️</span>
-        </div>
-    </div>
-
-    <div class="input-group">
-        <label>Tipo Intervento</label>
-        <div class="select-wrapper">
+    <div class="field-row">
+        <div class="input-group">
             <div class="field-container">
-                <select id="tipoIntervento">
-                    <option value="">Seleziona...</option>
-                    <option value="Manutenzione">Manutenzione</option>
-                    <option value="Riparazione">Riparazione</option>
-                    <option value="Prima accensione">Prima accensione</option>
-                </select>
-                <span class="field-icon">🧰</span>
+                <input type="tel" id="telefono" placeholder="Cellulare">
+                <span class="field-icon">📱</span>
             </div>
+        </div>
+        <div class="input-group">
+            <div class="field-container">
+                <input type="tel" id="fisso" placeholder="Fisso (opz)">
+                <span class="field-icon">📞</span>
+            </div>
+        </div>
+    </div>
+
+    <label>Dati Prodotto</label>
+    <div class="field-row">
+        <div class="input-group">
+            <div class="field-container">
+                <input type="text" id="marca" placeholder="Marca">
+                <span class="field-icon">🔥</span>
+            </div>
+        </div>
+        <div class="input-group">
+            <div class="field-container">
+                <input type="text" id="modello" placeholder="Modello">
+                <span class="field-icon">⚙️</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <div class="field-container">
+            <select id="tipoIntervento">
+                <option value="">Tipo di intervento...</option>
+                <option value="Manutenzione">Manutenzione</option>
+                <option value="Riparazione">Riparazione</option>
+                <option value="Prima accensione">Prima accensione</option>
+            </select>
+            <span class="field-icon">🧰</span>
         </div>
     </div>
 
     <div id="sezioneProblemi">
         <div class="input-group">
-            <label>Sintomo Riscontrato (facoltativo)</label>
-            <div class="select-wrapper">
-                <div class="field-container">
-                    <select id="problema">
-                        <option value="">Cosa succede?</option>
-                        <option value="Errore sul display">Appare un Errore/Allarme ⚠️</option>
-                        <option value="Mancata Accensione">Non si accende la fiamma</option>
-                        <option value="Si spegne da sola">Si spegne durante il lavoro</option>
-                        <option value="Vetro molto nero">Il vetro si sporca subito</option>
-                        <option value="Rumore eccessivo">Fa un rumore anomalo</option>
-                        <option value="Altro">Altro (specifica sotto)</option>
-                    </select>
-                    <span class="field-icon">🛠️</span>
-                </div>
+            <div class="field-container">
+                <select id="problema">
+                    <option value="">Sintomo Riscontrato (facoltativo)</option>
+                    <option value="Errore sul display">Appare un Errore/Allarme ⚠️</option>
+                    <option value="Mancata Accensione">Non si accende la fiamma</option>
+                    <option value="Si spegne da sola">Si spegne durante il lavoro</option>
+                    <option value="Vetro molto nero">Il vetro si sporca subito</option>
+                    <option value="Rumore eccessivo">Fa un rumore anomalo</option>
+                    <option value="Altro">Altro (specifica sotto)</option>
+                </select>
+                <span class="field-icon">🛠️</span>
             </div>
         </div>
 
         <div class="input-group" id="erroriDisplayGroup" style="display:none;">
-            <label>Codice Errore/Allarme</label>
-            <div class="select-wrapper">
-                <div class="field-container">
-                    <select id="listaErrori">
-                        <option value="">Seleziona l'allarme...</option>
-                        <option value="AL 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
-                        <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
-                        <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
-                        <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
-                        <option value="AL 5 - No Accensione">AL 5 - Mancata Accensione</option>
-                        <option value="AL 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
-                        <option value="AL 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
-                        <option value="AL 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
-                        <option value="AL 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
-                        <option value="Service">Scritta 'SERVICE' / Scadenza Ore</option>
-                        <option value="Errore Sonda K">Errore Sonda K</option>
-                        <option value="Errore Autopulizia">Errore Autopulizia</option>
-                        <option value="Errore Pressione Alta">Errore Pressione Alta</option>
-                        <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
-                        <option value="Errore Debimetro">Errore Debimetro</option>
-                        <option value="Errore No Flusso">Errore No Flusso</option>
-                        <option value="Errore Porta Aperta">Errore Porta Aperta</option>
-                        <option value="Errore Depressione">Errore Depressione (Specifico)</option>
-                        <option value="Errore Sicurezza Termica">Errore Sicurezza Termica (Specifico)</option>
-                        <option value="Altro">Altro errore non in lista</option>
-                    </select>
-                    <span class="field-icon">📟</span>
-                </div>
+            <div class="field-container">
+                <select id="listaErrori">
+                    <option value="">Seleziona l'allarme...</option>
+                    <option value="AL 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
+                    <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
+                    <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
+                    <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
+                    <option value="AL 5 - No Accensione">AL 5 - Mancata Accensione</option>
+                    <option value="AL 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
+                    <option value="AL 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
+                    <option value="AL 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
+                    <option value="AL 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
+                    <option value="Service">Scritta 'SERVICE' / Scadenza Ore</option>
+                    <option value="Errore Sonda K">Errore Sonda K</option>
+                    <option value="Errore Autopulizia">Errore Autopulizia</option>
+                    <option value="Errore Pressione Alta">Errore Pressione Alta</option>
+                    <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
+                    <option value="Errore Debimetro">Errore Debimetro</option>
+                    <option value="Errore No Flusso">Errore No Flusso</option>
+                    <option value="Errore Porta Aperta">Errore Porta Aperta</option>
+                    <option value="Errore Depressione">Errore Depressione (Specifico)</option>
+                    <option value="Errore Sicurezza Termica">Errore Sicurezza Termica (Specifico)</option>
+                    <option value="Altro">Altro errore non in lista</option>
+                </select>
+                <span class="field-icon">📟</span>
             </div>
         </div>
 
@@ -251,153 +173,92 @@
         </div>
     </div>
 
-    <button id="mainBtn">Prenota su WhatsApp</button>
+    <button id="mainBtn">Invia su WhatsApp</button>
     <div class="preview-box" id="previewBox"></div>
-    
-    <div class="info-footer">Premi invia e conferma su WhatsApp ✅</div>
+    <div class="info-footer">Conferma i dati su WhatsApp ✅</div>
 </div>
 
 <div class="modal" id="modal">
     <div class="box">
-        <h3>Conferma Prenotazione</h3>
-        <p style="margin-bottom: 20px; font-size: 14px; color: #cbd5e1;">Vuoi inviare la richiesta tecnica tramite WhatsApp?</p>
-        <button class="ok" id="conferma">SÌ, INVIA ORA</button>
+        <h3>Conferma Invio</h3>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #cbd5e1;">Vuoi inviare la richiesta tecnica ora?</p>
+        <button class="ok" id="conferma">SÌ, PROCEDI</button>
         <button class="no" id="annulla">MODIFICA</button>
     </div>
 </div>
 
 <script>
-    const selectProblema = document.getElementById("problema");
-    const erroriDisplayGroup = document.getElementById("erroriDisplayGroup");
-    const altroBox = document.getElementById("altroBox");
-    const previewBox = document.getElementById("previewBox");
-    const btn = document.getElementById("mainBtn");
-
-    /* ================= AUTO COMPILAZIONE & STORAGE ================= */
-    const fields = ["nome","cognome","indirizzo","telefono","fisso","marca","modello"];
-
-    fields.forEach(id=>{
+    const fields = ["nomeCompleto","indirizzo","telefono","fisso","marca","modello"];
+    
+    fields.forEach(id => {
         const el = document.getElementById(id);
-        if(!el) return;
         const saved = localStorage.getItem(id);
         if(saved) el.value = saved;
-        el.addEventListener("input", ()=>{
+        el.addEventListener("input", () => {
             localStorage.setItem(id, el.value);
-            updateProgress();
-            updatePreview();
+            updateUI();
         });
     });
 
-    /* ================= PROGRESS BAR ================= */
-    function updateProgress(){
-        const essential = ["nome", "cognome", "indirizzo", "telefono", "marca"];
+    function updateUI() {
+        const essential = ["nomeCompleto", "indirizzo", "telefono", "marca"];
         let filled = 0;
         essential.forEach(id => { if(document.getElementById(id).value.trim()) filled++; });
-        let percent = (filled / essential.length) * 100;
-        document.getElementById("progressBar").style.width = percent + "%";
-    }
+        document.getElementById("progressBar").style.width = (filled / essential.length) * 100 + "%";
 
-    /* ================= PREVIEW WHATSAPP POTENZIATA ================= */
-    function updatePreview(){
-        const nome = document.getElementById("nome").value;
-        const cognome = document.getElementById("cognome").value;
-        const indirizzo = document.getElementById("indirizzo").value;
-        const telefono = document.getElementById("telefono").value;
+        const nome = document.getElementById("nomeCompleto").value;
         const marca = document.getElementById("marca").value;
-        const modello = document.getElementById("modello").value;
-        const tipo = document.getElementById("tipoIntervento").value;
-        const prob = document.getElementById("problema").value;
-        const err = document.getElementById("listaErrori").value;
-
-        if(!nome && !telefono){ previewBox.style.display="none"; return; }
-        previewBox.style.display="block";
-
-        let testo = `👤 ${nome} ${cognome}\n📍 ${indirizzo}\n📱 ${telefono}\n🔥 ${marca} ${modello}`;
-        if(tipo) testo += `\n🧰 Servizio: ${tipo}`;
-        if(prob) {
-            let dett = (prob === "Errore sul display") ? (err || "Seleziona allarme...") : prob;
-            testo += `\n🛠️ Stato: ${dett}`;
+        const preview = document.getElementById("previewBox");
+        
+        if(nome || marca) {
+            preview.style.display = "block";
+            preview.innerText = `👤 Cliente: ${nome}\n🔥 Stufa: ${marca} ${document.getElementById("modello").value}`;
+        } else {
+            preview.style.display = "none";
         }
-        previewBox.innerText = testo;
     }
 
-    /* ================= GESTIONE INPUT DINAMICI ================= */
-    selectProblema.addEventListener("change", function() {
-        erroriDisplayGroup.style.display = (this.value === "Errore sul display") ? "block" : "none";
-        altroBox.style.display = (this.value === "Altro" || this.value === "Rumore eccessivo") ? "block" : "none";
-        updatePreview();
+    document.getElementById("problema").addEventListener("change", function() {
+        document.getElementById("erroriDisplayGroup").style.display = (this.value === "Errore sul display") ? "block" : "none";
+        document.getElementById("altroBox").style.display = (this.value === "Altro" || this.value === "Rumore eccessivo") ? "block" : "none";
     });
 
-    document.getElementById("tipoIntervento").addEventListener("change", updatePreview);
-    document.getElementById("listaErrori").addEventListener("change", updatePreview);
-    document.getElementById("problemaAltro").addEventListener("input", updatePreview);
-
-    /* ================= BOTTONE MAGNETICO ================= */
-    btn.addEventListener("mousemove", (e)=>{
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width/2;
-        const y = e.clientY - rect.top - rect.height/2;
-        btn.style.transform = `translate(${x*0.2}px, ${y*0.2}px)`;
-    });
-    btn.addEventListener("mouseleave", () => btn.style.transform="translate(0,0)");
-
-    /* ================= LUCE DINAMICA ================= */
-    document.addEventListener("mousemove",(e)=>{
-        const container = document.querySelector(".container");
-        const rect = container.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        if(x > 0 && y > 0 && x < rect.width && y < rect.height) {
-            container.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(34,197,94,0.15), rgba(255,255,255,0.08))`;
-        }
-    });
-
-    /* ================= LOGICA INVIO (WhatsApp) ================= */
-    btn.onclick = function() {
-        const nome = document.getElementById("nome").value.trim();
-        const cognome = document.getElementById("cognome").value.trim();
-        const indirizzo = document.getElementById("indirizzo").value.trim();
-        const cellulare = document.getElementById("telefono").value.trim();
-        const marca = document.getElementById("marca").value.trim();
-        const tipo = document.getElementById("tipoIntervento").value;
-
-        if (!nome || !cognome || !indirizzo || !cellulare || !marca || !tipo) {
-            alert("⚠️ Per favore, compila tutti i dati richiesti.");
+    document.getElementById("mainBtn").onclick = function() {
+        const d = (id) => document.getElementById(id).value.trim();
+        
+        if (!d("nomeCompleto") || !d("indirizzo") || !d("telefono") || !d("marca") || !d("tipoIntervento")) {
+            alert("⚠️ Per favore, compila i dati principali (Nome, Indirizzo, Telefono, Marca).");
             return;
         }
 
-        let dettaglio = selectProblema.value;
-        if (dettaglio === "Errore sul display") {
-            const err = document.getElementById("listaErrori").value;
-            if (err) dettaglio = "Allarme: " + err;
-        }
-        const note = document.getElementById("problemaAltro").value.trim();
-        if (note) dettaglio += (dettaglio ? " - Note: " : "") + note;
+        let dettaglio = d("problema");
+        if (dettaglio === "Errore sul display") dettaglio = "Allarme: " + d("listaErrori");
+        const note = d("problemaAltro");
+        if (note) dettaglio += " - Note: " + note;
 
         const dataOggi = new Date().toLocaleDateString('it-IT');
         const messaggio = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n` +
                           `------------------------------\n` +
-                          `👤 *Cliente:* ${nome} ${cognome}\n` +
-                          `📍 *Indirizzo:* ${indirizzo}\n` +
-                          `📱 *Tel:* ${cellulare}\n` +
-                          `🔥 *Stufa:* ${marca} ${document.getElementById("modello").value}\n` +
-                          `🧰 *Servizio:* ${tipo}\n` +
+                          `👤 *Cliente:* ${d("nomeCompleto")}\n` +
+                          `📍 *Indirizzo:* ${d("indirizzo")}\n` +
+                          `📱 *Tel:* ${d("telefono")} ${d("fisso") ? '/ '+d("fisso") : ''}\n` +
+                          `🔥 *Stufa:* ${d("marca")} ${d("modello")}\n` +
+                          `🧰 *Servizio:* ${d("tipoIntervento")}\n` +
                           (dettaglio ? `🛠️ *Dettaglio:* ${dettaglio}\n` : "") +
                           `📅 *Data:* ${dataOggi}`;
 
         const url = "https://wa.me/390813769280?text=" + encodeURIComponent(messaggio);
         document.getElementById("modal").style.display = "flex";
-        document.getElementById("conferma").onclick = () => {
-            window.open(url, "_blank");
-            document.getElementById("modal").style.display = "none";
-        };
+        document.getElementById("conferma").onclick = () => window.open(url, "_blank");
     };
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
-
-    // Inizializzazione
-    updateProgress();
-    updatePreview();
+    
+    // Listener aggiuntivi per preview
+    document.getElementById("tipoIntervento").addEventListener("change", updateUI);
+    document.getElementById("modello").addEventListener("input", updateUI);
+    
+    updateUI();
 </script>
 </body>
 </html>
