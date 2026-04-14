@@ -130,6 +130,9 @@
         
         select option { background-color: #0f172a; color: #ffffff; }
         textarea { height: 80px; resize: none; padding-top: 12px; }
+        
+        /* Stile per datalist in alcuni browser */
+        datalist { background-color: #0f172a; color: white; }
     </style>
 </head>
 <body>
@@ -162,7 +165,8 @@
     <div class="field-row">
         <div class="input-group" style="flex: 2;">
             <div class="field-container">
-                <input type="text" id="citta" placeholder="Città">
+                <input type="text" id="citta" list="listaCitta" placeholder="Città">
+                <datalist id="listaCitta"></datalist>
                 <span class="field-icon">🏙️</span>
             </div>
         </div>
@@ -286,6 +290,22 @@
 </div>
 
 <script>
+    // Liste Comuni
+    const comuniNA = ["Acerra","Afragola","Agerola","Anacapri","Arzano","Bacoli","Barano d'Ischia","Boscoreale","Boscotrecase","Calvizzano","Casalnuovo di Napoli","Casamarciano","Casamicciola Terme","Casandrino","Casavatore","Casola di Napoli","Casoria","Castellammare di Stabia","Castello di Cisterna","Cercola","Cicciano","Cimitile","Comiziano","Crispano","Ercolano","Forio","Frattamaggiore","Frattaminore","Giugliano in Campania","Gragnano","Grumo Nevano","Ischia","Lacco Ameno","Lettere","Liveri","Marano di Napoli","Mariglianella","Marigliano","Massa Lubrense","Massa di Somma","Melito di Napoli","Meta","Monte di Procida","Mugnano di Napoli","Napoli","Nola","Ottaviano","Palma Campania","Piano di Sorrento","Pimonte","Poggiomarino","Pollena Trocchia","Pomigliano d'Arco","Pompei","Portici","Pozzuoli","Procida","Qualiano","Quarto","Roccarainola","San Gennaro Vesuviano","San Giorgio a Cremano","San Giuseppe Vesuviano","San Paolo Bel Sito","San Sebastiano al Vesuvio","San Vitaliano","Sant'Agnello","Sant'Anastasia","Sant'Antimo","Sant'Antonio Abate","Santa Maria la Carità","Saviano","Scisciano","Serrara Fontana","Somma Vesuviana","Sorrento","Striano","Terzigno","Torre Annunziata","Torre del Greco","Trecase","Tufino","Vico Equense","Villaricca","Visciano","Volla"];
+    const comuniSA = ["Acerno","Agropoli","Albanella","Alfano","Altavilla Silentina","Amalfi","Angri","Aquara","Ascea","Atena Lucana","Atrani","Auletta","Baronissi","Battipaglia","Bellizzi","Bellosguardo","Bracigliano","Buccino","Buonabitacolo","Caggiano","Calvanico","Camerota","Campagna","Campora","Cannalonga","Capaccio Paestum","Casal Velino","Casalbuono","Casaletto Spartano","Caselle in Pittari","Castel San Giorgio","Castel San Lorenzo","Castelcivita","Castellabate","Castelnuovo Cilento","Castelnuovo di Conza","Castiglione del Genovesi","Cava de' Tirreni","Celle di Bulgheria","Centola","Ceraso","Cetara","Cicerale","Contursi Terme","Corbara","Corleto Monforte","Cuccaro Vetere","Eboli","Felitto","Fisciano","Furore","Futani","Giffoni Sei Casali","Giffoni Valle Piana","Gioi","Giungano","Ispani","Laureana Cilento","Laurino","Laurito","Laviano","Lustra","Magliano Vetere","Maiori","Mercato San Severino","Minori","Moio della Civitella","Montano Antilia","Monte San Giacomo","Montecorice","Montecorvino Pugliano","Montecorvino Rovella","Monteforte Cilento","Montesano sulla Marcellana","Morigerati","Nocera Inferiore","Nocera Superiore","Novi Velia","Ogliastro Cilento","Olevano sul Tusciano","Oliveto Citra","Omignano","Orria","Ottati","Padula","Pagani","Palomonte","Pellezzano","Perdifumo","Perito","Pertosa","Petina","Piaggine","Pisciotta","Polla","Pollica","Pontecagnano Faiano","Positano","Postiglione","Praiano","Prignano Cilento","Ravello","Ricigliano","Roccadaspide","Roccagloriosa","Roccapiemonte","Rofrano","Romagnano al Monte","Roscigno","Rutino","Sacco","Sala Consilina","Salento","Salerno","San Cipriano Picentino","San Giovanni a Piro","San Gregorio Magno","San Mango Piemonte","San Marzano sul Sarno","San Mauro Cilento","San Mauro la Bruca","San Pietro al Tanagro","San Rufo","San Valentino Torio","Santa Marina","Sant'Angelo a Fasanella","Sant'Arsenio","Sant'Egidio del Monte Albino","Sapri","Sarno","Sassano","Scafati","Scala","Serramezzana","Serre","Sessa Cilento","Siano","Sicignano degli Alburni","Stella Cilento","Stio","Teggiano","Torchiara","Torraca","Torre Orsaia","Tortorella","Tramonti","Trentinara","Valva","Vallo della Lucania","Vibonati","Vietri sul Mare"];
+
+    // Popola Datalist
+    function popola() {
+        const dl = document.getElementById("listaCitta");
+        const tutti = [...comuniNA.map(c => ({n:c, p:"NA"})), ...comuniSA.map(c => ({n:c, p:"SA"}))];
+        tutti.sort((a,b) => a.n.localeCompare(b.n)).forEach(c => {
+            let o = document.createElement("option");
+            o.value = c.n;
+            o.dataset.p = c.p;
+            dl.appendChild(o);
+        });
+    }
+
     // Configurazione campi e recupero LocalStorage
     const fields = ["nomeCompleto","indirizzo","citta","provincia","telefono","fisso","marca","modello"];
     fields.forEach(id => {
@@ -298,9 +318,22 @@
         });
     });
 
+    // Logica automatica Provincia
+    document.getElementById("citta").addEventListener("input", function() {
+        const val = this.value;
+        const opts = document.getElementById("listaCitta").options;
+        let trovata = false;
+        for(let i=0; i<opts.length; i++) {
+            if(opts[i].value === val) {
+                document.getElementById("provincia").value = opts[i].dataset.p;
+                trovata = true;
+                break;
+            }
+        }
+    });
+
     // Funzione Aggiornamento Interfaccia (Percentuale e Anteprima)
     function updateUI() {
-        // Aggiunti citta e provincia ai campi essenziali/obbligatori
         const essential = ["nomeCompleto", "indirizzo", "citta", "provincia", "telefono", "marca", "tipoIntervento"];
         let filled = 0;
         essential.forEach(id => {
@@ -327,18 +360,15 @@
             preview.style.display = "none";
         }
         
-        // Logica specifica: Prima Accensione nasconde i problemi
         const tipo = document.getElementById("tipoIntervento").value;
         document.getElementById("sezioneProblemi").style.display = (tipo === "Prima accensione") ? "none" : "block";
     }
 
-    // Listener per tutti gli input per aggiornare la UI
     document.querySelectorAll('input, select, textarea').forEach(el => {
         el.addEventListener('input', updateUI);
         el.addEventListener('change', updateUI);
     });
 
-    // Gestione visualizzazione dinamica sottocampi problemi
     document.getElementById("problema").addEventListener("change", function() {
         document.getElementById("erroriDisplayGroup").style.display = (this.value === "Errore sul display") ? "block" : "none";
         document.getElementById("altroBox").style.display = (this.value === "Altro" || this.value === "Rumore eccessivo") ? "block" : "none";
@@ -348,7 +378,6 @@
     document.getElementById("mainBtn").onclick = function() {
         const d = (id) => document.getElementById(id).value.trim();
         
-        // Validazione: aggiunti citta e provincia agli obbligatori
         if (!d("nomeCompleto") || !d("indirizzo") || !d("citta") || !d("provincia") || !d("telefono") || !d("marca") || !d("tipoIntervento")) {
             alert("⚠️ Per favore, compila tutti i dati obbligatori (inclusi Città e Provincia).");
             return;
@@ -393,6 +422,7 @@
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
     
+    popola();
     updateUI();
 </script>
 </body>
