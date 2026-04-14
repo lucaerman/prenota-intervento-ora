@@ -154,8 +154,23 @@
 
     <div class="input-group">
         <div class="field-container">
-            <input type="text" id="indirizzo" placeholder="Indirizzo (Via, Civico, Città)">
+            <input type="text" id="indirizzo" placeholder="Indirizzo e Civico">
             <span class="field-icon">📍</span>
+        </div>
+    </div>
+
+    <div class="field-row">
+        <div class="input-group" style="flex: 2;">
+            <div class="field-container">
+                <input type="text" id="citta" placeholder="Città">
+                <span class="field-icon">🏙️</span>
+            </div>
+        </div>
+        <div class="input-group" style="flex: 1;">
+            <div class="field-container">
+                <input type="text" id="provincia" placeholder="Prov." maxlength="2">
+                <span class="field-icon">🏛️</span>
+            </div>
         </div>
     </div>
 
@@ -272,7 +287,7 @@
 
 <script>
     // Configurazione campi e recupero LocalStorage
-    const fields = ["nomeCompleto","indirizzo","telefono","fisso","marca","modello"];
+    const fields = ["nomeCompleto","indirizzo","citta","provincia","telefono","fisso","marca","modello"];
     fields.forEach(id => {
         const el = document.getElementById(id);
         const saved = localStorage.getItem(id);
@@ -285,7 +300,8 @@
 
     // Funzione Aggiornamento Interfaccia (Percentuale e Anteprima)
     function updateUI() {
-        const essential = ["nomeCompleto", "indirizzo", "telefono", "marca", "tipoIntervento"];
+        // Aggiunti citta e provincia ai campi essenziali/obbligatori
+        const essential = ["nomeCompleto", "indirizzo", "citta", "provincia", "telefono", "marca", "tipoIntervento"];
         let filled = 0;
         essential.forEach(id => {
             if(document.getElementById(id).value.trim() !== "") filled++;
@@ -300,7 +316,7 @@
 
         let testoPreview = "";
         if(d("nomeCompleto")) testoPreview += `👤 Cliente: ${d("nomeCompleto")}\n`;
-        if(d("indirizzo"))    testoPreview += `📍 Indirizzo: ${d("indirizzo")}\n`;
+        if(d("indirizzo"))    testoPreview += `📍 Indirizzo: ${d("indirizzo")} - ${d("citta")} (${d("provincia")})\n`;
         if(d("marca"))        testoPreview += `🔥 Stufa: ${d("marca")} ${d("modello")}\n`;
         if(d("tipoIntervento")) testoPreview += `🧰 Servizio: ${d("tipoIntervento")}`;
 
@@ -332,8 +348,9 @@
     document.getElementById("mainBtn").onclick = function() {
         const d = (id) => document.getElementById(id).value.trim();
         
-        if (!d("nomeCompleto") || !d("indirizzo") || !d("telefono") || !d("marca") || !d("tipoIntervento")) {
-            alert("⚠️ Per favore, compila i dati principali.");
+        // Validazione: aggiunti citta e provincia agli obbligatori
+        if (!d("nomeCompleto") || !d("indirizzo") || !d("citta") || !d("provincia") || !d("telefono") || !d("marca") || !d("tipoIntervento")) {
+            alert("⚠️ Per favore, compila tutti i dati obbligatori (inclusi Città e Provincia).");
             return;
         }
 
@@ -346,7 +363,7 @@
                 dettaglio = "Allarme: " + d("listaErrori");
             }
             if (d("problemaAltro")) {
-                dettaglio += " - Note: " + d("problemaAltro");
+                dettaglio += (dettaglio ? " - " : "") + "Note: " + d("problemaAltro");
             }
         }
 
@@ -357,6 +374,7 @@
             "------------------------------\n" +
             "👤 *Cliente:* " + d("nomeCompleto") + "\n" +
             "📍 *Indirizzo:* " + d("indirizzo") + "\n" +
+            "🏙️ *Città:* " + d("citta") + " (" + d("provincia").toUpperCase() + ")\n" +
             "📱 *Tel:* " + d("telefono") + (d("fisso") ? " / " + d("fisso") : "") + "\n" + 
             "🔥 *Stufa:* " + d("marca") + " " + d("modello") + "\n" +
             "🧰 *Servizio:* " + tipo + "\n" +
