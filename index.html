@@ -97,6 +97,16 @@
             color: #fff; font-size: 15px; outline: none; transition: 0.3s;
         }
         input:focus, select:focus, textarea:focus { border-color: #22c55e; background: rgba(255, 255, 255, 0.15); box-shadow: 0 0 10px rgba(34, 197, 94, 0.2); }
+        
+        <div id="installBox" style="display:none; margin-bottom:15px; padding:12px; border:1px solid #22c55e; border-radius:12px; background:rgba(34,197,94,0.1); color:white; text-align:center;">
+  <p style="font-size:13px; margin-bottom:10px;">📲 Installa l’app per un accesso rapido</p>
+  <button id="installBtn" style="width:100%; padding:12px; border:none; border-radius:10px; background:#22c55e; color:white; font-weight:bold;">
+    INSTALLA APP
+  </button>
+  <p id="iosHint" style="display:none; font-size:12px; margin-top:10px; opacity:0.8;">
+    Su iPhone: Condividi → Aggiungi a Home
+  </p>
+</div>
 
         /* Bottone WhatsApp */
         button#mainBtn { 
@@ -434,6 +444,45 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./service-worker.js');
   });
 }
+ <script>
+let deferredPrompt;
+
+// Detect iOS
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+const installBox = document.getElementById("installBox");
+const iosHint = document.getElementById("iosHint");
+const installBtn = document.getElementById("installBtn");
+
+// Mostra box installazione
+window.addEventListener("load", () => {
+
+  // iPhone → solo guida
+  if (isIOS) {
+    installBox.style.display = "block";
+    iosHint.style.display = "block";
+    installBtn.style.display = "none";
+    return;
+  }
+
+  // Android / Chrome
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBox.style.display = "block";
+  });
+
+  installBtn.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    const result = await deferredPrompt.userChoice;
+
+    deferredPrompt = null;
+    installBox.style.display = "none";
+  });
+
+});       
 </script>
 </body>
 </html>
