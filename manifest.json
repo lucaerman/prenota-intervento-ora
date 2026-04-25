@@ -1,11 +1,10 @@
 {
   "name": "Prenotazione Intervento",
   "short_name": "Intervento",
-  "start_url": "./index.html",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#020617",
   "theme_color": "#22c55e",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
