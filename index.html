@@ -243,27 +243,35 @@
             </div>
         </div>
 
-        <div class="input-group" id="erroriDisplayGroup" style="display:none;">
+                <div class="input-group" id="erroriDisplayGroup" style="display:none;">
             <div class="field-container">
                 <select id="listaErrori">
                     <option value="">Seleziona l'allarme...</option>
-                    <option value="AL 1 - Blackout">AL 1 - Blackout</option>
-                    <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi</option>
-                    <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi</option>
-                    <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore</option>
-                    <option value="AL 5 - No Accensione">AL 5 - No Accensione</option>
-                    <option value="AL 6 - No Pellet">AL 6 - No Pellet</option>
-                    <option value="AL 7 - Termico">AL 7 - Sicurezza Termica</option>
-                    <option value="AL 8 - No Depressione">AL 8 - Depressione</option>
-                    <option value="AL 9 - Coclea">AL 9 - Blocco Coclea</option>
-                    <option value="SERVICE">SERVICE/PULIZIA</option>
-                    <option value="Altro">Altro errore</option>
+                    <option value="AL 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
+                    <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
+                    <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
+                    <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
+                    <option value="AL 5 - No Accensione">AL 5 - Mancata Accensione</option>
+                    <option value="AL 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
+                    <option value="AL 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
+                    <option value="AL 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
+                    <option value="AL 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
+                    <option value="SERVICE/PULIZIA">SERVICE/PULIZIA</option>
+                    <option value="Errore Triac Coclea">Errore Triac Coclea</option>
+                    <option value="Errore Sonda K">Errore Sonda K</option>
+                    <option value="Errore Pulizia braciere">Errore Pulizia braciere</option>
+                    <option value="Errore Pressione Alta">Errore Pressione Alta</option>
+                    <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
+                    <option value="Errore Debimetro/No flusso">Errore Debimetro/No flusso</option>
+                    <option value="Errore Porta Apert/sportello pellet">Errore Porta Aperta/sportello pellet</option>
+                    <option value="Errore NO SEGNALE">Errore NO SEGNALE</option>
+                    <option value="Altro">Altro errore non in lista</option>
                 </select>
                 <span class="field-icon">📟</span>
             </div>
         </div>
 
-        <div class="input-group" id="altroBox" style="display:none;">
+  <div class="input-group" id="altroBox" style="display:none;">
             <div class="field-container">
                 <textarea id="problemaAltro" placeholder="Descrivi brevemente qui..."></textarea>
                 <span class="field-icon">📝</span>
