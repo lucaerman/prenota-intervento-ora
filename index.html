@@ -32,7 +32,7 @@
             overflow-x: hidden; 
         }
 
-        /* --- SPLASH SCREEN & SKELETON --- */
+        /* --- SPLASH SCREEN --- */
         #splash-screen {
             position: fixed;
             inset: 0;
@@ -71,16 +71,11 @@
 
         label { font-size: 10px; color: #22c55e; margin: 0 0 5px 5px; display: block; text-transform: uppercase; font-weight: 700; }
         .input-group, .field-row { margin-bottom: 15px; position: relative; }
-        input, select, textarea { width: 100%; padding: 12px 35px 12px 38px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; outline: none; transition: 0.3s; }
-        input:focus, select:focus { border-color: #22c55e; background: rgba(255, 255, 255, 0.15); }
+        input, select, textarea { width: 100%; padding: 12px 35px 12px 38px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; outline: none; }
         
-        .field-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; pointer-events: none; z-index: 2; }
-        
-        .check-status { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #22c55e; opacity: 0; transition: 0.3s; pointer-events: none; }
-        input.valid + .field-icon + .check-status, 
-        input.valid + .check-status,
-        select.valid + .field-icon + .check-status,
-        select.valid + .check-status { opacity: 1; }
+        .field-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; pointer-events: none; }
+        .check-status { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #22c55e; opacity: 0; transition: 0.3s; }
+        input.valid + .field-icon + .check-status, select.valid + .check-status { opacity: 1; }
 
         /* --- WHATSAPP BUBBLE PREVIEW --- */
         .chat-preview { margin-top: 15px; display: none; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid rgba(37, 211, 102, 0.3); }
@@ -98,7 +93,6 @@
             width: 100%; padding: 18px; margin-top: 15px; border: none; border-radius: 14px; 
             background: linear-gradient(45deg, #22c55e, #16a34a, #22c55e); color: white; font-weight: 900; 
             cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
-            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
         }
         .spinner { display: none; width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -114,10 +108,7 @@
 <body>
 
 <div id="splash-screen">
-    <div class="skeleton-overlay">
-        <div class="sk-box"></div>
-        <div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div>
-    </div>
+    <div class="skeleton-overlay"><div class="sk-box"></div><div class="sk-line"></div><div class="sk-line"></div></div>
     <div class="splash-logo">🔥</div>
     <div class="loading-text">CARICAMENTO ASSISTENZA...</div>
     <div class="loader-container"><div class="loader-bar"></div></div>
@@ -154,12 +145,10 @@
             <input type="text" id="citta" list="listaCitta" placeholder="Città">
             <datalist id="listaCitta"></datalist>
             <span class="field-icon">🏙️</span>
-            <span class="check-status">✓</span>
         </div>
         <div style="flex: 1; position: relative;">
             <input type="text" id="provincia" placeholder="Prov." maxlength="2">
             <span class="field-icon">🏛️</span>
-            <span class="check-status">✓</span>
         </div>
     </div>
 
@@ -167,7 +156,6 @@
         <div style="flex: 1; position: relative;">
             <input type="tel" id="telefono" placeholder="Cellulare">
             <span class="field-icon">📱</span>
-            <span class="check-status">✓</span>
         </div>
         <div style="flex: 1; position: relative;">
             <input type="tel" id="fisso" placeholder="Fisso (opz)">
@@ -175,63 +163,59 @@
         </div>
     </div>
 
-    <label>Dati Prodotto</label>
+    <label>Prodotto</label>
     <div class="field-row" style="display: flex; gap: 10px;">
-        <div style="flex: 1; position: relative;">
-            <input type="text" id="marca" placeholder="Marca">
-            <span class="check-status">✓</span>
-        </div>
-        <div style="flex: 1; position: relative;">
-            <input type="text" id="modello" placeholder="Modello">
-            <span class="check-status">✓</span>
-        </div>
+        <input type="text" id="marca" placeholder="Marca" style="flex:1">
+        <input type="text" id="modello" placeholder="Modello" style="flex:1">
     </div>
 
     <div class="input-group">
         <select id="tipoIntervento">
-            <option value="">Tipo di intervento...</option>
+            <option value="">Tipo intervento...</option>
             <option value="Manutenzione">Manutenzione</option>
             <option value="Riparazione">Riparazione</option>
             <option value="Prima accensione">Prima accensione</option>
         </select>
         <span class="field-icon">🧰</span>
-        <span class="check-status">✓</span>
     </div>
 
     <div id="sezioneProblemi">
-        <div class="input-group">
-            <select id="problema">
-                <option value="">Seleziona problema (facoltativo)</option>
-                <option value="Errore sul display">Errore sul display ⚠️</option>
-                <option value="Mancata Accensione">Mancata Accensione</option>
-                <option value="Si spegne da sola">Si spegne da sola</option>
-                <option value="Vetro molto nero">Vetro molto nero</option>
-                <option value="Rumore eccessivo">Rumore eccessivo</option>
-                <option value="Altro">Altro (specifica sotto)</option>
-            </select>
-            <span class="field-icon">🛠️</span>
-        </div>
+        <label>Dettagli Guasto</label>
+        <select id="problema" style="margin-bottom:15px;">
+            <option value="">Problema riscontrato...</option>
+            <option value="Errore sul display">Errore sul display ⚠️</option>
+            <option value="Mancata Accensione">Mancata Accensione</option>
+            <option value="Si spegne da sola">Si spegne da sola</option>
+            <option value="Vetro molto nero">Il vetro si sporca subito</option>
+            <option value="Rumore eccessivo">Fa un rumore anomalo</option>
+            <option value="Altro">Altro (specifica sotto)</option>
+        </select>
 
-        <div class="input-group" id="erroriDisplayGroup" style="display:none;">
+        <div id="erroriDisplayGroup" style="display:none; margin-bottom:15px;">
             <select id="listaErrori">
                 <option value="">Seleziona l'allarme...</option>
-                <option value="AL 1 - Blackout">AL 1 - Blackout</option>
-                <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi</option>
-                <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi</option>
-                <option value="AL 4 - Aspiratore">AL 4 - Aspiratore</option>
-                <option value="AL 5 - No Accensione">AL 5 - No Accensione</option>
-                <option value="AL 6 - No Pellet">AL 6 - No Pellet</option>
-                <option value="AL 7 - Termico">AL 7 - Termico</option>
-                <option value="AL 8 - No Depressione">AL 8 - No Depressione</option>
-                <option value="AL 9 - Coclea">AL 9 - Coclea</option>
-                <option value="SERVICE">SERVICE/PULIZIA</option>
-                <option value="Errore Triac">Errore Triac Coclea</option>
-                <option value="Errore Porta Aperta">Errore Porta Aperta</option>
+                <option value="AL 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
+                <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
+                <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
+                <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
+                <option value="AL 5 - No Accensione">AL 5 - Mancata Accensione</option>
+                <option value="AL 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
+                <option value="AL 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
+                <option value="AL 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
+                <option value="AL 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
+                <option value="SERVICE/PULIZIA">SERVICE/PULIZIA</option>
+                <option value="Errore Triac Coclea">Errore Triac Coclea</option>
+                <option value="Errore Sonda K">Errore Sonda K</option>
+                <option value="Errore Pulizia braciere">Errore Pulizia braciere</option>
+                <option value="Errore Pressione Alta">Errore Pressione Alta</option>
+                <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
+                <option value="Errore Debimetro/No flusso">Errore Debimetro/No flusso</option>
+                <option value="Errore Porta Apert/sportello pellet">Errore Porta Aperta/sportello pellet</option>
+                <option value="Errore NO SEGNALE">Errore NO SEGNALE</option>
+                <option value="Altro">Altro errore non in lista</option>
             </select>
-            <span class="field-icon">📟</span>
         </div>
-
-        <textarea id="problemaAltro" placeholder="Descrivi qui il problema..." style="display:none; margin-bottom:15px; min-height:80px;"></textarea>
+        <textarea id="problemaAltro" placeholder="Descrivi qui i dettagli..." style="display:none; margin-bottom:15px; min-height:80px;"></textarea>
     </div>
 
     <div class="chat-preview" id="chatPreview">
@@ -239,7 +223,7 @@
     </div>
 
     <button id="mainBtn">
-        <span id="btnText">INVIA SU WHATSAPP</span>
+        <span id="btnText">INVIA RICHIESTA</span>
         <div class="spinner" id="btnSpinner"></div>
     </button>
 </div>
@@ -247,14 +231,14 @@
 <div class="modal" id="modal">
     <div class="box">
         <h3>Conferma Invio</h3>
-        <p style="margin: 15px 0; font-size: 14px; color: #cbd5e1;">Vuoi procedere con l'invio?</p>
+        <p style="color:#ccc; font-size:14px; margin: 15px 0;">Vuoi procedere con l'invio del messaggio?</p>
         <button class="ok" id="conferma">SÌ, PROCEDI</button>
         <button class="no" id="annulla">MODIFICA</button>
     </div>
 </div>
 
 <script>
-    // --- DATABASE COMUNI ---
+    // --- DATABASE INTEGRALE COMUNI ---
     const comuniNA = ["Acerra","Afragola","Agerola","Anacapri","Arzano","Bacoli","Barano d'Ischia","Boscoreale","Boscotrecase","Calvizzano","Casalnuovo di Napoli","Casamarciano","Casamicciola Terme","Casandrino","Casavatore","Casola di Napoli","Casoria","Castellammare di Stabia","Castello di Cisterna","Cercola","Cicciano","Cimitile","Comiziano","Crispano","Ercolano","Forio","Frattamaggiore","Frattaminore","Giugliano in Campania","Gragnano","Grumo Nevano","Ischia","Lacco Ameno","Lettere","Liveri","Marano di Napoli","Mariglianella","Marigliano","Massa Lubrense","Massa di Somma","Melito di Napoli","Meta","Monte di Procida","Mugnano di Napoli","Napoli","Nola","Ottaviano","Palma Campania","Piano di Sorrento","Pimonte","Poggiomarino","Pollena Trocchia","Pomigliano d'Arco","Pompei","Portici","Pozzuoli","Procida","Qualiano","Quarto","Roccarainola","San Gennaro Vesuviano","San Giorgio a Cremano","San Giuseppe Vesuviano","San Paolo Bel Sito","San Sebastiano al Vesuvio","San Vitaliano","Sant'Agnello","Sant'Anastasia","Sant'Antimo","Sant'Antonio Abate","Santa Maria la Carità","Saviano","Scisciano","Serrara Fontana","Somma Vesuviana","Sorrento","Striano","Terzigno","Torre Annunziata","Torre del Greco","Trecase","Tufino","Vico Equense","Villaricca","Visciano","Volla"];
     const comuniSA = ["Acerno","Agropoli","Albanella","Alfano","Altavilla Silentina","Amalfi","Angri","Aquara","Ascea","Atena Lucana","Atrani","Auletta","Baronissi","Battipaglia","Bellizzi","Bellosguardo","Bracigliano","Buccino","Buonabitacolo","Caggiano","Calvanico","Camerota","Campagna","Campora","Cannalonga","Capaccio Paestum","Casal Velino","Casalbuono","Casaletto Spartano","Caselle in Pittari","Castel San Giorgio","Castel San Lorenzo","Castelcivita","Castellabate","Castelnuovo Cilento","Castelnuovo di Conza","Castiglione del Genovesi","Cava de' Tirreni","Celle di Bulgheria","Centola","Ceraso","Cetara","Cicerale","Contursi Terme","Corbara","Corleto Monforte","Cuccaro Vetere","Eboli","Felitto","Fisciano","Furore","Futani","Giffoni Sei Casali","Giffoni Valle Piana","Gioi","Giungano","Ispani","Laureana Cilento","Laurino","Laurito","Laviano","Lustra","Magliano Vetere","Maiori","Mercato San Severino","Minori","Moio della Civitella","Montano Antilia","Monte San Giacomo","Montecorice","Montecorvino Pugliano","Montecorvino Rovella","Monteforte Cilento","Montesano sulla Marcellana","Morigerati","Nocera Inferiore","Nocera Superiore","Novi Velia","Ogliastro Cilento","Olevano sul Tusciano","Oliveto Citra","Omignano","Orria","Ottati","Padula","Pagani","Palomonte","Pellezzano","Perdifumo","Perito","Pertosa","Petina","Piaggine","Pisciotta","Polla","Pollica","Pontecagnano Faiano","Positano","Postiglione","Praiano","Prignano Cilento","Ravello","Ricigliano","Roccadaspide","Roccagloriosa","Roccapiemonte","Rofrano","Romagnano al Monte","Roscigno","Rutino","Sacco","Sala Consilina","Salento","Salerno","San Cipriano Picentino","San Giovanni a Piro","San Gregorio Magno","San Mango Piemonte","San Marzano sul Sarno","San Mauro Cilento","San Mauro la Bruca","San Pietro al Tanagro","San Rufo","San Valentino Torio","Santa Marina","Sant'Angelo a Fasanella","Sant'Arsenio","Sant'Egidio del Monte Albino","Sapri","Sarno","Sassano","Scafati","Scala","Serramezzana","Serre","Sessa Cilento","Siano","Sicignano degli Alburni","Stella Cilento","Stio","Teggiano","Torchiara","Torraca","Torre Orsaia","Tortorella","Tramonti","Trentinara","Valva","Vallo della Lucania","Vibonati","Vietri sul Mare"];
 
@@ -266,7 +250,7 @@
         });
     }
 
-    // --- LOGICA FORM ---
+    // --- LOGICA CORE ---
     window.addEventListener('load', () => {
         setTimeout(() => {
             document.getElementById('splash-screen').style.opacity = '0';
@@ -311,12 +295,12 @@
         document.getElementById("progressFill").style.width = percent + "%";
         document.getElementById("progressText").innerText = percent + "% COMPLETATO";
 
-        // WhatsApp Bubble Preview
+        // Bolla WhatsApp
         const chat = document.getElementById("chatPreview");
         const bubble = document.getElementById("chatBubble");
         let txt = "";
         if(d("nomeCompleto")) txt += `👤 ${d("nomeCompleto")}\n`;
-        if(d("indirizzo")) txt += `📍 ${d("indirizzo")} - ${d("citta")} (${d("provincia")})\n`;
+        if(d("indirizzo")) txt += `📍 ${d("indirizzo")} - ${d("citta")}\n`;
         if(d("marca")) txt += `🔥 ${d("marca")} ${d("modello")}\n`;
         if(d("tipoIntervento")) txt += `🧰 ${d("tipoIntervento")}`;
 
@@ -333,24 +317,18 @@
 
     document.getElementById("mainBtn").onclick = function() {
         if(!document.getElementById("nomeCompleto").value || !document.getElementById("telefono").value) {
-            alert("Per favore, inserisci almeno Nome e Telefono."); return;
+            alert("Compila almeno Nome e Telefono."); return;
         }
-        document.getElementById("btnText").style.display = "none";
-        document.getElementById("btnSpinner").style.display = "block";
-        setTimeout(() => {
-            document.getElementById("modal").style.display = "flex";
-            document.getElementById("btnText").style.display = "block";
-            document.getElementById("btnSpinner").style.display = "none";
-        }, 600);
+        document.getElementById("modal").style.display = "flex";
     };
 
     document.getElementById("conferma").onclick = function() {
         const d = (id) => document.getElementById(id).value.trim();
         let dettaglio = d("problema");
-        if(dettaglio === "Errore sul display") dettaglio = "Errore: " + d("listaErrori");
+        if(dettaglio === "Errore sul display") dettaglio = "Allarme: " + d("listaErrori");
         if(d("problemaAltro")) dettaglio += " - Note: " + d("problemaAltro");
 
-        const msg = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n------------------------------\n👤 *Cliente:* ${d("nomeCompleto")}\n📍 *Indirizzo:* ${d("indirizzo")} - ${d("citta")} (${d("provincia")})\n📱 *Tel:* ${d("telefono")}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${d("tipoIntervento")}\n🛠️ *Dettaglio:* ${dettaglio}\n📅 *Data:* ${new Date().toLocaleDateString('it-IT')}`;
+        const msg = `*🔥 RICHIESTA ASSISTENZA*\n👤 *Cliente:* ${d("nomeCompleto")}\n📍 *Indirizzo:* ${d("indirizzo")} - ${d("citta")} (${d("provincia")})\n📱 *Tel:* ${d("telefono")}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${d("tipoIntervento")}\n🛠️ *Dettaglio:* ${dettaglio}`;
         
         window.open(`https://api.whatsapp.com/send?phone=390813769280&text=${encodeURIComponent(msg)}`, "_blank");
         document.getElementById("modal").style.display = "none";
