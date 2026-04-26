@@ -54,12 +54,12 @@
             filter: blur(4px);
             pointer-events: none;
         }
-        .sk-line { background: #fff; height: 45px; border-radius: 12px; margin-bottom: 15px; width: 100%; }
         .sk-box { background: #fff; height: 120px; border-radius: 20px; width: 100%; margin-bottom: 20px; }
+        .sk-line { background: #fff; height: 45px; border-radius: 12px; margin-bottom: 15px; width: 100%; }
 
         .splash-logo {
             font-size: 90px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             animation: splashPulse 1.25s infinite alternate ease-in-out;
             filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.5));
             z-index: 2;
@@ -68,6 +68,17 @@
         @keyframes splashPulse {
             0% { transform: scale(1); filter: drop-shadow(0 0 10px #ef4444); }
             100% { transform: scale(1.1); filter: drop-shadow(0 0 40px #ef4444); }
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 2;
+            opacity: 0.8;
         }
 
         .loader-container {
@@ -132,8 +143,9 @@
         /* Checkmark */
         .check-status { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #22c55e; opacity: 0; transition: 0.3s; pointer-events: none; }
         input.valid + .field-icon + .check-status, 
+        input.valid + .check-status,
         select.valid + .field-icon + .check-status,
-        input.valid + .check-status { opacity: 1; }
+        select.valid + .check-status { opacity: 1; }
 
         #installBox { display:none; margin-bottom:15px; padding:12px; border:1px solid #22c55e; border-radius:12px; background:rgba(34,197,94,0.1); color:white; text-align:center; border-top: 2px solid rgba(255,255,255,0.3); }
         #installBtn { width:100%; padding:12px; border:none; border-radius:10px; background:#22c55e; color:white; font-weight:bold; cursor: pointer; }
@@ -167,6 +179,7 @@
         <div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div>
     </div>
     <div class="splash-logo">🔥</div>
+    <div class="loading-text">CARICAMENTO ASSISTENZA...</div>
     <div class="loader-container"><div class="loader-bar"></div></div>
 </div>
 
@@ -265,16 +278,25 @@
         <div class="input-group" id="erroriDisplayGroup" style="display:none;">
             <select id="listaErrori">
                 <option value="">Seleziona l'allarme...</option>
-                <option value="AL 1 - Blackout">AL 1 - Blackout</option>
-                <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi</option>
-                <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi</option>
-                <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore</option>
-                <option value="AL 5 - No Accensione">AL 5 - No Accensione</option>
-                <option value="AL 6 - No Pellet">AL 6 - No Pellet</option>
-                <option value="AL 7 - Termico">AL 7 - Sicurezza Termica</option>
-                <option value="AL 8 - No Depressione">AL 8 - Errore Depressione</option>
-                <option value="AL 9 - Coclea">AL 9 - Blocco Coclea</option>
+                <option value="AL 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
+                <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
+                <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
+                <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
+                <option value="AL 5 - No Accensione">AL 5 - Mancata Accensione</option>
+                <option value="AL 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
+                <option value="AL 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
+                <option value="AL 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
+                <option value="AL 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
                 <option value="SERVICE/PULIZIA">SERVICE/PULIZIA</option>
+                <option value="Errore Triac Coclea">Errore Triac Coclea</option>
+                <option value="Errore Sonda K">Errore Sonda K</option>
+                <option value="Errore Pulizia braciere">Errore Pulizia braciere</option>
+                <option value="Errore Pressione Alta">Errore Pressione Alta</option>
+                <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
+                <option value="Errore Debimetro/No flusso">Errore Debimetro/No flusso</option>
+                <option value="Errore Porta Apert/sportello pellet">Errore Porta Aperta/sportello pellet</option>
+                <option value="Errore NO SEGNALE">Errore NO SEGNALE</option>
+                <option value="Altro">Altro errore non in lista</option>
             </select>
             <span class="field-icon">📟</span>
         </div>
@@ -349,7 +371,7 @@
                 const prov = document.getElementById("provincia");
                 prov.value = opts[i].dataset.p;
                 valida(prov);
-                document.getElementById("telefono").focus(); // Auto-focus
+                document.getElementById("telefono").focus(); // Auto-focus su telefono
                 break;
             }
         }
@@ -395,7 +417,15 @@
             t.style.display = "block"; s.style.display = "none";
         }, 800);
 
-        const msg = `*🔥 RICHIESTA ASSISTENZA*\n👤 *Cliente:* ${d("nomeCompleto")}\n📍 *Indirizzo:* ${d("indirizzo")} - ${d("citta")}\n📱 *Tel:* ${d("telefono")}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${d("tipoIntervento")}\n📅 *Data:* ${new Date().toLocaleDateString('it-IT')}`;
+        const tipo = d("tipoIntervento");
+        let dettaglio = "";
+        if (tipo !== "Prima accensione") {
+            dettaglio = d("problema");
+            if (dettaglio === "Errore sul display") dettaglio = "Allarme: " + d("listaErrori");
+            if (d("problemaAltro")) dettaglio += (dettaglio ? " - " : "") + "Note: " + d("problemaAltro");
+        }
+
+        const msg = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n------------------------------\n👤 *Cliente:* ${d("nomeCompleto")}\n📍 *Indirizzo:* ${d("indirizzo")} - ${d("citta")} (${d("provincia").toUpperCase()})\n📱 *Tel:* ${d("telefono")}${d("fisso") ? " / " + d("fisso") : ""}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${tipo}\n${dettaglio ? "🛠️ *Dettaglio:* " + dettaglio + "\n" : ""}📅 *Data:* ${new Date().toLocaleDateString('it-IT')}`;
         const url = "https://api.whatsapp.com/send?phone=390813769280&text=" + encodeURIComponent(msg);
         
         document.getElementById("conferma").onclick = () => { window.open(url, "_blank"); document.getElementById("modal").style.display = "none"; };
@@ -403,7 +433,6 @@
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
 
-    // PWA Logica
     let defPrompt;
     window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); defPrompt = e; if (!/iphone|ipad|ipod/i.test(navigator.userAgent)) document.getElementById("installBox").style.display = "block"; });
     if (/iphone|ipad|ipod/i.test(navigator.userAgent)) { document.getElementById("installBox").style.display = "block"; document.getElementById("iosHint").style.display = "block"; document.getElementById("installBtn").style.display = "none"; }
