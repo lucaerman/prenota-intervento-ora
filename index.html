@@ -126,10 +126,7 @@
             transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .container.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .container.active { opacity: 1; transform: translateY(0); }
 
         .header-box { text-align: center; margin-bottom: 20px; }
         h2 { color: #fff; font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; animation: titleColorShift 4s infinite ease-in-out; }
@@ -345,7 +342,7 @@
 </div>
 
 <script>
-    // --- LOGICA SPLASH SCREEN (Sincronizzata a 2.5s) ---
+    // --- LOGICA SPLASH SCREEN (2.5s) ---
     window.addEventListener('load', () => {
         setTimeout(() => {
             const splash = document.getElementById('splash-screen');
@@ -433,8 +430,16 @@
 
     document.getElementById("mainBtn").onclick = function() {
         const d = (id) => document.getElementById(id).value.trim();
-        if (!d("nomeCompleto") || !d("indirizzo") || !d("citta") || !d("provincia") || !d("telefono") || !d("marca") || !d("tipoIntervento")) {
+        const nomeIntero = d("nomeCompleto");
+        const nomeValido = nomeIntero.split(/\s+/).filter(word => word.length > 0).length >= 2;
+
+        if (!nomeIntero || !d("indirizzo") || !d("citta") || !d("provincia") || !d("telefono") || !d("marca") || !d("tipoIntervento")) {
             alert("⚠️ Compila tutti i dati obbligatori.");
+            return;
+        }
+        if (!nomeValido) {
+            alert("⚠️ Inserisci sia il Nome che il Cognome.");
+            document.getElementById("nomeCompleto").focus();
             return;
         }
 
@@ -446,19 +451,16 @@
             if (d("problemaAltro")) dettaglio += (dettaglio ? " - " : "") + "Note: " + d("problemaAltro");
         }
 
-        const messaggio = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n------------------------------\n👤 *Cliente:* ${d("nomeCompleto")}\n📍 *Indirizzo:* ${d("indirizzo")}\n🏙️ *Città:* ${d("citta")} (${d("provincia").toUpperCase()})\n📱 *Tel:* ${d("telefono")}${d("fisso") ? " / " + d("fisso") : ""}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${tipo}\n${dettaglio ? "🛠️ *Dettaglio:* " + dettaglio + "\n" : ""}📅 *Data:* ${new Date().toLocaleDateString('it-IT')}`;
-        
+        const messaggio = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n------------------------------\n👤 *Cliente:* ${nomeIntero}\n📍 *Indirizzo:* ${d("indirizzo")}\n🏙️ *Città:* ${d("citta")} (${d("provincia").toUpperCase()})\n📱 *Tel:* ${d("telefono")}${d("fisso") ? " / " + d("fisso") : ""}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${tipo}\n${dettaglio ? "🛠️ *Dettaglio:* " + dettaglio + "\n" : ""}📅 *Data:* ${new Date().toLocaleDateString('it-IT')}`;
         const url = "https://api.whatsapp.com/send?phone=390813769280&text=" + encodeURIComponent(messaggio);
+        
         document.getElementById("modal").style.display = "flex";
         document.getElementById("conferma").onclick = () => { window.open(url, "_blank"); document.getElementById("modal").style.display = "none"; };
     };
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
     
-    // PWA & INSTALLATION LOGIC
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./service-worker.js');
-    }
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./service-worker.js'); }
 
     let deferredPrompt;
     const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
