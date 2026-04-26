@@ -439,6 +439,24 @@
     document.getElementById("installBtn").onclick = () => { if(defPrompt){ defPrompt.prompt(); document.getElementById("installBox").style.display="none"; } };
 
     popola(); updateUI();
+    if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+        .then(reg => {
+            // Se trova un aggiornamento, ricarica la pagina automaticamente
+            reg.onupdatefound = () => {
+                const installingWorker = reg.installing;
+                installingWorker.onstatechange = () => {
+                    if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        window.location.reload();
+                    }
+                };
+            };
+        })
+        .catch(err => console.log('Errore Service Worker:', err));
+    });
+}
+
 </script>
 </body>
 </html>
