@@ -21,11 +21,9 @@
     <meta name="theme-color" content="#020617">
     <title>Prenotazione Intervento</title>
 
-    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        /* Background profondo */
         body { 
             background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617); 
             min-height: 100vh; 
@@ -36,7 +34,7 @@
             overflow-x: hidden; 
         }
 
-         /* --- SPLASH SCREEN PREMIUM (2.5s) --- */
+        /* --- SPLASH SCREEN PREMIUM (2.5s) --- */
         #splash-screen {
             position: fixed;
             inset: 0;
@@ -61,7 +59,6 @@
             100% { transform: scale(1.1); filter: drop-shadow(0 0 40px #ef4444); }
         }
 
-        /* Contenitore barra */
         .loader-container {
             width: 240px;
             height: 8px;
@@ -73,7 +70,6 @@
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* Barra di caricamento con effetto Shimmer */
         .loader-bar {
             width: 0%;
             height: 100%;
@@ -84,17 +80,11 @@
             position: relative;
         }
 
-        /* Riflesso luce che scorre sulla barra */
         .loader-bar::after {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.4),
-                transparent
-            );
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             animation: shimmer 1.5s infinite;
         }
 
@@ -127,25 +117,6 @@
             50% { opacity: 1; }
         }
 
-        }
-        .splash-logo {
-            font-size: 80px;
-            animation: splashPulse 1.5s infinite alternate ease-in-out;
-        }
-        @keyframes splashPulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 5px #ef4444); }
-            100% { transform: scale(1.2); filter: drop-shadow(0 0 30px #ef4444); }
-        }
-        .splash-text {
-            color: white;
-            margin-top: 20px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            font-size: 14px;
-            text-transform: uppercase;
-            opacity: 0.7;
-        }
-
         /* --- CONTAINER PRINCIPALE --- */
         .container { 
             width: 100%; max-width: 420px; background: rgba(255, 255, 255, 0.08); 
@@ -154,7 +125,7 @@
             opacity: 0; transform: translateY(30px);
             transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        /* Classe attivata via JS dopo lo splash */
+
         .container.active {
             opacity: 1;
             transform: translateY(0);
@@ -178,19 +149,10 @@
         .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #ef4444, #eab308, #22c55e); transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         .progress-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); pointer-events: none; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Effetto cascata sugli input */
-        .input-group, .field-row, label { 
-            opacity: 0; 
-            transform: translateY(15px);
-        }
-        .active .input-group, .active .field-row, .active label {
-            animation: slideUpFade 0.5s ease forwards;
-        }
-        @keyframes slideUpFade {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .input-group, .field-row, label { opacity: 0; transform: translateY(15px); }
+        .active .input-group, .active .field-row, .active label { animation: slideUpFade 0.5s ease forwards; }
+        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
 
-        /* Delay per l'effetto cascata */
         .active label:nth-of-type(1) { animation-delay: 0.1s; }
         .active .input-group:nth-of-type(1) { animation-delay: 0.2s; }
         .active .input-group:nth-of-type(2) { animation-delay: 0.3s; }
@@ -230,6 +192,9 @@
 
 <div id="splash-screen">
     <div class="splash-logo">🔥</div>
+    <div class="loader-container">
+        <div class="loader-bar"></div>
+    </div>
     <div class="splash-text">Caricamento Assistenza...</div>
 </div>
 
@@ -327,7 +292,7 @@
             </div>
         </div>
 
-                <div class="input-group" id="erroriDisplayGroup" style="display:none;">
+        <div class="input-group" id="erroriDisplayGroup" style="display:none;">
             <div class="field-container">
                 <select id="listaErrori">
                     <option value="">Seleziona l'allarme...</option>
@@ -355,7 +320,7 @@
             </div>
         </div>
 
-  <div class="input-group" id="altroBox" style="display:none;">
+        <div class="input-group" id="altroBox" style="display:none;">
             <div class="field-container">
                 <textarea id="problemaAltro" placeholder="Descrivi brevemente qui..."></textarea>
                 <span class="field-icon">📝</span>
@@ -380,7 +345,6 @@
 </div>
 
 <script>
- 
     // --- LOGICA SPLASH SCREEN (Sincronizzata a 2.5s) ---
     window.addEventListener('load', () => {
         setTimeout(() => {
@@ -390,10 +354,9 @@
             setTimeout(() => {
                 splash.style.visibility = 'hidden';
                 main.classList.add('active'); 
-            }, 800); // Tempo per la dissolvenza fluida
-        }, 2500); // ASPETTA 2.5 SECONDI
+            }, 800); 
+        }, 2500); 
     });
-
 
     const comuniNA = ["Acerra","Afragola","Agerola","Anacapri","Arzano","Bacoli","Barano d'Ischia","Boscoreale","Boscotrecase","Calvizzano","Casalnuovo di Napoli","Casamarciano","Casamicciola Terme","Casandrino","Casavatore","Casola di Napoli","Casoria","Castellammare di Stabia","Castello di Cisterna","Cercola","Cicciano","Cimitile","Comiziano","Crispano","Ercolano","Forio","Frattamaggiore","Frattaminore","Giugliano in Campania","Gragnano","Grumo Nevano","Ischia","Lacco Ameno","Lettere","Liveri","Marano di Napoli","Mariglianella","Marigliano","Massa Lubrense","Massa di Somma","Melito di Napoli","Meta","Monte di Procida","Mugnano di Napoli","Napoli","Nola","Ottaviano","Palma Campania","Piano di Sorrento","Pimonte","Poggiomarino","Pollena Trocchia","Pomigliano d'Arco","Pompei","Portici","Pozzuoli","Procida","Qualiano","Quarto","Roccarainola","San Gennaro Vesuviano","San Giorgio a Cremano","San Giuseppe Vesuviano","San Paolo Bel Sito","San Sebastiano al Vesuvio","San Vitaliano","Sant'Agnello","Sant'Anastasia","Sant'Antimo","Sant'Antonio Abate","Santa Maria la Carità","Saviano","Scisciano","Serrara Fontana","Somma Vesuviana","Sorrento","Striano","Terzigno","Torre Annunziata","Torre del Greco","Trecase","Tufino","Vico Equense","Villaricca","Visciano","Volla"];
     const comuniSA = ["Acerno","Agropoli","Albanella","Alfano","Altavilla Silentina","Amalfi","Angri","Aquara","Ascea","Atena Lucana","Atrani","Auletta","Baronissi","Battipaglia","Bellizzi","Bellosguardo","Bracigliano","Buccino","Buonabitacolo","Caggiano","Calvanico","Camerota","Campagna","Campora","Cannalonga","Capaccio Paestum","Casal Velino","Casalbuono","Casaletto Spartano","Caselle in Pittari","Castel San Giorgio","Castel San Lorenzo","Castelcivita","Castellabate","Castelnuovo Cilento","Castelnuovo di Conza","Castiglione del Genovesi","Cava de' Tirreni","Celle di Bulgheria","Centola","Ceraso","Cetara","Cicerale","Contursi Terme","Corbara","Corleto Monforte","Cuccaro Vetere","Eboli","Felitto","Fisciano","Furore","Futani","Giffoni Sei Casali","Giffoni Valle Piana","Gioi","Giungano","Ispani","Laureana Cilento","Laurino","Laurito","Laviano","Lustra","Magliano Vetere","Maiori","Mercato San Severino","Minori","Moio della Civitella","Montano Antilia","Monte San Giacomo","Montecorice","Montecorvino Pugliano","Montecorvino Rovella","Monteforte Cilento","Montesano sulla Marcellana","Morigerati","Nocera Inferiore","Nocera Superiore","Novi Velia","Ogliastro Cilento","Olevano sul Tusciano","Oliveto Citra","Omignano","Orria","Ottati","Padula","Pagani","Palomonte","Pellezzano","Perdifumo","Perito","Pertosa","Petina","Piaggine","Pisciotta","Polla","Pollica","Pontecagnano Faiano","Positano","Postiglione","Praiano","Prignano Cilento","Ravello","Ricigliano","Roccadaspide","Roccagloriosa","Roccapiemonte","Rofrano","Romagnano al Monte","Roscigno","Rutino","Sacco","Sala Consilina","Salento","Salerno","San Cipriano Picentino","San Giovanni a Piro","San Gregorio Magno","San Mango Piemonte","San Marzano sul Sarno","San Mauro Cilento","San Mauro la Bruca","San Pietro al Tanagro","San Rufo","San Valentino Torio","Santa Marina","Sant'Angelo a Fasanella","Sant'Arsenio","Sant'Egidio del Monte Albino","Sapri","Sarno","Sassano","Scafati","Scala","Serramezzana","Serre","Sessa Cilento","Siano","Sicignano degli Alburni","Stella Cilento","Stio","Teggiano","Torchiara","Torraca","Torre Orsaia","Tortorella","Tramonti","Trentinara","Valva","Vallo della Lucania","Vibonati","Vietri sul Mare"];
