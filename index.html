@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <meta property="og:title" content="Prenotazione Intervento Tecnico">
     <meta property="og:description" content="Invia la tua richiesta di assistenza rapidamente via WhatsApp.">
@@ -11,8 +11,6 @@
     <meta property="og:type" content="website">
 
     <link rel="apple-touch-icon" href="icon-180.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="icon-180.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Assistenza">
@@ -30,11 +28,11 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            padding: 20px; 
+            padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom) 20px; 
             overflow-x: hidden; 
         }
 
-        /* --- SPLASH SCREEN PREMIUM (2.5s) --- */
+        /* --- SPLASH SCREEN & SKELETON --- */
         #splash-screen {
             position: fixed;
             inset: 0;
@@ -47,11 +45,24 @@
             transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
         }
 
+        .skeleton-overlay {
+            position: absolute;
+            width: 100%;
+            max-width: 420px;
+            padding: 25px;
+            opacity: 0.15;
+            filter: blur(4px);
+            pointer-events: none;
+        }
+        .sk-line { background: #fff; height: 45px; border-radius: 12px; margin-bottom: 15px; width: 100%; }
+        .sk-box { background: #fff; height: 120px; border-radius: 20px; width: 100%; margin-bottom: 20px; }
+
         .splash-logo {
             font-size: 90px;
             margin-bottom: 25px;
             animation: splashPulse 1.25s infinite alternate ease-in-out;
             filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.5));
+            z-index: 2;
         }
 
         @keyframes splashPulse {
@@ -67,61 +78,26 @@
             overflow: hidden;
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+            z-index: 2;
         }
 
         .loader-bar {
             width: 0%;
             height: 100%;
             background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
             border-radius: 20px;
             animation: loadProgress 2.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
-            position: relative;
         }
 
-        .loader-bar::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes loadProgress {
-            0% { width: 0%; }
-            20% { width: 15%; }
-            50% { width: 60%; }
-            80% { width: 90%; }
-            100% { width: 100%; }
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .splash-text {
-            color: #22c55e;
-            margin-top: 20px;
-            font-weight: 900;
-            letter-spacing: 4px;
-            font-size: 10px;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
-            animation: fadeText 2.5s infinite;
-        }
-
-        @keyframes fadeText {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
+        @keyframes loadProgress { 100% { width: 100%; } }
 
         /* --- CONTAINER PRINCIPALE --- */
         .container { 
             width: 100%; max-width: 420px; background: rgba(255, 255, 255, 0.08); 
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
-            border-radius: 25px; padding: 25px; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 25px; padding: 25px; 
+            border: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.3); /* Glassmorphism spinto */
             opacity: 0; transform: translateY(30px);
             transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
@@ -132,38 +108,34 @@
         h2 { color: #fff; font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; animation: titleColorShift 4s infinite ease-in-out; }
         .fire-icon { display: inline-block; animation: firePulse 1.5s infinite alternate ease-in-out; }
 
-        @keyframes titleColorShift {
-            0%, 100% { color: #ffffff; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
-            50% { color: #22c55e; text-shadow: 0 0 20px rgba(34, 197, 94, 0.4); }
-        }
-
-        @keyframes firePulse {
-            from { transform: scale(1); filter: drop-shadow(0 0 2px #ef4444); }
-            to { transform: scale(1.2) translateY(-3px); filter: drop-shadow(0 0 10px #ef4444); }
-        }
+        @keyframes firePulse { from { transform: scale(1); } to { transform: scale(1.2); } }
+        @keyframes titleColorShift { 0%, 100% { color: #ffffff; } 50% { color: #22c55e; } }
 
         .progress-container { width: 100%; background: rgba(0, 0, 0, 0.3); border-radius: 50px; margin-bottom: 25px; height: 24px; position: relative; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.2); }
         .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #ef4444, #eab308, #22c55e); transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .progress-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); pointer-events: none; text-transform: uppercase; letter-spacing: 1px; }
-
-        .input-group, .field-row, label { opacity: 0; transform: translateY(15px); }
-        .active .input-group, .active .field-row, .active label { animation: slideUpFade 0.5s ease forwards; }
-        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
-
-        .active label:nth-of-type(1) { animation-delay: 0.1s; }
-        .active .input-group:nth-of-type(1) { animation-delay: 0.2s; }
-        .active .input-group:nth-of-type(2) { animation-delay: 0.3s; }
-        .active .field-row:nth-of-type(1) { animation-delay: 0.4s; }
+        .progress-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; text-transform: uppercase; pointer-events: none; }
 
         label { font-size: 10px; color: #22c55e; margin-bottom: 5px; display: block; margin-left: 5px; text-transform: uppercase; font-weight: 700; }
-        .field-row { display: flex; gap: 10px; margin-bottom: 15px; }
-        .field-container { position: relative; display: flex; align-items: center; width: 100%; }
-        .field-icon { position: absolute; left: 12px; font-size: 16px; pointer-events: none; }
-
-        input, select, textarea { width: 100%; padding: 12px 12px 12px 38px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; outline: none; transition: 0.3s; }
+        
+        .input-group, .field-row { margin-bottom: 15px; position: relative; }
+        
+        input, select, textarea { 
+            width: 100%; padding: 12px 35px 12px 38px; border-radius: 12px; 
+            border: 1px solid rgba(255,255,255,0.2); background: rgba(255, 255, 255, 0.1); 
+            color: #fff; font-size: 15px; outline: none; transition: 0.3s; 
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
         input:focus, select:focus, textarea:focus { border-color: #22c55e; background: rgba(255, 255, 255, 0.15); box-shadow: 0 0 10px rgba(34, 197, 94, 0.2); }
         
-        #installBox { display:none; margin-bottom:15px; padding:12px; border:1px solid #22c55e; border-radius:12px; background:rgba(34,197,94,0.1); color:white; text-align:center; }
+        .field-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; pointer-events: none; z-index: 2; }
+        
+        /* Checkmark */
+        .check-status { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #22c55e; opacity: 0; transition: 0.3s; pointer-events: none; }
+        input.valid + .field-icon + .check-status, 
+        select.valid + .field-icon + .check-status,
+        input.valid + .check-status { opacity: 1; }
+
+        #installBox { display:none; margin-bottom:15px; padding:12px; border:1px solid #22c55e; border-radius:12px; background:rgba(34,197,94,0.1); color:white; text-align:center; border-top: 2px solid rgba(255,255,255,0.3); }
         #installBtn { width:100%; padding:12px; border:none; border-radius:10px; background:#22c55e; color:white; font-weight:bold; cursor: pointer; }
 
         button#mainBtn { 
@@ -171,15 +143,17 @@
             background: linear-gradient(45deg, #22c55e, #16a34a, #22c55e); background-size: 200% auto;
             color: white; font-size: 16px; font-weight: 900; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 10px;
-            animation: pulseGlow 2s infinite, gradientMove 3s linear infinite;
+            border-top: 1px solid rgba(255,255,255,0.4);
+            animation: pulseGlow 2s infinite; transition: 0.3s;
         }
 
+        .spinner { display: none; width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
-        @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        .preview-box { background: rgba(2, 6, 23, 0.6); border: 1px solid #22c55e; border-radius: 12px; padding: 12px; margin-top: 15px; font-size: 13px; color: #22c55e; display: none; white-space: pre-line; }
+        .preview-box { background: rgba(2, 6, 23, 0.6); border: 1px solid #22c55e; border-radius: 12px; padding: 12px; margin-top: 15px; font-size: 13px; color: #22c55e; display: none; white-space: pre-line; border-top: 1px solid rgba(255,255,255,0.2); }
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .box { background: #0f172a; padding: 25px; border-radius: 20px; text-align: center; width: 90%; max-width: 320px; border: 1px solid #22c55e; }
+        .box { background: #0f172a; padding: 25px; border-radius: 20px; text-align: center; width: 90%; max-width: 320px; border: 1px solid #22c55e; border-top: 1px solid rgba(255,255,255,0.4); }
         .ok { background: #22c55e; width: 100%; padding: 12px; border:none; border-radius: 10px; color: white; font-weight: bold; margin-bottom: 10px; cursor: pointer;}
         .no { background: transparent; color: #aaa; border: none; cursor: pointer; font-size: 13px; }
         select option { background-color: #0f172a; color: #ffffff; }
@@ -188,17 +162,16 @@
 <body>
 
 <div id="splash-screen">
-    <div class="splash-logo">🔥</div>
-    <div class="loader-container">
-        <div class="loader-bar"></div>
+    <div class="skeleton-overlay">
+        <div class="sk-box"></div>
+        <div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div>
     </div>
-    <div class="splash-text">Caricamento Assistenza...</div>
+    <div class="splash-logo">🔥</div>
+    <div class="loader-container"><div class="loader-bar"></div></div>
 </div>
 
 <div class="container" id="mainContainer">
-    <div class="header-box">
-        <h2><span class="fire-icon">🔥</span> PRENOTA IL TUO INTERVENTO</h2>
-    </div>
+    <div class="header-box"><h2><span class="fire-icon">🔥</span> PRENOTA INTERVENTO</h2></div>
 
     <div id="installBox">
         <p style="font-size:13px; margin-bottom:10px;">📲 Installa l’app per un accesso rapido</p>
@@ -213,121 +186,108 @@
 
     <label>Anagrafica</label>
     <div class="input-group">
-        <div class="field-container">
-            <input type="text" id="nomeCompleto" placeholder="Nome e Cognome">
-            <span class="field-icon">👤</span>
-        </div>
+        <input type="text" id="nomeCompleto" placeholder="Nome e Cognome">
+        <span class="field-icon">👤</span>
+        <span class="check-status">✓</span>
     </div>
 
     <div class="input-group">
-        <div class="field-container">
-            <input type="text" id="indirizzo" placeholder="Indirizzo e Civico">
-            <span class="field-icon">📍</span>
-        </div>
+        <input type="text" id="indirizzo" placeholder="Indirizzo e Civico">
+        <span class="field-icon">📍</span>
+        <span class="check-status">✓</span>
     </div>
 
-    <div class="field-row">
-        <div class="field-container" style="flex: 2;">
+    <div class="field-row" style="display: flex; gap: 10px;">
+        <div style="flex: 2; position: relative;">
             <input type="text" id="citta" list="listaCitta" placeholder="Città">
             <datalist id="listaCitta"></datalist>
             <span class="field-icon">🏙️</span>
+            <span class="check-status">✓</span>
         </div>
-        <div class="field-container" style="flex: 1;">
+        <div style="flex: 1; position: relative;">
             <input type="text" id="provincia" placeholder="Prov." maxlength="2">
             <span class="field-icon">🏛️</span>
+            <span class="check-status">✓</span>
         </div>
     </div>
 
-    <div class="field-row">
-        <div class="field-container">
+    <div class="field-row" style="display: flex; gap: 10px;">
+        <div style="flex: 1; position: relative;">
             <input type="tel" id="telefono" placeholder="Cellulare">
             <span class="field-icon">📱</span>
+            <span class="check-status">✓</span>
         </div>
-        <div class="field-container">
+        <div style="flex: 1; position: relative;">
             <input type="tel" id="fisso" placeholder="Fisso (opz)">
             <span class="field-icon">📞</span>
         </div>
     </div>
 
     <label>Dati Prodotto</label>
-    <div class="field-row">
-        <div class="field-container">
+    <div class="field-row" style="display: flex; gap: 10px;">
+        <div style="flex: 1; position: relative;">
             <input type="text" id="marca" placeholder="Marca">
             <span class="field-icon">🔥</span>
+            <span class="check-status">✓</span>
         </div>
-        <div class="field-container">
+        <div style="flex: 1; position: relative;">
             <input type="text" id="modello" placeholder="Modello">
             <span class="field-icon">⚙️</span>
+            <span class="check-status">✓</span>
         </div>
     </div>
 
     <div class="input-group">
-        <div class="field-container">
-            <select id="tipoIntervento">
-                <option value="">Tipo di intervento...</option>
-                <option value="Manutenzione">Manutenzione</option>
-                <option value="Riparazione">Riparazione</option>
-                <option value="Prima accensione">Prima accensione</option>
-            </select>
-            <span class="field-icon">🧰</span>
-        </div>
+        <select id="tipoIntervento">
+            <option value="">Tipo di intervento...</option>
+            <option value="Manutenzione">Manutenzione</option>
+            <option value="Riparazione">Riparazione</option>
+            <option value="Prima accensione">Prima accensione</option>
+        </select>
+        <span class="field-icon">🧰</span>
+        <span class="check-status">✓</span>
     </div>
 
     <div id="sezioneProblemi">
         <div class="input-group">
-            <div class="field-container">
-                <select id="problema">
-                    <option value="">Seleziona problema (facoltativo)</option>
-                    <option value="Errore sul display">Errore sul display ⚠️</option>
-                    <option value="Mancata Accensione">Non si accende la fiamma</option>
-                    <option value="Si spegne da sola">Si spegne durante il lavoro</option>
-                    <option value="Vetro molto nero">Il vetro si sporca subito</option>
-                    <option value="Rumore eccessivo">Fa un rumore anomalo</option>
-                    <option value="Altro">Altro (specifica sotto)</option>
-                </select>
-                <span class="field-icon">🛠️</span>
-            </div>
+            <select id="problema">
+                <option value="">Seleziona problema (facoltativo)</option>
+                <option value="Errore sul display">Errore sul display ⚠️</option>
+                <option value="Mancata Accensione">Non si accende la fiamma</option>
+                <option value="Si spegne da sola">Si spegne durante il lavoro</option>
+                <option value="Vetro molto nero">Il vetro si sporca subito</option>
+                <option value="Rumore eccessivo">Fa un rumore anomalo</option>
+                <option value="Altro">Altro (specifica sotto)</option>
+            </select>
+            <span class="field-icon">🛠️</span>
         </div>
 
         <div class="input-group" id="erroriDisplayGroup" style="display:none;">
-            <div class="field-container">
-                <select id="listaErrori">
-                    <option value="">Seleziona l'allarme...</option>
-                    <option value="AL 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
-                    <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
-                    <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
-                    <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
-                    <option value="AL 5 - No Accensione">AL 5 - Mancata Accensione</option>
-                    <option value="AL 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
-                    <option value="AL 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
-                    <option value="AL 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
-                    <option value="AL 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
-                    <option value="SERVICE/PULIZIA">SERVICE/PULIZIA</option>
-                    <option value="Errore Triac Coclea">Errore Triac Coclea</option>
-                    <option value="Errore Sonda K">Errore Sonda K</option>
-                    <option value="Errore Pulizia braciere">Errore Pulizia braciere</option>
-                    <option value="Errore Pressione Alta">Errore Pressione Alta</option>
-                    <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
-                    <option value="Errore Debimetro/No flusso">Errore Debimetro/No flusso</option>
-                    <option value="Errore Porta Apert/sportello pellet">Errore Porta Aperta/sportello pellet</option>
-                    <option value="Errore NO SEGNALE">Errore NO SEGNALE</option>
-                    <option value="Altro">Altro errore non in lista</option>
-                </select>
-                <span class="field-icon">📟</span>
-            </div>
+            <select id="listaErrori">
+                <option value="">Seleziona l'allarme...</option>
+                <option value="AL 1 - Blackout">AL 1 - Blackout</option>
+                <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi</option>
+                <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi</option>
+                <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore</option>
+                <option value="AL 5 - No Accensione">AL 5 - No Accensione</option>
+                <option value="AL 6 - No Pellet">AL 6 - No Pellet</option>
+                <option value="AL 7 - Termico">AL 7 - Sicurezza Termica</option>
+                <option value="AL 8 - No Depressione">AL 8 - Errore Depressione</option>
+                <option value="AL 9 - Coclea">AL 9 - Blocco Coclea</option>
+                <option value="SERVICE/PULIZIA">SERVICE/PULIZIA</option>
+            </select>
+            <span class="field-icon">📟</span>
         </div>
 
         <div class="input-group" id="altroBox" style="display:none;">
-            <div class="field-container">
-                <textarea id="problemaAltro" placeholder="Descrivi brevemente qui..."></textarea>
-                <span class="field-icon">📝</span>
-            </div>
+            <textarea id="problemaAltro" placeholder="Descrivi brevemente qui..."></textarea>
+            <span class="field-icon">📝</span>
         </div>
     </div>
 
     <button id="mainBtn">
-        <svg style="width:22px; height:22px; fill:white;" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.4-8.6-44.6-27.5-16.4-14.7-27.5-32.8-30.7-38.4-3.2-5.6-.3-8.6 2.5-11.4 2.5-2.5 5.5-6.5 8.3-9.7 2.8-3.2 3.7-5.6 5.6-9.3 1.9-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
-        INVIA SU WHATSAPP
+        <span id="btnText">INVIA SU WHATSAPP</span>
+        <div class="spinner" id="btnSpinner"></div>
     </button>
     <div class="preview-box" id="previewBox"></div>
 </div>
@@ -335,23 +295,20 @@
 <div class="modal" id="modal">
     <div class="box">
         <h3>Conferma Invio</h3>
-        <p style="margin-bottom: 20px; font-size: 14px; color: #cbd5e1;">Vuoi inviare la richiesta tecnica ora?</p>
+        <p style="margin-bottom: 20px; font-size: 14px; color: #cbd5e1;">Vuoi inviare la richiesta ora?</p>
         <button class="ok" id="conferma">SÌ, PROCEDI</button>
         <button class="no" id="annulla">MODIFICA</button>
     </div>
 </div>
 
 <script>
-    // --- LOGICA SPLASH SCREEN (2.5s) ---
+    // --- SPLASH LOGIC ---
     window.addEventListener('load', () => {
         setTimeout(() => {
             const splash = document.getElementById('splash-screen');
             const main = document.getElementById('mainContainer');
             splash.style.opacity = '0';
-            setTimeout(() => {
-                splash.style.visibility = 'hidden';
-                main.classList.add('active'); 
-            }, 800); 
+            setTimeout(() => { splash.style.visibility = 'hidden'; main.classList.add('active'); }, 800); 
         }, 2500); 
     });
 
@@ -363,29 +320,36 @@
         const tutti = [...comuniNA.map(c => ({n:c, p:"NA"})), ...comuniSA.map(c => ({n:c, p:"SA"}))];
         tutti.sort((a,b) => a.n.localeCompare(b.n)).forEach(c => {
             let o = document.createElement("option");
-            o.value = c.n;
-            o.dataset.p = c.p;
+            o.value = c.n; o.dataset.p = c.p;
             dl.appendChild(o);
         });
     }
 
-    const fields = ["nomeCompleto","indirizzo","citta","provincia","telefono","fisso","marca","modello"];
+    const fields = ["nomeCompleto","indirizzo","citta","provincia","telefono","fisso","marca","modello","tipoIntervento"];
     fields.forEach(id => {
         const el = document.getElementById(id);
+        if(!el) return;
         const saved = localStorage.getItem(id);
-        if(saved) el.value = saved;
+        if(saved) { el.value = saved; valida(el); }
         el.addEventListener("input", () => {
             localStorage.setItem(id, el.value);
-            updateUI();
+            valida(el); updateUI();
         });
     });
 
-    document.getElementById("citta").addEventListener("input", function() {
-        const val = this.value;
+    function valida(el) {
+        if(el.value.trim().length >= 2) el.classList.add("valid");
+        else el.classList.remove("valid");
+    }
+
+    document.getElementById("citta").addEventListener("change", function() {
         const opts = document.getElementById("listaCitta").childNodes;
         for(let i=0; i<opts.length; i++) {
-            if(opts[i].value === val) {
-                document.getElementById("provincia").value = opts[i].dataset.p;
+            if(opts[i].value === this.value) {
+                const prov = document.getElementById("provincia");
+                prov.value = opts[i].dataset.p;
+                valida(prov);
+                document.getElementById("telefono").focus(); // Auto-focus
                 break;
             }
         }
@@ -394,34 +358,22 @@
     function updateUI() {
         const essential = ["nomeCompleto", "indirizzo", "citta", "provincia", "telefono", "marca", "tipoIntervento"];
         let filled = 0;
-        essential.forEach(id => {
-            if(document.getElementById(id).value.trim() !== "") filled++;
-        });
-
+        essential.forEach(id => { if(document.getElementById(id).value.trim() !== "") filled++; });
         const percent = Math.round((filled / essential.length) * 100);
         document.getElementById("progressFill").style.width = percent + "%";
         document.getElementById("progressText").innerText = percent + "% COMPLETATO";
 
         const preview = document.getElementById("previewBox");
         const d = (id) => document.getElementById(id).value.trim();
-
-        let testoPreview = "";
-        if(d("nomeCompleto")) testoPreview += `👤 Cliente: ${d("nomeCompleto")}\n`;
-        if(d("indirizzo"))    testoPreview += `📍 Indirizzo: ${d("indirizzo")} - ${d("citta")} (${d("provincia")})\n`;
-        if(d("marca"))        testoPreview += `🔥 Stufa: ${d("marca")} ${d("modello")}\n`;
-        if(d("tipoIntervento")) testoPreview += `🧰 Servizio: ${d("tipoIntervento")}`;
-
-        preview.style.display = (testoPreview !== "") ? "block" : "none";
-        preview.innerText = testoPreview;
-        
-        const tipo = document.getElementById("tipoIntervento").value;
-        document.getElementById("sezioneProblemi").style.display = (tipo === "Prima accensione") ? "none" : "block";
+        let txt = "";
+        if(d("nomeCompleto")) txt += `👤 Cliente: ${d("nomeCompleto")}\n`;
+        if(d("indirizzo")) txt += `📍 Indirizzo: ${d("indirizzo")} - ${d("citta")} (${d("provincia")})\n`;
+        if(d("marca")) txt += `🔥 Stufa: ${d("marca")} ${d("modello")}\n`;
+        if(d("tipoIntervento")) txt += `🧰 Servizio: ${d("tipoIntervento")}`;
+        preview.style.display = (txt !== "") ? "block" : "none";
+        preview.innerText = txt;
+        document.getElementById("sezioneProblemi").style.display = (d("tipoIntervento") === "Prima accensione") ? "none" : "block";
     }
-
-    document.querySelectorAll('input, select, textarea').forEach(el => {
-        el.addEventListener('input', updateUI);
-        el.addEventListener('change', updateUI);
-    });
 
     document.getElementById("problema").addEventListener("change", function() {
         document.getElementById("erroriDisplayGroup").style.display = (this.value === "Errore sul display") ? "block" : "none";
@@ -430,64 +382,34 @@
 
     document.getElementById("mainBtn").onclick = function() {
         const d = (id) => document.getElementById(id).value.trim();
-        const nomeIntero = d("nomeCompleto");
-        const nomeValido = nomeIntero.split(/\s+/).filter(word => word.length > 0).length >= 2;
-
-        if (!nomeIntero || !d("indirizzo") || !d("citta") || !d("provincia") || !d("telefono") || !d("marca") || !d("tipoIntervento")) {
-            alert("⚠️ Compila tutti i dati obbligatori.");
-            return;
-        }
-        if (!nomeValido) {
-            alert("⚠️ Inserisci sia il Nome che il Cognome.");
-            document.getElementById("nomeCompleto").focus();
-            return;
+        if (!d("nomeCompleto") || !d("indirizzo") || !d("telefono") || !d("marca") || !d("tipoIntervento")) {
+            alert("⚠️ Compila i dati obbligatori."); return;
         }
 
-        const tipo = d("tipoIntervento");
-        let dettaglio = "";
-        if (tipo !== "Prima accensione") {
-            dettaglio = d("problema");
-            if (dettaglio === "Errore sul display") dettaglio = "Allarme: " + d("listaErrori");
-            if (d("problemaAltro")) dettaglio += (dettaglio ? " - " : "") + "Note: " + d("problemaAltro");
-        }
+        const t = document.getElementById("btnText");
+        const s = document.getElementById("btnSpinner");
+        t.style.display = "none"; s.style.display = "block";
 
-        const messaggio = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n------------------------------\n👤 *Cliente:* ${nomeIntero}\n📍 *Indirizzo:* ${d("indirizzo")}\n🏙️ *Città:* ${d("citta")} (${d("provincia").toUpperCase()})\n📱 *Tel:* ${d("telefono")}${d("fisso") ? " / " + d("fisso") : ""}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${tipo}\n${dettaglio ? "🛠️ *Dettaglio:* " + dettaglio + "\n" : ""}📅 *Data:* ${new Date().toLocaleDateString('it-IT')}`;
-        const url = "https://api.whatsapp.com/send?phone=390813769280&text=" + encodeURIComponent(messaggio);
+        setTimeout(() => {
+            document.getElementById("modal").style.display = "flex";
+            t.style.display = "block"; s.style.display = "none";
+        }, 800);
+
+        const msg = `*🔥 RICHIESTA ASSISTENZA*\n👤 *Cliente:* ${d("nomeCompleto")}\n📍 *Indirizzo:* ${d("indirizzo")} - ${d("citta")}\n📱 *Tel:* ${d("telefono")}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${d("tipoIntervento")}\n📅 *Data:* ${new Date().toLocaleDateString('it-IT')}`;
+        const url = "https://api.whatsapp.com/send?phone=390813769280&text=" + encodeURIComponent(msg);
         
-        document.getElementById("modal").style.display = "flex";
         document.getElementById("conferma").onclick = () => { window.open(url, "_blank"); document.getElementById("modal").style.display = "none"; };
     };
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
-    
-    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./service-worker.js'); }
 
-    let deferredPrompt;
-    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    const installBox = document.getElementById("installBox");
+    // PWA Logica
+    let defPrompt;
+    window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); defPrompt = e; if (!/iphone|ipad|ipod/i.test(navigator.userAgent)) document.getElementById("installBox").style.display = "block"; });
+    if (/iphone|ipad|ipod/i.test(navigator.userAgent)) { document.getElementById("installBox").style.display = "block"; document.getElementById("iosHint").style.display = "block"; document.getElementById("installBtn").style.display = "none"; }
+    document.getElementById("installBtn").onclick = () => { if(defPrompt){ defPrompt.prompt(); document.getElementById("installBox").style.display="none"; } };
 
-    window.addEventListener("beforeinstallprompt", (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        if (!isIOS) installBox.style.display = "block";
-    });
-
-    if (isIOS) {
-        installBox.style.display = "block";
-        document.getElementById("iosHint").style.display = "block";
-        document.getElementById("installBtn").style.display = "none";
-    }
-
-    document.getElementById("installBtn").addEventListener("click", async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt = null;
-            installBox.style.display = "none";
-        }
-    });
-
-    popola();
-    updateUI();
+    popola(); updateUI();
 </script>
 </body>
 </html>
