@@ -44,131 +44,71 @@
             z-index: 9999;
             transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
         }
-
-        .skeleton-overlay {
-            position: absolute;
-            width: 100%;
-            max-width: 420px;
-            padding: 25px;
-            opacity: 0.15;
-            filter: blur(4px);
-            pointer-events: none;
-        }
+        .skeleton-overlay { position: absolute; width: 100%; max-width: 420px; padding: 25px; opacity: 0.15; filter: blur(4px); pointer-events: none; }
         .sk-box { background: #fff; height: 120px; border-radius: 20px; width: 100%; margin-bottom: 20px; }
         .sk-line { background: #fff; height: 45px; border-radius: 12px; margin-bottom: 15px; width: 100%; }
-
-        .splash-logo {
-            font-size: 90px;
-            margin-bottom: 15px;
-            animation: splashPulse 1.25s infinite alternate ease-in-out;
-            filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.5));
-            z-index: 2;
-        }
-
-        @keyframes splashPulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 10px #ef4444); }
-            100% { transform: scale(1.1); filter: drop-shadow(0 0 40px #ef4444); }
-        }
-
-        .loading-text {
-            color: white;
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            z-index: 2;
-            opacity: 0.8;
-        }
-
-        .loader-container {
-            width: 240px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 2;
-        }
-
-        .loader-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);
-            border-radius: 20px;
-            animation: loadProgress 2.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
-        }
-
+        .splash-logo { font-size: 90px; margin-bottom: 15px; animation: splashPulse 1.25s infinite alternate ease-in-out; filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.5)); z-index: 2; }
+        @keyframes splashPulse { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        .loading-text { color: white; font-size: 14px; font-weight: 700; margin-bottom: 15px; letter-spacing: 2px; text-transform: uppercase; z-index: 2; opacity: 0.8; }
+        .loader-container { width: 240px; height: 8px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); z-index: 2; }
+        .loader-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e); animation: loadProgress 2.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards; }
         @keyframes loadProgress { 100% { width: 100%; } }
 
-        /* --- CONTAINER PRINCIPALE --- */
+        /* --- CONTAINER --- */
         .container { 
             width: 100%; max-width: 420px; background: rgba(255, 255, 255, 0.08); 
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
             border-radius: 25px; padding: 25px; 
-            border: 1px solid rgba(255,255,255,0.1);
-            border-top: 1px solid rgba(255,255,255,0.3); /* Glassmorphism spinto */
-            opacity: 0; transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            border: 1px solid rgba(255,255,255,0.1); border-top: 1px solid rgba(255,255,255,0.3);
+            opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
-
         .container.active { opacity: 1; transform: translateY(0); }
 
-        .header-box { text-align: center; margin-bottom: 20px; }
-        h2 { color: #fff; font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; animation: titleColorShift 4s infinite ease-in-out; }
-        .fire-icon { display: inline-block; animation: firePulse 1.5s infinite alternate ease-in-out; }
-
-        @keyframes firePulse { from { transform: scale(1); } to { transform: scale(1.2); } }
-        @keyframes titleColorShift { 0%, 100% { color: #ffffff; } 50% { color: #22c55e; } }
-
+        h2 { color: #fff; text-align: center; font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; }
         .progress-container { width: 100%; background: rgba(0, 0, 0, 0.3); border-radius: 50px; margin-bottom: 25px; height: 24px; position: relative; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #ef4444, #eab308, #22c55e); transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .progress-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; text-transform: uppercase; pointer-events: none; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #ef4444, #eab308, #22c55e); transition: width 0.6s ease; }
+        .progress-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; pointer-events: none; }
 
-        label { font-size: 10px; color: #22c55e; margin-bottom: 5px; display: block; margin-left: 5px; text-transform: uppercase; font-weight: 700; }
-        
+        label { font-size: 10px; color: #22c55e; margin: 0 0 5px 5px; display: block; text-transform: uppercase; font-weight: 700; }
         .input-group, .field-row { margin-bottom: 15px; position: relative; }
-        
-        input, select, textarea { 
-            width: 100%; padding: 12px 35px 12px 38px; border-radius: 12px; 
-            border: 1px solid rgba(255,255,255,0.2); background: rgba(255, 255, 255, 0.1); 
-            color: #fff; font-size: 15px; outline: none; transition: 0.3s; 
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-        input:focus, select:focus, textarea:focus { border-color: #22c55e; background: rgba(255, 255, 255, 0.15); box-shadow: 0 0 10px rgba(34, 197, 94, 0.2); }
+        input, select, textarea { width: 100%; padding: 12px 35px 12px 38px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; outline: none; transition: 0.3s; }
+        input:focus, select:focus { border-color: #22c55e; background: rgba(255, 255, 255, 0.15); }
         
         .field-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; pointer-events: none; z-index: 2; }
         
-        /* Checkmark */
         .check-status { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #22c55e; opacity: 0; transition: 0.3s; pointer-events: none; }
         input.valid + .field-icon + .check-status, 
         input.valid + .check-status,
         select.valid + .field-icon + .check-status,
         select.valid + .check-status { opacity: 1; }
 
-        #installBox { display:none; margin-bottom:15px; padding:12px; border:1px solid #22c55e; border-radius:12px; background:rgba(34,197,94,0.1); color:white; text-align:center; border-top: 2px solid rgba(255,255,255,0.3); }
-        #installBtn { width:100%; padding:12px; border:none; border-radius:10px; background:#22c55e; color:white; font-weight:bold; cursor: pointer; }
+        /* --- WHATSAPP BUBBLE PREVIEW --- */
+        .chat-preview { margin-top: 15px; display: none; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid rgba(37, 211, 102, 0.3); }
+        .chat-bubble { 
+            background: #25d366; color: #fff; padding: 10px 14px; border-radius: 12px; 
+            max-width: 90%; margin-left: auto; font-size: 13px; line-height: 1.4; 
+            position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.2); white-space: pre-line;
+        }
+        .chat-bubble::after { 
+            content: ""; position: absolute; right: -6px; top: 8px; width: 0; height: 0; 
+            border-left: 6px solid #25d366; border-top: 6px solid transparent; border-bottom: 6px solid transparent; 
+        }
 
         button#mainBtn { 
             width: 100%; padding: 18px; margin-top: 15px; border: none; border-radius: 14px; 
-            background: linear-gradient(45deg, #22c55e, #16a34a, #22c55e); background-size: 200% auto;
-            color: white; font-size: 16px; font-weight: 900; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            border-top: 1px solid rgba(255,255,255,0.4);
-            animation: pulseGlow 2s infinite; transition: 0.3s;
+            background: linear-gradient(45deg, #22c55e, #16a34a, #22c55e); color: white; font-weight: 900; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
         }
-
         .spinner { display: none; width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
 
-        .preview-box { background: rgba(2, 6, 23, 0.6); border: 1px solid #22c55e; border-radius: 12px; padding: 12px; margin-top: 15px; font-size: 13px; color: #22c55e; display: none; white-space: pre-line; border-top: 1px solid rgba(255,255,255,0.2); }
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .box { background: #0f172a; padding: 25px; border-radius: 20px; text-align: center; width: 90%; max-width: 320px; border: 1px solid #22c55e; border-top: 1px solid rgba(255,255,255,0.4); }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .box { background: #0f172a; padding: 25px; border-radius: 20px; text-align: center; width: 90%; max-width: 320px; border: 1px solid #22c55e; }
         .ok { background: #22c55e; width: 100%; padding: 12px; border:none; border-radius: 10px; color: white; font-weight: bold; margin-bottom: 10px; cursor: pointer;}
-        .no { background: transparent; color: #aaa; border: none; cursor: pointer; font-size: 13px; }
-        select option { background-color: #0f172a; color: #ffffff; }
+        .no { background: transparent; color: #aaa; border: none; cursor: pointer; padding: 10px; }
+        select option { background: #0f172a; color: white; }
+        #installBox { display:none; margin-bottom:15px; padding:12px; border:1px solid #22c55e; border-radius:12px; background:rgba(34,197,94,0.1); color:white; text-align:center; }
     </style>
 </head>
 <body>
@@ -184,12 +124,11 @@
 </div>
 
 <div class="container" id="mainContainer">
-    <div class="header-box"><h2><span class="fire-icon">🔥</span> PRENOTA INTERVENTO</h2></div>
+    <h2>🔥 PRENOTA INTERVENTO</h2>
 
     <div id="installBox">
         <p style="font-size:13px; margin-bottom:10px;">📲 Installa l’app per un accesso rapido</p>
-        <button id="installBtn">INSTALLA APP</button>
-        <p id="iosHint" style="display:none; font-size:12px; margin-top:10px; opacity:0.8;">Su iPhone: Condividi → Aggiungi a Home</p>
+        <button id="installBtn" style="background:#22c55e; border:none; padding:10px 20px; border-radius:10px; color:white; font-weight:bold; cursor:pointer;">INSTALLA APP</button>
     </div>
 
     <div class="progress-container">
@@ -240,12 +179,10 @@
     <div class="field-row" style="display: flex; gap: 10px;">
         <div style="flex: 1; position: relative;">
             <input type="text" id="marca" placeholder="Marca">
-            <span class="field-icon">🔥</span>
             <span class="check-status">✓</span>
         </div>
         <div style="flex: 1; position: relative;">
             <input type="text" id="modello" placeholder="Modello">
-            <span class="field-icon">⚙️</span>
             <span class="check-status">✓</span>
         </div>
     </div>
@@ -266,10 +203,10 @@
             <select id="problema">
                 <option value="">Seleziona problema (facoltativo)</option>
                 <option value="Errore sul display">Errore sul display ⚠️</option>
-                <option value="Mancata Accensione">Non si accende la fiamma</option>
-                <option value="Si spegne da sola">Si spegne durante il lavoro</option>
-                <option value="Vetro molto nero">Il vetro si sporca subito</option>
-                <option value="Rumore eccessivo">Fa un rumore anomalo</option>
+                <option value="Mancata Accensione">Mancata Accensione</option>
+                <option value="Si spegne da sola">Si spegne da sola</option>
+                <option value="Vetro molto nero">Vetro molto nero</option>
+                <option value="Rumore eccessivo">Rumore eccessivo</option>
                 <option value="Altro">Altro (specifica sotto)</option>
             </select>
             <span class="field-icon">🛠️</span>
@@ -278,62 +215,46 @@
         <div class="input-group" id="erroriDisplayGroup" style="display:none;">
             <select id="listaErrori">
                 <option value="">Seleziona l'allarme...</option>
-                <option value="AL 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
-                <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
-                <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
-                <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
-                <option value="AL 5 - No Accensione">AL 5 - Mancata Accensione</option>
-                <option value="AL 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
-                <option value="AL 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
-                <option value="AL 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
-                <option value="AL 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
-                <option value="SERVICE/PULIZIA">SERVICE/PULIZIA</option>
-                <option value="Errore Triac Coclea">Errore Triac Coclea</option>
-                <option value="Errore Sonda K">Errore Sonda K</option>
-                <option value="Errore Pulizia braciere">Errore Pulizia braciere</option>
-                <option value="Errore Pressione Alta">Errore Pressione Alta</option>
-                <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
-                <option value="Errore Debimetro/No flusso">Errore Debimetro/No flusso</option>
-                <option value="Errore Porta Apert/sportello pellet">Errore Porta Aperta/sportello pellet</option>
-                <option value="Errore NO SEGNALE">Errore NO SEGNALE</option>
-                <option value="Altro">Altro errore non in lista</option>
+                <option value="AL 1 - Blackout">AL 1 - Blackout</option>
+                <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi</option>
+                <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi</option>
+                <option value="AL 4 - Aspiratore">AL 4 - Aspiratore</option>
+                <option value="AL 5 - No Accensione">AL 5 - No Accensione</option>
+                <option value="AL 6 - No Pellet">AL 6 - No Pellet</option>
+                <option value="AL 7 - Termico">AL 7 - Termico</option>
+                <option value="AL 8 - No Depressione">AL 8 - No Depressione</option>
+                <option value="AL 9 - Coclea">AL 9 - Coclea</option>
+                <option value="SERVICE">SERVICE/PULIZIA</option>
+                <option value="Errore Triac">Errore Triac Coclea</option>
+                <option value="Errore Porta Aperta">Errore Porta Aperta</option>
             </select>
             <span class="field-icon">📟</span>
         </div>
 
-        <div class="input-group" id="altroBox" style="display:none;">
-            <textarea id="problemaAltro" placeholder="Descrivi brevemente qui..."></textarea>
-            <span class="field-icon">📝</span>
-        </div>
+        <textarea id="problemaAltro" placeholder="Descrivi qui il problema..." style="display:none; margin-bottom:15px; min-height:80px;"></textarea>
+    </div>
+
+    <div class="chat-preview" id="chatPreview">
+        <div class="chat-bubble" id="chatBubble"></div>
     </div>
 
     <button id="mainBtn">
         <span id="btnText">INVIA SU WHATSAPP</span>
         <div class="spinner" id="btnSpinner"></div>
     </button>
-    <div class="preview-box" id="previewBox"></div>
 </div>
 
 <div class="modal" id="modal">
     <div class="box">
         <h3>Conferma Invio</h3>
-        <p style="margin-bottom: 20px; font-size: 14px; color: #cbd5e1;">Vuoi inviare la richiesta ora?</p>
+        <p style="margin: 15px 0; font-size: 14px; color: #cbd5e1;">Vuoi procedere con l'invio?</p>
         <button class="ok" id="conferma">SÌ, PROCEDI</button>
         <button class="no" id="annulla">MODIFICA</button>
     </div>
 </div>
 
 <script>
-    // --- SPLASH LOGIC ---
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            const splash = document.getElementById('splash-screen');
-            const main = document.getElementById('mainContainer');
-            splash.style.opacity = '0';
-            setTimeout(() => { splash.style.visibility = 'hidden'; main.classList.add('active'); }, 800); 
-        }, 2500); 
-    });
-
+    // --- DATABASE COMUNI ---
     const comuniNA = ["Acerra","Afragola","Agerola","Anacapri","Arzano","Bacoli","Barano d'Ischia","Boscoreale","Boscotrecase","Calvizzano","Casalnuovo di Napoli","Casamarciano","Casamicciola Terme","Casandrino","Casavatore","Casola di Napoli","Casoria","Castellammare di Stabia","Castello di Cisterna","Cercola","Cicciano","Cimitile","Comiziano","Crispano","Ercolano","Forio","Frattamaggiore","Frattaminore","Giugliano in Campania","Gragnano","Grumo Nevano","Ischia","Lacco Ameno","Lettere","Liveri","Marano di Napoli","Mariglianella","Marigliano","Massa Lubrense","Massa di Somma","Melito di Napoli","Meta","Monte di Procida","Mugnano di Napoli","Napoli","Nola","Ottaviano","Palma Campania","Piano di Sorrento","Pimonte","Poggiomarino","Pollena Trocchia","Pomigliano d'Arco","Pompei","Portici","Pozzuoli","Procida","Qualiano","Quarto","Roccarainola","San Gennaro Vesuviano","San Giorgio a Cremano","San Giuseppe Vesuviano","San Paolo Bel Sito","San Sebastiano al Vesuvio","San Vitaliano","Sant'Agnello","Sant'Anastasia","Sant'Antimo","Sant'Antonio Abate","Santa Maria la Carità","Saviano","Scisciano","Serrara Fontana","Somma Vesuviana","Sorrento","Striano","Terzigno","Torre Annunziata","Torre del Greco","Trecase","Tufino","Vico Equense","Villaricca","Visciano","Volla"];
     const comuniSA = ["Acerno","Agropoli","Albanella","Alfano","Altavilla Silentina","Amalfi","Angri","Aquara","Ascea","Atena Lucana","Atrani","Auletta","Baronissi","Battipaglia","Bellizzi","Bellosguardo","Bracigliano","Buccino","Buonabitacolo","Caggiano","Calvanico","Camerota","Campagna","Campora","Cannalonga","Capaccio Paestum","Casal Velino","Casalbuono","Casaletto Spartano","Caselle in Pittari","Castel San Giorgio","Castel San Lorenzo","Castelcivita","Castellabate","Castelnuovo Cilento","Castelnuovo di Conza","Castiglione del Genovesi","Cava de' Tirreni","Celle di Bulgheria","Centola","Ceraso","Cetara","Cicerale","Contursi Terme","Corbara","Corleto Monforte","Cuccaro Vetere","Eboli","Felitto","Fisciano","Furore","Futani","Giffoni Sei Casali","Giffoni Valle Piana","Gioi","Giungano","Ispani","Laureana Cilento","Laurino","Laurito","Laviano","Lustra","Magliano Vetere","Maiori","Mercato San Severino","Minori","Moio della Civitella","Montano Antilia","Monte San Giacomo","Montecorice","Montecorvino Pugliano","Montecorvino Rovella","Monteforte Cilento","Montesano sulla Marcellana","Morigerati","Nocera Inferiore","Nocera Superiore","Novi Velia","Ogliastro Cilento","Olevano sul Tusciano","Oliveto Citra","Omignano","Orria","Ottati","Padula","Pagani","Palomonte","Pellezzano","Perdifumo","Perito","Pertosa","Petina","Piaggine","Pisciotta","Polla","Pollica","Pontecagnano Faiano","Positano","Postiglione","Praiano","Prignano Cilento","Ravello","Ricigliano","Roccadaspide","Roccagloriosa","Roccapiemonte","Rofrano","Romagnano al Monte","Roscigno","Rutino","Sacco","Sala Consilina","Salento","Salerno","San Cipriano Picentino","San Giovanni a Piro","San Gregorio Magno","San Mango Piemonte","San Marzano sul Sarno","San Mauro Cilento","San Mauro la Bruca","San Pietro al Tanagro","San Rufo","San Valentino Torio","Santa Marina","Sant'Angelo a Fasanella","Sant'Arsenio","Sant'Egidio del Monte Albino","Sapri","Sarno","Sassano","Scafati","Scala","Serramezzana","Serre","Sessa Cilento","Siano","Sicignano degli Alburni","Stella Cilento","Stio","Teggiano","Torchiara","Torraca","Torre Orsaia","Tortorella","Tramonti","Trentinara","Valva","Vallo della Lucania","Vibonati","Vietri sul Mare"];
 
@@ -341,22 +262,27 @@
         const dl = document.getElementById("listaCitta");
         const tutti = [...comuniNA.map(c => ({n:c, p:"NA"})), ...comuniSA.map(c => ({n:c, p:"SA"}))];
         tutti.sort((a,b) => a.n.localeCompare(b.n)).forEach(c => {
-            let o = document.createElement("option");
-            o.value = c.n; o.dataset.p = c.p;
-            dl.appendChild(o);
+            let o = document.createElement("option"); o.value = c.n; o.dataset.p = c.p; dl.appendChild(o);
         });
     }
+
+    // --- LOGICA FORM ---
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('splash-screen').style.opacity = '0';
+            setTimeout(() => { 
+                document.getElementById('splash-screen').style.visibility = 'hidden'; 
+                document.getElementById('mainContainer').classList.add('active'); 
+            }, 800);
+        }, 2500);
+    });
 
     const fields = ["nomeCompleto","indirizzo","citta","provincia","telefono","fisso","marca","modello","tipoIntervento"];
     fields.forEach(id => {
         const el = document.getElementById(id);
-        if(!el) return;
         const saved = localStorage.getItem(id);
         if(saved) { el.value = saved; valida(el); }
-        el.addEventListener("input", () => {
-            localStorage.setItem(id, el.value);
-            valida(el); updateUI();
-        });
+        el.addEventListener("input", () => { localStorage.setItem(id, el.value); valida(el); updateUI(); });
     });
 
     function valida(el) {
@@ -369,81 +295,72 @@
         for(let i=0; i<opts.length; i++) {
             if(opts[i].value === this.value) {
                 const prov = document.getElementById("provincia");
-                prov.value = opts[i].dataset.p;
-                valida(prov);
-                document.getElementById("telefono").focus(); // Auto-focus su telefono
-                break;
+                prov.value = opts[i].dataset.p; valida(prov); break;
             }
         }
     });
 
     function updateUI() {
-        const essential = ["nomeCompleto", "indirizzo", "citta", "provincia", "telefono", "marca", "tipoIntervento"];
+        const d = (id) => document.getElementById(id).value.trim();
+        
+        // Progress
+        const essential = ["nomeCompleto", "indirizzo", "citta", "telefono", "marca", "tipoIntervento"];
         let filled = 0;
-        essential.forEach(id => { if(document.getElementById(id).value.trim() !== "") filled++; });
-        const percent = Math.round((filled / essential.length) * 100);
+        essential.forEach(id => { if(d(id)) filled++; });
+        const percent = Math.round((filled/essential.length)*100);
         document.getElementById("progressFill").style.width = percent + "%";
         document.getElementById("progressText").innerText = percent + "% COMPLETATO";
 
-        const preview = document.getElementById("previewBox");
-        const d = (id) => document.getElementById(id).value.trim();
+        // WhatsApp Bubble Preview
+        const chat = document.getElementById("chatPreview");
+        const bubble = document.getElementById("chatBubble");
         let txt = "";
-        if(d("nomeCompleto")) txt += `👤 Cliente: ${d("nomeCompleto")}\n`;
-        if(d("indirizzo")) txt += `📍 Indirizzo: ${d("indirizzo")} - ${d("citta")} (${d("provincia")})\n`;
-        if(d("marca")) txt += `🔥 Stufa: ${d("marca")} ${d("modello")}\n`;
-        if(d("tipoIntervento")) txt += `🧰 Servizio: ${d("tipoIntervento")}`;
-        preview.style.display = (txt !== "") ? "block" : "none";
-        preview.innerText = txt;
+        if(d("nomeCompleto")) txt += `👤 ${d("nomeCompleto")}\n`;
+        if(d("indirizzo")) txt += `📍 ${d("indirizzo")} - ${d("citta")} (${d("provincia")})\n`;
+        if(d("marca")) txt += `🔥 ${d("marca")} ${d("modello")}\n`;
+        if(d("tipoIntervento")) txt += `🧰 ${d("tipoIntervento")}`;
+
+        if(txt !== "") { chat.style.display = "block"; bubble.innerText = txt; }
+        else { chat.style.display = "none"; }
+
         document.getElementById("sezioneProblemi").style.display = (d("tipoIntervento") === "Prima accensione") ? "none" : "block";
     }
 
     document.getElementById("problema").addEventListener("change", function() {
         document.getElementById("erroriDisplayGroup").style.display = (this.value === "Errore sul display") ? "block" : "none";
-        document.getElementById("altroBox").style.display = (this.value === "Altro" || this.value === "Rumore eccessivo") ? "block" : "none";
+        document.getElementById("problemaAltro").style.display = (this.value === "Altro" || this.value === "Rumore eccessivo") ? "block" : "none";
     });
 
     document.getElementById("mainBtn").onclick = function() {
-        const d = (id) => document.getElementById(id).value.trim();
-        if (!d("nomeCompleto") || !d("indirizzo") || !d("telefono") || !d("marca") || !d("tipoIntervento")) {
-            alert("⚠️ Compila i dati obbligatori."); return;
+        if(!document.getElementById("nomeCompleto").value || !document.getElementById("telefono").value) {
+            alert("Per favore, inserisci almeno Nome e Telefono."); return;
         }
-
-        const t = document.getElementById("btnText");
-        const s = document.getElementById("btnSpinner");
-        t.style.display = "none"; s.style.display = "block";
-
+        document.getElementById("btnText").style.display = "none";
+        document.getElementById("btnSpinner").style.display = "block";
         setTimeout(() => {
             document.getElementById("modal").style.display = "flex";
-            t.style.display = "block"; s.style.display = "none";
-        }, 800);
+            document.getElementById("btnText").style.display = "block";
+            document.getElementById("btnSpinner").style.display = "none";
+        }, 600);
+    };
 
-        const tipo = d("tipoIntervento");
-        let dettaglio = "";
-        if (tipo !== "Prima accensione") {
-            dettaglio = d("problema");
-            if (dettaglio === "Errore sul display") dettaglio = "Allarme: " + d("listaErrori");
-            if (d("problemaAltro")) dettaglio += (dettaglio ? " - " : "") + "Note: " + d("problemaAltro");
-        }
+    document.getElementById("conferma").onclick = function() {
+        const d = (id) => document.getElementById(id).value.trim();
+        let dettaglio = d("problema");
+        if(dettaglio === "Errore sul display") dettaglio = "Errore: " + d("listaErrori");
+        if(d("problemaAltro")) dettaglio += " - Note: " + d("problemaAltro");
 
-        const msg = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n------------------------------\n👤 *Cliente:* ${d("nomeCompleto")}\n📍 *Indirizzo:* ${d("indirizzo")} - ${d("citta")} (${d("provincia").toUpperCase()})\n📱 *Tel:* ${d("telefono")}${d("fisso") ? " / " + d("fisso") : ""}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${tipo}\n${dettaglio ? "🛠️ *Dettaglio:* " + dettaglio + "\n" : ""}📅 *Data:* ${new Date().toLocaleDateString('it-IT')}`;
-        const url = "https://api.whatsapp.com/send?phone=390813769280&text=" + encodeURIComponent(msg);
+        const msg = `*🔥 NUOVA RICHIESTA ASSISTENZA*\n------------------------------\n👤 *Cliente:* ${d("nomeCompleto")}\n📍 *Indirizzo:* ${d("indirizzo")} - ${d("citta")} (${d("provincia")})\n📱 *Tel:* ${d("telefono")}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${d("tipoIntervento")}\n🛠️ *Dettaglio:* ${dettaglio}\n📅 *Data:* ${new Date().toLocaleDateString('it-IT')}`;
         
-        document.getElementById("conferma").onclick = () => { window.open(url, "_blank"); document.getElementById("modal").style.display = "none"; };
+        window.open(`https://api.whatsapp.com/send?phone=390813769280&text=${encodeURIComponent(msg)}`, "_blank");
+        document.getElementById("modal").style.display = "none";
     };
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
 
-    let defPrompt;
-    window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); defPrompt = e; if (!/iphone|ipad|ipod/i.test(navigator.userAgent)) document.getElementById("installBox").style.display = "block"; });
-    if (/iphone|ipad|ipod/i.test(navigator.userAgent)) { document.getElementById("installBox").style.display = "block"; document.getElementById("iosHint").style.display = "block"; document.getElementById("installBtn").style.display = "none"; }
-    document.getElementById("installBtn").onclick = () => { if(defPrompt){ defPrompt.prompt(); document.getElementById("installBox").style.display="none"; } };
-
-    popola(); updateUI();
+    // Service Worker Update
     if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js')
-        .then(reg => {
-            // Se trova un aggiornamento, ricarica la pagina automaticamente
+        navigator.serviceWorker.register('./service-worker.js').then(reg => {
             reg.onupdatefound = () => {
                 const installingWorker = reg.installing;
                 installingWorker.onstatechange = () => {
@@ -452,11 +369,10 @@
                     }
                 };
             };
-        })
-        .catch(err => console.log('Errore Service Worker:', err));
-    });
-}
+        });
+    }
 
+    popola(); updateUI();
 </script>
 </body>
 </html>
