@@ -367,50 +367,60 @@
         updateUI();
     });
 
-    // --- GESTIONE INVIO E ANIMAZIONE ---
+        // --- GESTIONE INVIO E ANIMAZIONE (CORRETTA) ---
     const mainBtn = document.getElementById("mainBtn");
     const btnNormal = document.getElementById("btnNormal");
     const btnLoading = document.getElementById("btnLoading");
 
     mainBtn.onclick = function() {
-        if(!document.getElementById("nomeCompleto").value || !document.getElementById("telefono").value) {
-            alert("Per favore, inserisci Nome e Telefono."); return;
+        const nome = document.getElementById("nomeCompleto").value.trim();
+        const tel = document.getElementById("telefono").value.trim();
+        
+        if(!nome || !tel) {
+            alert("Per favore, inserisci almeno Nome e Telefono."); return;
         }
         document.getElementById("modal").style.display = "flex";
     };
 
     document.getElementById("conferma").onclick = function() {
-        // Nascondi modale
+        // 1. Chiudi modale e avvia animazione visiva
         document.getElementById("modal").style.display = "none";
-        
-        // Avvia animazione caricamento sul bottone
         btnNormal.style.display = "none";
         btnLoading.style.display = "block";
         mainBtn.disabled = true;
 
+        // 2. Prepara i dati per il messaggio
         const d = (id) => document.getElementById(id).value.trim();
         let dettaglio = d("problema");
         if(dettaglio === "Errore sul display") dettaglio = "Allarme: " + d("listaErrori");
-        if(d("problemaAltro")) dettaglio += " - Note: " + d("problemaAltro");
+        
+        // Controlla se il campo "altro" esiste ed è visibile prima di aggiungerlo
+        const notaAltro = d("problemaAltro");
+        if(notaAltro) dettaglio += " - Note: " + notaAltro;
 
         const msg = `*🔥 RICHIESTA ASSISTENZA*\n👤 *Cliente:* ${d("nomeCompleto")}\n📍 *Indirizzo:* ${d("indirizzo")} - ${d("citta")} (${d("provincia")})\n📱 *Tel:* ${d("telefono")}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${d("tipoIntervento")}\n🛠️ *Dettaglio:* ${dettaglio}`;
         
-        // Simula un piccolo caricamento prima di aprire WhatsApp (migliora UX)
+        const url = `https://api.whatsapp.com/send?phone=390813769280&text=${encodeURIComponent(msg)}`;
+
+        // 3. Reindirizzamento (location.href è più sicuro per evitare blocchi pop-up)
         setTimeout(() => {
-            window.open(`https://api.whatsapp.com/send?phone=390813769280&text=${encodeURIComponent(msg)}`, "_blank");
+            window.location.href = url;
             
-            // Ripristina il bottone dopo l'invio
+            // Ripristina il tasto dopo un po' se l'utente torna sulla pagina
             setTimeout(() => {
                 btnNormal.style.display = "flex";
                 btnLoading.style.display = "none";
                 mainBtn.disabled = false;
             }, 1000);
-        }, 1200);
+        }, 800); 
     };
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
 
+    // --- FINE GESTIONE INVIO ---
+
     popola(); updateUI();
+
 </script>
 </body>
 </html>
