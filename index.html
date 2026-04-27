@@ -66,7 +66,7 @@
 
         h2 { color: #fff; text-align: center; font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; }
         .progress-container { width: 100%; background: rgba(0, 0, 0, 0.3); border-radius: 50px; margin-bottom: 25px; height: 24px; position: relative; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #ef4444, #eab308, #22c55e); transition: width 0.6s ease; }
+        .progress-fill { height: 100%; width: 0%; background: #ef4444; transition: all 0.6s ease; }
         .progress-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; pointer-events: none; }
 
         label { font-size: 10px; color: #22c55e; margin: 0 0 5px 5px; display: block; text-transform: uppercase; font-weight: 700; }
@@ -103,6 +103,26 @@
         .no { background: transparent; color: #aaa; border: none; cursor: pointer; padding: 10px; }
         select option { background: #0f172a; color: white; }
         #installBox { display:none; margin-bottom:15px; padding:12px; border:1px solid #22c55e; border-radius:12px; background:rgba(34,197,94,0.1); color:white; text-align:center; }
+
+        /* Style Bottone Geolocalizzazione */
+        #geoBtn {
+            width:100%;
+            margin-bottom:15px;
+            padding:12px;
+            border:none;
+            border-radius:12px;
+            background:#0ea5e9;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: opacity 0.3s;
+        }
+        #geoBtn:disabled { opacity: 0.6; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -140,7 +160,7 @@
         <span class="check-status">✓</span>
     </div>
 
-    <div class="field-row" style="display: flex; gap: 10px;">
+    <div class="field-row" style="display: flex; gap: 10px; margin-bottom: 10px;">
         <div style="flex: 2; position: relative;">
             <input type="text" id="citta" list="listaCitta" placeholder="Città">
             <datalist id="listaCitta"></datalist>
@@ -151,6 +171,10 @@
             <span class="field-icon">🏛️</span>
         </div>
     </div>
+
+    <button type="button" id="geoBtn">
+        📍 Usa posizione attuale
+    </button>
 
     <div class="field-row" style="display: flex; gap: 10px;">
         <div style="flex: 1; position: relative;">
@@ -238,7 +262,6 @@
 </div>
 
 <script>
-    // --- DATABASE INTEGRALE COMUNI ---
     const comuniNA = ["Acerra","Afragola","Agerola","Anacapri","Arzano","Bacoli","Barano d'Ischia","Boscoreale","Boscotrecase","Calvizzano","Casalnuovo di Napoli","Casamarciano","Casamicciola Terme","Casandrino","Casavatore","Casola di Napoli","Casoria","Castellammare di Stabia","Castello di Cisterna","Cercola","Cicciano","Cimitile","Comiziano","Crispano","Ercolano","Forio","Frattamaggiore","Frattaminore","Giugliano in Campania","Gragnano","Grumo Nevano","Ischia","Lacco Ameno","Lettere","Liveri","Marano di Napoli","Mariglianella","Marigliano","Massa Lubrense","Massa di Somma","Melito di Napoli","Meta","Monte di Procida","Mugnano di Napoli","Napoli","Nola","Ottaviano","Palma Campania","Piano di Sorrento","Pimonte","Poggiomarino","Pollena Trocchia","Pomigliano d'Arco","Pompei","Portici","Pozzuoli","Procida","Qualiano","Quarto","Roccarainola","San Gennaro Vesuviano","San Giorgio a Cremano","San Giuseppe Vesuviano","San Paolo Bel Sito","San Sebastiano al Vesuvio","San Vitaliano","Sant'Agnello","Sant'Anastasia","Sant'Antimo","Sant'Antonio Abate","Santa Maria la Carità","Saviano","Scisciano","Serrara Fontana","Somma Vesuviana","Sorrento","Striano","Terzigno","Torre Annunziata","Torre del Greco","Trecase","Tufino","Vico Equense","Villaricca","Visciano","Volla"];
     const comuniSA = ["Acerno","Agropoli","Albanella","Alfano","Altavilla Silentina","Amalfi","Angri","Aquara","Ascea","Atena Lucana","Atrani","Auletta","Baronissi","Battipaglia","Bellizzi","Bellosguardo","Bracigliano","Buccino","Buonabitacolo","Caggiano","Calvanico","Camerota","Campagna","Campora","Cannalonga","Capaccio Paestum","Casal Velino","Casalbuono","Casaletto Spartano","Caselle in Pittari","Castel San Giorgio","Castel San Lorenzo","Castelcivita","Castellabate","Castelnuovo Cilento","Castelnuovo di Conza","Castiglione del Genovesi","Cava de' Tirreni","Celle di Bulgheria","Centola","Ceraso","Cetara","Cicerale","Contursi Terme","Corbara","Corleto Monforte","Cuccaro Vetere","Eboli","Felitto","Fisciano","Furore","Futani","Giffoni Sei Casali","Giffoni Valle Piana","Gioi","Giungano","Ispani","Laureana Cilento","Laurino","Laurito","Laviano","Lustra","Magliano Vetere","Maiori","Mercato San Severino","Minori","Moio della Civitella","Montano Antilia","Monte San Giacomo","Montecorice","Montecorvino Pugliano","Montecorvino Rovella","Monteforte Cilento","Montesano sulla Marcellana","Morigerati","Nocera Inferiore","Nocera Superiore","Novi Velia","Ogliastro Cilento","Olevano sul Tusciano","Oliveto Citra","Omignano","Orria","Ottati","Padula","Pagani","Palomonte","Pellezzano","Perdifumo","Perito","Pertosa","Petina","Piaggine","Pisciotta","Polla","Pollica","Pontecagnano Faiano","Positano","Postiglione","Praiano","Prignano Cilento","Ravello","Ricigliano","Roccadaspide","Roccagloriosa","Roccapiemonte","Rofrano","Romagnano al Monte","Roscigno","Rutino","Sacco","Sala Consilina","Salento","Salerno","San Cipriano Picentino","San Giovanni a Piro","San Gregorio Magno","San Mango Piemonte","San Marzano sul Sarno","San Mauro Cilento","San Mauro la Bruca","San Pietro al Tanagro","San Rufo","San Valentino Torio","Santa Marina","Sant'Angelo a Fasanella","Sant'Arsenio","Sant'Egidio del Monte Albino","Sapri","Sarno","Sassano","Scafati","Scala","Serramezzana","Serre","Sessa Cilento","Siano","Sicignano degli Alburni","Stella Cilento","Stio","Teggiano","Torchiara","Torraca","Torre Orsaia","Tortorella","Tramonti","Trentinara","Valva","Vallo della Lucania","Vibonati","Vietri sul Mare"];
 
@@ -250,7 +273,6 @@
         });
     }
 
-    // --- LOGICA CORE ---
     window.addEventListener('load', () => {
         setTimeout(() => {
             document.getElementById('splash-screen').style.opacity = '0';
@@ -270,8 +292,8 @@
     });
 
     function valida(el) {
-        if(el.value.trim().length >= 2) el.classList.add("valid");
-        else el.classList.remove("valid");
+        if(el && el.value.trim().length >= 2) el.classList.add("valid");
+        else if(el) el.classList.remove("valid");
     }
 
     document.getElementById("citta").addEventListener("change", function() {
@@ -287,13 +309,29 @@
     function updateUI() {
         const d = (id) => document.getElementById(id).value.trim();
         
-        // Progress
+        // Progress Bar Aggiornata
         const essential = ["nomeCompleto", "indirizzo", "citta", "telefono", "marca", "tipoIntervento"];
         let filled = 0;
         essential.forEach(id => { if(d(id)) filled++; });
         const percent = Math.round((filled/essential.length)*100);
-        document.getElementById("progressFill").style.width = percent + "%";
-        document.getElementById("progressText").innerText = percent + "% COMPLETATO";
+        
+        const progressFill = document.getElementById("progressFill");
+        progressFill.style.width = percent + "%";
+
+        // Colore dinamico Progress Bar
+        if (percent < 40) {
+            progressFill.style.background = "#ef4444"; // rosso
+        } else if (percent < 80) {
+            progressFill.style.background = "#eab308"; // giallo
+        } else {
+            progressFill.style.background = "#22c55e"; // verde
+        }
+
+        // Testo smart Progress Bar
+        let text = percent + "% COMPLETATO";
+        if (percent >= 80 && percent < 100) text = "Quasi fatto 🔥";
+        if (percent === 100) text = "Perfetto! Invia 🚀";
+        document.getElementById("progressText").innerText = text;
 
         // Bolla WhatsApp
         const chat = document.getElementById("chatPreview");
@@ -309,6 +347,59 @@
 
         document.getElementById("sezioneProblemi").style.display = (d("tipoIntervento") === "Prima accensione") ? "none" : "block";
     }
+
+    // --- LOGICA GEOLOCALIZZAZIONE ---
+    document.getElementById("geoBtn").onclick = () => {
+        if (!navigator.geolocation) {
+            alert("Geolocalizzazione non supportata dal tuo browser.");
+            return;
+        }
+
+        const btn = document.getElementById("geoBtn");
+        const originalText = btn.innerText;
+        btn.innerText = "📡 Rilevamento...";
+        btn.disabled = true;
+
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+
+            try {
+                // Fetch verso Nominatim OpenStreetMap
+                const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`, {
+                    headers: { 'Accept-Language': 'it' }
+                });
+                const data = await res.json();
+
+                if (data.address) {
+                    const city = data.address.city || data.address.town || data.address.village || "";
+                    const province = data.address.county ? data.address.county.slice(0,2).toUpperCase() : "";
+
+                    document.getElementById("citta").value = city;
+                    document.getElementById("provincia").value = province;
+
+                    valida(document.getElementById("citta"));
+                    valida(document.getElementById("provincia"));
+                    
+                    // Salvataggio locale dei nuovi dati
+                    localStorage.setItem("citta", city);
+                    localStorage.setItem("provincia", province);
+                    
+                    updateUI();
+                    btn.innerText = "✅ Posizione inserita";
+                    setTimeout(() => { btn.innerText = originalText; btn.disabled = false; }, 3000);
+                }
+            } catch (err) {
+                alert("Errore nel recupero dei dati città.");
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        }, () => {
+            alert("Permesso posizione negato o segnale GPS assente.");
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }, { enableHighAccuracy: true, timeout: 10000 });
+    };
 
     document.getElementById("problema").addEventListener("change", function() {
         document.getElementById("erroriDisplayGroup").style.display = (this.value === "Errore sul display") ? "block" : "none";
