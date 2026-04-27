@@ -94,7 +94,6 @@
             box-shadow: 0 0 12px rgba(34, 197, 94, 0.2);
         }
 
-        /* Label dinamica quando il campo è valido */
         .input-group:focus-within label, .field-row:focus-within label { color: #ef4444; }
         input.valid ~ label, select.valid ~ label { color: #22c55e; }
 
@@ -118,15 +117,28 @@
             border-left: 6px solid #25d366; border-top: 6px solid transparent; border-bottom: 6px solid transparent; 
         }
 
+        /* --- BOTTONE WHATSAPP ANIMATO --- */
         button#mainBtn { 
-            width: 100%; padding: 18px; margin-top: 15px; border: none; border-radius: 14px; 
-            background: linear-gradient(45deg, #22c55e, #16a34a, #22c55e); color: white; font-weight: 900; 
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
-            transition: transform 0.2s;
+            width: 100%; height: 58px; margin-top: 15px; border: none; border-radius: 14px; 
+            background: linear-gradient(45deg, #25d366, #128c7e, #25d366); 
+            background-size: 200% auto;
+            color: white; font-weight: 900; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
         }
-        button#mainBtn:active { transform: scale(0.96); }
 
-        .spinner { display: none; width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; }
+        button#mainBtn:hover { background-position: right center; }
+        button#mainBtn:active { transform: scale(0.96); }
+        button#mainBtn:disabled { opacity: 0.8; cursor: not-allowed; }
+
+        .btn-content { display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
+        .loading-spinner { 
+            display: none; width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.3); 
+            border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; 
+        }
+
         @keyframes spin { to { transform: rotate(360deg); } }
 
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 1000; }
@@ -134,7 +146,6 @@
         .ok { background: #22c55e; width: 100%; padding: 12px; border:none; border-radius: 10px; color: white; font-weight: bold; margin-bottom: 10px; cursor: pointer;}
         .no { background: transparent; color: #aaa; border: none; cursor: pointer; padding: 10px; }
         select option { background: #0f172a; color: white; }
-        #installBox { display:none; margin-bottom:15px; padding:12px; border:1px solid #22c55e; border-radius:12px; background:rgba(34,197,94,0.1); color:white; text-align:center; }
     </style>
 </head>
 <body>
@@ -148,11 +159,6 @@
 
 <div class="container" id="mainContainer">
     <h2>🔥 PRENOTA INTERVENTO</h2>
-
-    <div id="installBox">
-        <p style="font-size:13px; margin-bottom:10px;">📲 Installa l’app per un accesso rapido</p>
-        <button id="installBtn" style="background:#22c55e; border:none; padding:10px 20px; border-radius:10px; color:white; font-weight:bold; cursor:pointer;">INSTALLA APP</button>
-    </div>
 
     <div class="progress-container">
         <div class="progress-fill" id="progressFill"></div>
@@ -259,8 +265,11 @@
     </div>
 
     <button id="mainBtn">
-        <span id="btnText">INVIA RICHIESTA</span>
-        <div class="spinner" id="btnSpinner"></div>
+        <div class="btn-content" id="btnNormal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.412 2.503 1.112 3.487l-.751 2.733 2.8-.735c.94.512 2.017.807 3.16.808 3.181 0 5.767-2.584 5.768-5.764 0-3.18-2.584-5.767-5.764-5.767l-.157.002zm3.39 8.161c-.054.154-.312.28-.43.292-.117.012-.228.024-.76-.174-.532-.198-1.441-.62-2.022-1.202-.582-.581-1.025-1.28-1.246-1.658-.222-.379-.024-.584.174-.783.198-.199.379-.443.568-.665.19-.222.253-.379.379-.632.127-.254.063-.475-.032-.665-.095-.19-.854-2.062-.1.171-2.854-.684-.684-1.03-1.03-1.03-.43s0-.776.33-1.12c.33-.344.444-.444.665-.886.222-.444.111-.842 0-1.112-.111-.271-.992-2.392-1.362-3.284-.361-.869-.728-.751-1.032-.765-.266-.012-.57-.015-.875-.015-.304 0-.799.114-1.218.571-.419.456-1.597 1.558-1.597 3.799 0 2.242 1.635 4.412 1.862 4.717.228.304 3.22 4.917 7.802 6.892 1.09.47 1.942.75 2.604.959 1.095.348 2.091.3 2.879.183.879-.13 2.698-1.103 3.078-2.171.381-1.068.381-1.984.267-2.171-.114-.187-.419-.304-.887-.538zM12 1c-6.075 0-11 4.925-11 11s4.925 11 11 11 11-4.925 11-11-4.925-11-11-11zm0 2c4.97 0 9 4.03 9 9s-4.03 9-9 9-9-4.03-9-9 4.03-9 9-9z"/></svg>
+            <span>PRENOTA SU WHATSAPP</span>
+        </div>
+        <div class="loading-spinner" id="btnLoading"></div>
     </button>
 </div>
 
@@ -274,7 +283,7 @@
 </div>
 
 <script>
-    // --- DATABASE INTEGRALE COMUNI ---
+    // --- DATABASE ---
     const comuniNA = ["Acerra","Afragola","Agerola","Anacapri","Arzano","Bacoli","Barano d'Ischia","Boscoreale","Boscotrecase","Calvizzano","Casalnuovo di Napoli","Casamarciano","Casamicciola Terme","Casandrino","Casavatore","Casola di Napoli","Casoria","Castellammare di Stabia","Castello di Cisterna","Cercola","Cicciano","Cimitile","Comiziano","Crispano","Ercolano","Forio","Frattamaggiore","Frattaminore","Giugliano in Campania","Gragnano","Grumo Nevano","Ischia","Lacco Ameno","Lettere","Liveri","Marano di Napoli","Mariglianella","Marigliano","Massa Lubrense","Massa di Somma","Melito di Napoli","Meta","Monte di Procida","Mugnano di Napoli","Napoli","Nola","Ottaviano","Palma Campania","Piano di Sorrento","Pimonte","Poggiomarino","Pollena Trocchia","Pomigliano d'Arco","Pompei","Portici","Pozzuoli","Procida","Qualiano","Quarto","Roccarainola","San Gennaro Vesuviano","San Giorgio a Cremano","San Giuseppe Vesuviano","San Paolo Bel Sito","San Sebastiano al Vesuvio","San Vitaliano","Sant'Agnello","Sant'Anastasia","Sant'Antimo","Sant'Antonio Abate","Santa Maria la Carità","Saviano","Scisciano","Serrara Fontana","Somma Vesuviana","Sorrento","Striano","Terzigno","Torre Annunziata","Torre del Greco","Trecase","Tufino","Vico Equense","Villaricca","Visciano","Volla"];
     const comuniSA = ["Acerno","Agropoli","Albanella","Alfano","Altavilla Silentina","Amalfi","Angri","Aquara","Ascea","Atena Lucana","Atrani","Auletta","Baronissi","Battipaglia","Bellizzi","Bellosguardo","Bracigliano","Buccino","Buonabitacolo","Caggiano","Calvanico","Camerota","Campagna","Campora","Cannalonga","Capaccio Paestum","Casal Velino","Casalbuono","Casaletto Spartano","Caselle in Pittari","Castel San Giorgio","Castel San Lorenzo","Castelcivita","Castellabate","Castelnuovo Cilento","Castelnuovo di Conza","Castiglione del Genovesi","Cava de' Tirreni","Celle di Bulgheria","Centola","Ceraso","Cetara","Cicerale","Contursi Terme","Corbara","Corleto Monforte","Cuccaro Vetere","Eboli","Felitto","Fisciano","Furore","Futani","Giffoni Sei Casali","Giffoni Valle Piana","Gioi","Giungano","Ispani","Laureana Cilento","Laurino","Laurito","Laviano","Lustra","Magliano Vetere","Maiori","Mercato San Severino","Minori","Moio della Civitella","Montano Antilia","Monte San Giacomo","Montecorice","Montecorvino Pugliano","Montecorvino Rovella","Monteforte Cilento","Montesano sulla Marcellana","Morigerati","Nocera Inferiore","Nocera Superiore","Novi Velia","Ogliastro Cilento","Olevano sul Tusciano","Oliveto Citra","Omignano","Orria","Ottati","Padula","Pagani","Palomonte","Pellezzano","Perdifumo","Perito","Pertosa","Petina","Piaggine","Pisciotta","Polla","Pollica","Pontecagnano Faiano","Positano","Postiglione","Praiano","Prignano Cilento","Ravello","Ricigliano","Roccadaspide","Roccagloriosa","Roccapiemonte","Rofrano","Romagnano al Monte","Roscigno","Rutino","Sacco","Sala Consilina","Salento","Salerno","San Cipriano Picentino","San Giovanni a Piro","San Gregorio Magno","San Mango Piemonte","San Marzano sul Sarno","San Mauro Cilento","San Mauro la Bruca","San Pietro al Tanagro","San Rufo","San Valentino Torio","Santa Marina","Sant'Angelo a Fasanella","Sant'Arsenio","Sant'Egidio del Monte Albino","Sapri","Sarno","Sassano","Scafati","Scala","Serramezzana","Serre","Sessa Cilento","Siano","Sicignano degli Alburni","Stella Cilento","Stio","Teggiano","Torchiara","Torraca","Torre Orsaia","Tortorella","Tramonti","Trentinara","Valva","Vallo della Lucania","Vibonati","Vietri sul Mare"];
 
@@ -286,7 +295,6 @@
         });
     }
 
-    // --- LOGICA CORE ---
     window.addEventListener('load', () => {
         setTimeout(() => {
             document.getElementById('splash-screen').style.opacity = '0';
@@ -294,7 +302,7 @@
                 document.getElementById('splash-screen').style.visibility = 'hidden'; 
                 document.getElementById('mainContainer').classList.add('active'); 
             }, 800);
-        }, 2500);
+        }, 2000);
     });
 
     const fields = ["nomeCompleto","indirizzo","citta","provincia","telefono","fisso","marca","modello","tipoIntervento", "problema"];
@@ -325,8 +333,6 @@
     function updateUI() {
         const d = (id) => document.getElementById(id).value.trim();
         const container = document.getElementById("mainContainer");
-        
-        // Progress
         const essential = ["nomeCompleto", "indirizzo", "citta", "telefono", "marca", "tipoIntervento"];
         let filled = 0;
         essential.forEach(id => { if(d(id)) filled++; });
@@ -335,13 +341,11 @@
         document.getElementById("progressFill").style.width = percent + "%";
         document.getElementById("progressText").innerText = percent + "% COMPLETATO";
 
-        // ILLUMINAZIONE BORDO CONTAINER (Idea Top)
         if (percent > 0) {
             container.style.border = `1px solid rgba(34, 197, 94, ${percent / 100})`;
             container.style.boxShadow = `0 0 ${percent / 5}px rgba(34, 197, 94, ${percent / 200})`;
         }
 
-        // Bolla WhatsApp
         const chat = document.getElementById("chatPreview");
         const bubble = document.getElementById("chatBubble");
         let txt = "";
@@ -363,14 +367,27 @@
         updateUI();
     });
 
-    document.getElementById("mainBtn").onclick = function() {
+    // --- GESTIONE INVIO E ANIMAZIONE ---
+    const mainBtn = document.getElementById("mainBtn");
+    const btnNormal = document.getElementById("btnNormal");
+    const btnLoading = document.getElementById("btnLoading");
+
+    mainBtn.onclick = function() {
         if(!document.getElementById("nomeCompleto").value || !document.getElementById("telefono").value) {
-            alert("Compila almeno Nome e Telefono per procedere."); return;
+            alert("Per favore, inserisci Nome e Telefono."); return;
         }
         document.getElementById("modal").style.display = "flex";
     };
 
     document.getElementById("conferma").onclick = function() {
+        // Nascondi modale
+        document.getElementById("modal").style.display = "none";
+        
+        // Avvia animazione caricamento sul bottone
+        btnNormal.style.display = "none";
+        btnLoading.style.display = "block";
+        mainBtn.disabled = true;
+
         const d = (id) => document.getElementById(id).value.trim();
         let dettaglio = d("problema");
         if(dettaglio === "Errore sul display") dettaglio = "Allarme: " + d("listaErrori");
@@ -378,25 +395,20 @@
 
         const msg = `*🔥 RICHIESTA ASSISTENZA*\n👤 *Cliente:* ${d("nomeCompleto")}\n📍 *Indirizzo:* ${d("indirizzo")} - ${d("citta")} (${d("provincia")})\n📱 *Tel:* ${d("telefono")}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${d("tipoIntervento")}\n🛠️ *Dettaglio:* ${dettaglio}`;
         
-        window.open(`https://api.whatsapp.com/send?phone=390813769280&text=${encodeURIComponent(msg)}`, "_blank");
-        document.getElementById("modal").style.display = "none";
+        // Simula un piccolo caricamento prima di aprire WhatsApp (migliora UX)
+        setTimeout(() => {
+            window.open(`https://api.whatsapp.com/send?phone=390813769280&text=${encodeURIComponent(msg)}`, "_blank");
+            
+            // Ripristina il bottone dopo l'invio
+            setTimeout(() => {
+                btnNormal.style.display = "flex";
+                btnLoading.style.display = "none";
+                mainBtn.disabled = false;
+            }, 1000);
+        }, 1200);
     };
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
-
-    // Service Worker Update
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./service-worker.js').then(reg => {
-            reg.onupdatefound = () => {
-                const installingWorker = reg.installing;
-                installingWorker.onstatechange = () => {
-                    if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                        window.location.reload();
-                    }
-                };
-            };
-        });
-    }
 
     popola(); updateUI();
 </script>
