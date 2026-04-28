@@ -1,4 +1,4 @@
-const CACHE_NAME = 'assistenza-v11'; // Cambia v2 in v3, v4 ecc. ogni volta che fai modifiche grosse
+const CACHE_NAME = 'assistenza-v12'; // Cambia v2 in v3, v4 ecc. ogni volta che fai modifiche grosse
 const urlsToCache = [
   './',
   './index.html',
