@@ -367,7 +367,7 @@
         updateUI();
     });
 
-        // --- GESTIONE INVIO E ANIMAZIONE (CORRETTA) ---
+      // --- GESTIONE INVIO (VERSIONE ULTRA-COMPATIBILE) ---
     const mainBtn = document.getElementById("mainBtn");
     const btnNormal = document.getElementById("btnNormal");
     const btnLoading = document.getElementById("btnLoading");
@@ -375,26 +375,15 @@
     mainBtn.onclick = function() {
         const nome = document.getElementById("nomeCompleto").value.trim();
         const tel = document.getElementById("telefono").value.trim();
-        
-        if(!nome || !tel) {
-            alert("Per favore, inserisci almeno Nome e Telefono."); return;
-        }
+        if(!nome || !tel) { alert("Per favore, inserisci Nome e Telefono."); return; }
         document.getElementById("modal").style.display = "flex";
     };
 
     document.getElementById("conferma").onclick = function() {
-        // 1. Chiudi modale e avvia animazione visiva
-        document.getElementById("modal").style.display = "none";
-        btnNormal.style.display = "none";
-        btnLoading.style.display = "block";
-        mainBtn.disabled = true;
-
-        // 2. Prepara i dati per il messaggio
+        // 1. Dati
         const d = (id) => document.getElementById(id).value.trim();
         let dettaglio = d("problema");
         if(dettaglio === "Errore sul display") dettaglio = "Allarme: " + d("listaErrori");
-        
-        // Controlla se il campo "altro" esiste ed è visibile prima di aggiungerlo
         const notaAltro = d("problemaAltro");
         if(notaAltro) dettaglio += " - Note: " + notaAltro;
 
@@ -402,24 +391,22 @@
         
         const url = `https://api.whatsapp.com/send?phone=390813769280&text=${encodeURIComponent(msg)}`;
 
-        // 3. Reindirizzamento (location.href è più sicuro per evitare blocchi pop-up)
+        // 2. Azione Immediata (Obbligatorio per bypassare blocchi browser)
+        btnNormal.style.display = "none";
+        btnLoading.style.display = "block";
+        
+        // Chiudiamo il modale e apriamo subito
+        document.getElementById("modal").style.display = "none";
+        window.location.href = url;
+
+        // 3. Reset (nel caso l'utente torni indietro con il tasto back)
         setTimeout(() => {
-            window.location.href = url;
-            
-            // Ripristina il tasto dopo un po' se l'utente torna sulla pagina
-            setTimeout(() => {
-                btnNormal.style.display = "flex";
-                btnLoading.style.display = "none";
-                mainBtn.disabled = false;
-            }, 1000);
-        }, 800); 
+            btnNormal.style.display = "flex";
+            btnLoading.style.display = "none";
+        }, 2000);
     };
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
-
-    // --- FINE GESTIONE INVIO ---
-
-    popola(); updateUI();
 
 </script>
 </body>
