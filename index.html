@@ -65,11 +65,25 @@
         }
         .container.active { opacity: 1; transform: translateY(0); }
 
-        h2 { color: #fff; text-align: center; font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; }
+        h2 { color: #fff; text-align: center; font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 30px; }
         
-        .progress-container { width: 100%; background: rgba(0, 0, 0, 0.3); border-radius: 50px; margin-bottom: 25px; height: 24px; position: relative; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #ef4444, #eab308, #22c55e); transition: width 0.6s ease; }
-        .progress-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; pointer-events: none; }
+        /* --- PROGRESS BAR NUOVA --- */
+        .progress-wrapper { position: relative; margin-bottom: 30px; }
+        .progress-container { 
+            width: 100%; background: rgba(255, 255, 255, 0.05); border-radius: 20px; 
+            height: 10px; position: relative; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+        .progress-fill { 
+            height: 100%; width: 0%; background: linear-gradient(90deg, #ef4444, #eab308, #22c55e); 
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); 
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
+            border-radius: 20px;
+        }
+        .progress-text { 
+            position: absolute; top: -22px; right: 5px; 
+            font-size: 11px; font-weight: 900; color: #22c55e; 
+            letter-spacing: 1px;
+        }
 
         label { font-size: 10px; color: #aaa; margin: 0 0 5px 5px; display: block; text-transform: uppercase; font-weight: 700; transition: 0.3s; }
         .input-group, .field-row { margin-bottom: 15px; position: relative; }
@@ -81,7 +95,6 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- ILLUMINAZIONE CAMPI --- */
         input:focus, select:focus, textarea:focus {
             background: rgba(255, 255, 255, 0.12);
             border-color: #ef4444;
@@ -94,16 +107,13 @@
             box-shadow: 0 0 12px rgba(34, 197, 94, 0.2);
         }
 
-        .input-group:focus-within label, .field-row:focus-within label { color: #ef4444; }
-        input.valid ~ label, select.valid ~ label { color: #22c55e; }
-
         .field-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; pointer-events: none; transition: 0.3s; opacity: 0.5; }
         input.valid + .field-icon, select.valid + .field-icon { opacity: 1; transform: translateY(-50%) scale(1.2); }
         
         .check-status { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #22c55e; opacity: 0; transition: 0.3s; }
         input.valid ~ .check-status, select.valid ~ .check-status { opacity: 1; }
 
-        /* --- WHATSAPP BUBBLE PREVIEW --- */
+        /* --- WHATSAPP PREVIEW --- */
         .chat-preview { margin-top: 15px; display: none; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid rgba(37, 211, 102, 0.3); animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -117,7 +127,7 @@
             border-left: 6px solid #25d366; border-top: 6px solid transparent; border-bottom: 6px solid transparent; 
         }
 
-        /* --- BOTTONE WHATSAPP ANIMATO --- */
+        /* --- BOTTONE WHATSAPP --- */
         button#mainBtn { 
             width: 100%; height: 58px; margin-top: 15px; border: none; border-radius: 14px; 
             background: linear-gradient(45deg, #25d366, #128c7e, #25d366); 
@@ -131,7 +141,6 @@
 
         button#mainBtn:hover { background-position: right center; }
         button#mainBtn:active { transform: scale(0.96); }
-        button#mainBtn:disabled { opacity: 0.8; cursor: not-allowed; }
 
         .btn-content { display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
         .loading-spinner { 
@@ -160,9 +169,11 @@
 <div class="container" id="mainContainer">
     <h2>🔥 PRENOTA INTERVENTO</h2>
 
-    <div class="progress-container">
-        <div class="progress-fill" id="progressFill"></div>
-        <div class="progress-text" id="progressText">0% COMPLETATO</div>
+    <div class="progress-wrapper">
+        <div class="progress-text" id="progressText">0%</div>
+        <div class="progress-container">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
     </div>
 
     <div class="input-group">
@@ -283,7 +294,6 @@
 </div>
 
 <script>
-    // --- DATABASE ---
     const comuniNA = ["Acerra","Afragola","Agerola","Anacapri","Arzano","Bacoli","Barano d'Ischia","Boscoreale","Boscotrecase","Calvizzano","Casalnuovo di Napoli","Casamarciano","Casamicciola Terme","Casandrino","Casavatore","Casola di Napoli","Casoria","Castellammare di Stabia","Castello di Cisterna","Cercola","Cicciano","Cimitile","Comiziano","Crispano","Ercolano","Forio","Frattamaggiore","Frattaminore","Giugliano in Campania","Gragnano","Grumo Nevano","Ischia","Lacco Ameno","Lettere","Liveri","Marano di Napoli","Mariglianella","Marigliano","Massa Lubrense","Massa di Somma","Melito di Napoli","Meta","Monte di Procida","Mugnano di Napoli","Napoli","Nola","Ottaviano","Palma Campania","Piano di Sorrento","Pimonte","Poggiomarino","Pollena Trocchia","Pomigliano d'Arco","Pompei","Portici","Pozzuoli","Procida","Qualiano","Quarto","Roccarainola","San Gennaro Vesuviano","San Giorgio a Cremano","San Giuseppe Vesuviano","San Paolo Bel Sito","San Sebastiano al Vesuvio","San Vitaliano","Sant'Agnello","Sant'Anastasia","Sant'Antimo","Sant'Antonio Abate","Santa Maria la Carità","Saviano","Scisciano","Serrara Fontana","Somma Vesuviana","Sorrento","Striano","Terzigno","Torre Annunziata","Torre del Greco","Trecase","Tufino","Vico Equense","Villaricca","Visciano","Volla"];
     const comuniSA = ["Acerno","Agropoli","Albanella","Alfano","Altavilla Silentina","Amalfi","Angri","Aquara","Ascea","Atena Lucana","Atrani","Auletta","Baronissi","Battipaglia","Bellizzi","Bellosguardo","Bracigliano","Buccino","Buonabitacolo","Caggiano","Calvanico","Camerota","Campagna","Campora","Cannalonga","Capaccio Paestum","Casal Velino","Casalbuono","Casaletto Spartano","Caselle in Pittari","Castel San Giorgio","Castel San Lorenzo","Castelcivita","Castellabate","Castelnuovo Cilento","Castelnuovo di Conza","Castiglione del Genovesi","Cava de' Tirreni","Celle di Bulgheria","Centola","Ceraso","Cetara","Cicerale","Contursi Terme","Corbara","Corleto Monforte","Cuccaro Vetere","Eboli","Felitto","Fisciano","Furore","Futani","Giffoni Sei Casali","Giffoni Valle Piana","Gioi","Giungano","Ispani","Laureana Cilento","Laurino","Laurito","Laviano","Lustra","Magliano Vetere","Maiori","Mercato San Severino","Minori","Moio della Civitella","Montano Antilia","Monte San Giacomo","Montecorice","Montecorvino Pugliano","Montecorvino Rovella","Monteforte Cilento","Montesano sulla Marcellana","Morigerati","Nocera Inferiore","Nocera Superiore","Novi Velia","Ogliastro Cilento","Olevano sul Tusciano","Oliveto Citra","Omignano","Orria","Ottati","Padula","Pagani","Palomonte","Pellezzano","Perdifumo","Perito","Pertosa","Petina","Piaggine","Pisciotta","Polla","Pollica","Pontecagnano Faiano","Positano","Postiglione","Praiano","Prignano Cilento","Ravello","Ricigliano","Roccadaspide","Roccagloriosa","Roccapiemonte","Rofrano","Romagnano al Monte","Roscigno","Rutino","Sacco","Sala Consilina","Salento","Salerno","San Cipriano Picentino","San Giovanni a Piro","San Gregorio Magno","San Mango Piemonte","San Marzano sul Sarno","San Mauro Cilento","San Mauro la Bruca","San Pietro al Tanagro","San Rufo","San Valentino Torio","Santa Marina","Sant'Angelo a Fasanella","Sant'Arsenio","Sant'Egidio del Monte Albino","Sapri","Sarno","Sassano","Scafati","Scala","Serramezzana","Serre","Sessa Cilento","Siano","Sicignano degli Alburni","Stella Cilento","Stio","Teggiano","Torchiara","Torraca","Torre Orsaia","Tortorella","Tramonti","Trentinara","Valva","Vallo della Lucania","Vibonati","Vietri sul Mare"];
 
@@ -305,7 +315,7 @@
         }, 2000);
     });
 
-    const fields = ["nomeCompleto","indirizzo","citta","provincia","telefono","fisso","marca","modello","tipoIntervento", "problema"];
+    const fields = ["nomeCompleto","indirizzo","citta","provincia","telefono","fisso","marca","modello","tipoIntervento", "problema", "listaErrori", "problemaAltro"];
     fields.forEach(id => {
         const el = document.getElementById(id);
         if(!el) return;
@@ -339,7 +349,7 @@
         const percent = Math.round((filled/essential.length)*100);
         
         document.getElementById("progressFill").style.width = percent + "%";
-        document.getElementById("progressText").innerText = percent + "% COMPLETATO";
+        document.getElementById("progressText").innerText = percent + "%";
 
         if (percent > 0) {
             container.style.border = `1px solid rgba(34, 197, 94, ${percent / 100})`;
@@ -367,7 +377,7 @@
         updateUI();
     });
 
-      // --- GESTIONE INVIO (VERSIONE ULTRA-COMPATIBILE) ---
+    // --- INVIO ---
     const mainBtn = document.getElementById("mainBtn");
     const btnNormal = document.getElementById("btnNormal");
     const btnLoading = document.getElementById("btnLoading");
@@ -380,7 +390,6 @@
     };
 
     document.getElementById("conferma").onclick = function() {
-        // 1. Dati
         const d = (id) => document.getElementById(id).value.trim();
         let dettaglio = d("problema");
         if(dettaglio === "Errore sul display") dettaglio = "Allarme: " + d("listaErrori");
@@ -388,18 +397,14 @@
         if(notaAltro) dettaglio += " - Note: " + notaAltro;
 
         const msg = `*🔥 RICHIESTA ASSISTENZA*\n👤 *Cliente:* ${d("nomeCompleto")}\n📍 *Indirizzo:* ${d("indirizzo")} - ${d("citta")} (${d("provincia")})\n📱 *Tel:* ${d("telefono")}\n🔥 *Stufa:* ${d("marca")} ${d("modello")}\n🧰 *Servizio:* ${d("tipoIntervento")}\n🛠️ *Dettaglio:* ${dettaglio}`;
-        
         const url = `https://api.whatsapp.com/send?phone=390813769280&text=${encodeURIComponent(msg)}`;
 
-        // 2. Azione Immediata (Obbligatorio per bypassare blocchi browser)
         btnNormal.style.display = "none";
         btnLoading.style.display = "block";
-        
-        // Chiudiamo il modale e apriamo subito
         document.getElementById("modal").style.display = "none";
+        
         window.location.href = url;
 
-        // 3. Reset (nel caso l'utente torni indietro con il tasto back)
         setTimeout(() => {
             btnNormal.style.display = "flex";
             btnLoading.style.display = "none";
@@ -408,6 +413,7 @@
 
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
 
+    popola(); updateUI();
 </script>
 </body>
 </html>
