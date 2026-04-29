@@ -54,16 +54,52 @@
         .loader-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e); animation: loadProgress 2.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards; }
         @keyframes loadProgress { 100% { width: 100%; } }
 
-        /* --- CONTAINER --- */
+        /* --- CONTAINER CON BORDO ANIMATO --- */
         .container { 
-            width: 100%; max-width: 420px; background: rgba(255, 255, 255, 0.08); 
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
-            border-radius: 25px; padding: 25px; 
-            border: 1px solid rgba(255,255,255,0.1); border-top: 1px solid rgba(255,255,255,0.3);
+            width: 100%; max-width: 420px; 
+            position: relative;
+            background: rgba(255, 255, 255, 0.1); 
+            border-radius: 25px; 
+            padding: 2px; /* Spessore del bordo */
+            overflow: hidden; 
             opacity: 0; transform: translateY(30px); 
-            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s, border 0.4s, box-shadow 0.4s;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s;
         }
         .container.active { opacity: 1; transform: translateY(0); }
+
+        /* Bagliore rotante */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent, 
+                rgba(34, 197, 94, 0.8), 
+                transparent 30%
+            );
+            animation: rotate 4.5s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Contenuto interno per coprire il centro del bagliore */
+        .container-inner {
+            position: relative;
+            background: #0b132b; /* Tinta unita simile allo sfondo per mascherare */
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
+            border-radius: 23px;
+            padding: 25px;
+            z-index: 1;
+            height: 100%;
+            width: 100%;
+            background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617);
+        }
 
         h2 { color: #fff; text-align: center; font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 30px; }
         
@@ -167,121 +203,123 @@
 </div>
 
 <div class="container" id="mainContainer">
-    <h2>🔥 PRENOTA INTERVENTO</h2>
+    <div class="container-inner">
+        <h2>🔥 PRENOTA INTERVENTO</h2>
 
-    <div class="progress-wrapper">
-        <div class="progress-text" id="progressText">0%</div>
-        <div class="progress-container">
-            <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-wrapper">
+            <div class="progress-text" id="progressText">0%</div>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
         </div>
-    </div>
 
-    <div class="input-group">
-        <label>Anagrafica</label>
-        <input type="text" id="nomeCompleto" placeholder="Nome e Cognome">
-        <span class="field-icon">👤</span>
-        <span class="check-status">✓</span>
-    </div>
-
-    <div class="input-group">
-        <input type="text" id="indirizzo" placeholder="Indirizzo e Civico">
-        <span class="field-icon">📍</span>
-        <span class="check-status">✓</span>
-    </div>
-
-    <div class="field-row" style="display: flex; gap: 10px;">
-        <div style="flex: 2; position: relative;">
-            <input type="text" id="citta" list="listaCitta" placeholder="Città">
-            <datalist id="listaCitta"></datalist>
-            <span class="field-icon">🏙️</span>
-        </div>
-        <div style="flex: 1; position: relative;">
-            <input type="text" id="provincia" placeholder="Prov." maxlength="2">
-            <span class="field-icon">🏛️</span>
-        </div>
-    </div>
-
-    <div class="field-row" style="display: flex; gap: 10px;">
-        <div style="flex: 1; position: relative;">
-            <input type="tel" id="telefono" placeholder="Cellulare">
-            <span class="field-icon">📱</span>
-        </div>
-        <div style="flex: 1; position: relative;">
-            <input type="tel" id="fisso" placeholder="Fisso (opz)">
-            <span class="field-icon">📞</span>
-        </div>
-    </div>
-
-    <label>Prodotto</label>
-    <div class="field-row" style="display: flex; gap: 10px;">
-        <input type="text" id="marca" placeholder="Marca" style="flex:1">
-        <input type="text" id="modello" placeholder="Modello" style="flex:1">
-    </div>
-
-    <div class="input-group">
-        <select id="tipoIntervento">
-            <option value="">Tipo intervento...</option>
-            <option value="Manutenzione">Manutenzione</option>
-            <option value="Riparazione">Riparazione</option>
-            <option value="Prima accensione">Prima accensione</option>
-        </select>
-        <span class="field-icon">🧰</span>
-        <span class="check-status">✓</span>
-    </div>
-
-    <div id="sezioneProblemi">
-        <label>Dettagli Guasto</label>
         <div class="input-group">
-            <select id="problema">
-                <option value="">Problema riscontrato...</option>
-                <option value="Errore sul display">Errore sul display ⚠️</option>
-                <option value="Mancata Accensione">Mancata Accensione</option>
-                <option value="Si spegne da sola">Si spegne da sola</option>
-                <option value="Vetro molto nero">Il vetro si sporca subito</option>
-                <option value="Rumore eccessivo">Fa un rumore anomalo</option>
-                <option value="Altro">Altro (specifica sotto)</option>
-            </select>
+            <label>Anagrafica</label>
+            <input type="text" id="nomeCompleto" placeholder="Nome e Cognome">
+            <span class="field-icon">👤</span>
             <span class="check-status">✓</span>
         </div>
 
-        <div id="erroriDisplayGroup" style="display:none; margin-bottom:15px;">
-            <select id="listaErrori">
-                <option value="">Seleziona l'allarme...</option>
-                <option value="AL 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
-                <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
-                <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
-                <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
-                <option value="AL 5 - No Accensione">AL 5 - Mancata Accensione</option>
-                <option value="AL 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
-                <option value="AL 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
-                <option value="AL 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
-                <option value="AL 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
-                <option value="SERVICE/PULIZIA">SERVICE/PULIZIA</option>
-                <option value="Errore Triac Coclea">Errore Triac Coclea</option>
-                <option value="Errore Sonda K">Errore Sonda K</option>
-                <option value="Errore Pulizia braciere">Errore Pulizia braciere</option>
-                <option value="Errore Pressione Alta">Errore Pressione Alta</option>
-                <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
-                <option value="Errore Debimetro/No flusso">Errore Debimetro/No flusso</option>
-                <option value="Errore Porta Apert/sportello pellet">Errore Porta Aperta/sportello pellet</option>
-                <option value="Errore NO SEGNALE">Errore NO SEGNALE</option>
-                <option value="Altro">Altro errore non in lista</option>
+        <div class="input-group">
+            <input type="text" id="indirizzo" placeholder="Indirizzo e Civico">
+            <span class="field-icon">📍</span>
+            <span class="check-status">✓</span>
+        </div>
+
+        <div class="field-row" style="display: flex; gap: 10px;">
+            <div style="flex: 2; position: relative;">
+                <input type="text" id="citta" list="listaCitta" placeholder="Città">
+                <datalist id="listaCitta"></datalist>
+                <span class="field-icon">🏙️</span>
+            </div>
+            <div style="flex: 1; position: relative;">
+                <input type="text" id="provincia" placeholder="Prov." maxlength="2">
+                <span class="field-icon">🏛️</span>
+            </div>
+        </div>
+
+        <div class="field-row" style="display: flex; gap: 10px;">
+            <div style="flex: 1; position: relative;">
+                <input type="tel" id="telefono" placeholder="Cellulare">
+                <span class="field-icon">📱</span>
+            </div>
+            <div style="flex: 1; position: relative;">
+                <input type="tel" id="fisso" placeholder="Fisso (opz)">
+                <span class="field-icon">📞</span>
+            </div>
+        </div>
+
+        <label>Prodotto</label>
+        <div class="field-row" style="display: flex; gap: 10px;">
+            <input type="text" id="marca" placeholder="Marca" style="flex:1">
+            <input type="text" id="modello" placeholder="Modello" style="flex:1">
+        </div>
+
+        <div class="input-group">
+            <select id="tipoIntervento">
+                <option value="">Tipo intervento...</option>
+                <option value="Manutenzione">Manutenzione</option>
+                <option value="Riparazione">Riparazione</option>
+                <option value="Prima accensione">Prima accensione</option>
             </select>
+            <span class="field-icon">🧰</span>
+            <span class="check-status">✓</span>
         </div>
-        <textarea id="problemaAltro" placeholder="Descrivi qui i dettagli..." style="display:none; margin-bottom:15px; min-height:80px;"></textarea>
-    </div>
 
-    <div class="chat-preview" id="chatPreview">
-        <div class="chat-bubble" id="chatBubble"></div>
-    </div>
+        <div id="sezioneProblemi">
+            <label>Dettagli Guasto</label>
+            <div class="input-group">
+                <select id="problema">
+                    <option value="">Problema riscontrato...</option>
+                    <option value="Errore sul display">Errore sul display ⚠️</option>
+                    <option value="Mancata Accensione">Mancata Accensione</option>
+                    <option value="Si spegne da sola">Si spegne da sola</option>
+                    <option value="Vetro molto nero">Il vetro si sporca subito</option>
+                    <option value="Rumore eccessivo">Fa un rumore anomalo</option>
+                    <option value="Altro">Altro (specifica sotto)</option>
+                </select>
+                <span class="check-status">✓</span>
+            </div>
 
-    <button id="mainBtn">
-        <div class="btn-content" id="btnNormal">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.412 2.503 1.112 3.487l-.751 2.733 2.8-.735c.94.512 2.017.807 3.16.808 3.181 0 5.767-2.584 5.768-5.764 0-3.18-2.584-5.767-5.764-5.767l-.157.002zm3.39 8.161c-.054.154-.312.28-.43.292-.117.012-.228.024-.76-.174-.532-.198-1.441-.62-2.022-1.202-.582-.581-1.025-1.28-1.246-1.658-.222-.379-.024-.584.174-.783.198-.199.379-.443.568-.665.19-.222.253-.379.379-.632.127-.254.063-.475-.032-.665-.095-.19-.854-2.062-.1.171-2.854-.684-.684-1.03-1.03-1.03-.43s0-.776.33-1.12c.33-.344.444-.444.665-.886.222-.444.111-.842 0-1.112-.111-.271-.992-2.392-1.362-3.284-.361-.869-.728-.751-1.032-.765-.266-.012-.57-.015-.875-.015-.304 0-.799.114-1.218.571-.419.456-1.597 1.558-1.597 3.799 0 2.242 1.635 4.412 1.862 4.717.228.304 3.22 4.917 7.802 6.892 1.09.47 1.942.75 2.604.959 1.095.348 2.091.3 2.879.183.879-.13 2.698-1.103 3.078-2.171.381-1.068.381-1.984.267-2.171-.114-.187-.419-.304-.887-.538zM12 1c-6.075 0-11 4.925-11 11s4.925 11 11 11 11-4.925 11-11-4.925-11-11-11zm0 2c4.97 0 9 4.03 9 9s-4.03 9-9 9-9-4.03-9-9 4.03-9 9-9z"/></svg>
-            <span>PRENOTA SU WHATSAPP</span>
+            <div id="erroriDisplayGroup" style="display:none; margin-bottom:15px;">
+                <select id="listaErrori">
+                    <option value="">Seleziona l'allarme...</option>
+                    <option value="AL 1 - Blackout">AL 1 - Blackout / Mancanza Rete</option>
+                    <option value="AL 2 - Sonda Fumi">AL 2 - Sonda Fumi Guasta</option>
+                    <option value="AL 3 - Hot Fumi">AL 3 - Hot Fumi (Eccessivo Calore)</option>
+                    <option value="AL 4 - Aspiratore">AL 4 - Guasto Estrattore Fumi</option>
+                    <option value="AL 5 - No Accensione">AL 5 - Mancata Accensione</option>
+                    <option value="AL 6 - No Pellet">AL 6 - Mancanza Pellet / Fiamma</option>
+                    <option value="AL 7 - Termico">AL 7 - Sicurezza Termica (Reset)</option>
+                    <option value="AL 8 - No Depressione">AL 8 - Errore Depressione / Canna Fumaria</option>
+                    <option value="AL 9 - Coclea">AL 9 - Blocco Sistema Carico Pellet</option>
+                    <option value="SERVICE/PULIZIA">SERVICE/PULIZIA</option>
+                    <option value="Errore Triac Coclea">Errore Triac Coclea</option>
+                    <option value="Errore Sonda K">Errore Sonda K</option>
+                    <option value="Errore Pulizia braciere">Errore Pulizia braciere</option>
+                    <option value="Errore Pressione Alta">Errore Pressione Alta</option>
+                    <option value="Errore Pressione Bassa">Errore Pressione Bassa</option>
+                    <option value="Errore Debimetro/No flusso">Errore Debimetro/No flusso</option>
+                    <option value="Errore Porta Apert/sportello pellet">Errore Porta Aperta/sportello pellet</option>
+                    <option value="Errore NO SEGNALE">Errore NO SEGNALE</option>
+                    <option value="Altro">Altro errore non in lista</option>
+                </select>
+            </div>
+            <textarea id="problemaAltro" placeholder="Descrivi qui i dettagli..." style="display:none; margin-bottom:15px; min-height:80px;"></textarea>
         </div>
-        <div class="loading-spinner" id="btnLoading"></div>
-    </button>
+
+        <div class="chat-preview" id="chatPreview">
+            <div class="chat-bubble" id="chatBubble"></div>
+        </div>
+
+        <button id="mainBtn">
+            <div class="btn-content" id="btnNormal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.412 2.503 1.112 3.487l-.751 2.733 2.8-.735c.94.512 2.017.807 3.16.808 3.181 0 5.767-2.584 5.768-5.764 0-3.18-2.584-5.767-5.764-5.767l-.157.002zm3.39 8.161c-.054.154-.312.28-.43.292-.117.012-.228.024-.76-.174-.532-.198-1.441-.62-2.022-1.202-.582-.581-1.025-1.28-1.246-1.658-.222-.379-.024-.584.174-.783.198-.199.379-.443.568-.665.19-.222.253-.379.379-.632.127-.254.063-.475-.032-.665-.095-.19-.854-2.062-.1.171-2.854-.684-.684-1.03-1.03-1.03-.43s0-.776.33-1.12c.33-.344.444-.444.665-.886.222-.444.111-.842 0-1.112-.111-.271-.992-2.392-1.362-3.284-.361-.869-.728-.751-1.032-.765-.266-.012-.57-.015-.875-.015-.304 0-.799.114-1.218.571-.419.456-1.597 1.558-1.597 3.799 0 2.242 1.635 4.412 1.862 4.717.228.304 3.22 4.917 7.802 6.892 1.09.47 1.942.75 2.604.959 1.095.348 2.091.3 2.879.183.879-.13 2.698-1.103 3.078-2.171.381-1.068.381-1.984.267-2.171-.114-.187-.419-.304-.887-.538zM12 1c-6.075 0-11 4.925-11 11s4.925 11 11 11 11-4.925 11-11-4.925-11-11-11zm0 2c4.97 0 9 4.03 9 9s-4.03 9-9 9-9-4.03-9-9 4.03-9 9-9z"/></svg>
+                <span>PRENOTA SU WHATSAPP</span>
+            </div>
+            <div class="loading-spinner" id="btnLoading"></div>
+        </button>
+    </div>
 </div>
 
 <div class="modal" id="modal">
@@ -351,8 +389,8 @@
         document.getElementById("progressFill").style.width = percent + "%";
         document.getElementById("progressText").innerText = percent + "%";
 
+        // Aggiorna l'intensità del bordo esterno in base alla percentuale
         if (percent > 0) {
-            container.style.border = `1px solid rgba(34, 197, 94, ${percent / 100})`;
             container.style.boxShadow = `0 0 ${percent / 5}px rgba(34, 197, 94, ${percent / 200})`;
         }
 
