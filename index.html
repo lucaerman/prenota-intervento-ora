@@ -164,33 +164,92 @@
         }
 
         /* --- BOTTONE WHATSAPP --- */
-        button#mainBtn { 
-            width: 100%; height: 58px; margin-top: 15px; border: none; border-radius: 14px; 
-            background: linear-gradient(45deg, #25d366, #128c7e, #25d366); 
-            background-size: 200% auto;
-            color: white; font-weight: 900; 
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-        }
+button#mainBtn { 
+    width: 100%; 
+    height: 75px; 
+    margin-top: 20px; 
+    border: none; 
+    border-radius: 18px; 
+    background: linear-gradient(145deg, #25d366, #1ebe5d); 
+    color: white; 
+    font-weight: 900; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    position: relative; 
+    overflow: hidden;
 
-        button#mainBtn:hover { background-position: right center; }
-        button#mainBtn:active { transform: scale(0.96); }
+    /* 3D */
+    box-shadow: 
+        0 8px 0 #128c7e,
+        0 15px 25px rgba(0,0,0,0.4);
 
-        .btn-content { display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
-        .loading-spinner { 
-            display: none; width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.3); 
-            border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; 
-        }
+    transition: all 0.15s ease-in-out;
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+    /* Animazione continua */
+    animation: pulseBtn 2.2s infinite ease-in-out;
+}
 
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .box { background: #0f172a; padding: 25px; border-radius: 20px; text-align: center; width: 90%; max-width: 320px; border: 1px solid #22c55e; }
-        .ok { background: #22c55e; width: 100%; padding: 12px; border:none; border-radius: 10px; color: white; font-weight: bold; margin-bottom: 10px; cursor: pointer;}
-        .no { background: transparent; color: #aaa; border: none; cursor: pointer; padding: 10px; }
-        select option { background: #0f172a; color: white; }
+/* effetto luce animata */
+button#mainBtn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: skewX(-25deg);
+    animation: shine 3s infinite;
+}
+
+/* pressione reale */
+button#mainBtn:active {
+    transform: translateY(6px);
+    box-shadow: 
+        0 2px 0 #128c7e,
+        0 8px 15px rgba(0,0,0,0.3);
+}
+
+/* contenuto */
+.btn-content { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 12px; 
+    z-index: 2;
+}
+
+.btn-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    text-align: left;
+}
+
+.btn-text span:first-child {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.btn-text span:last-child {
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+/* animazioni */
+@keyframes pulseBtn {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shine {
+    0% { left: -75%; }
+    100% { left: 130%; }
+}
+  
     </style>
 </head>
 <body>
@@ -312,13 +371,14 @@
             <div class="chat-bubble" id="chatBubble"></div>
         </div>
 
-        <button id="mainBtn">
-            <div class="btn-content" id="btnNormal">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.412 2.503 1.112 3.487l-.751 2.733 2.8-.735c.94.512 2.017.807 3.16.808 3.181 0 5.767-2.584 5.768-5.764 0-3.18-2.584-5.767-5.764-5.767l-.157.002zm3.39 8.161c-.054.154-.312.28-.43.292-.117.012-.228.024-.76-.174-.532-.198-1.441-.62-2.022-1.202-.582-.581-1.025-1.28-1.246-1.658-.222-.379-.024-.584.174-.783.198-.199.379-.443.568-.665.19-.222.253-.379.379-.632.127-.254.063-.475-.032-.665-.095-.19-.854-2.062-.1.171-2.854-.684-.684-1.03-1.03-1.03-.43s0-.776.33-1.12c.33-.344.444-.444.665-.886.222-.444.111-.842 0-1.112-.111-.271-.992-2.392-1.362-3.284-.361-.869-.728-.751-1.032-.765-.266-.012-.57-.015-.875-.015-.304 0-.799.114-1.218.571-.419.456-1.597 1.558-1.597 3.799 0 2.242 1.635 4.412 1.862 4.717.228.304 3.22 4.917 7.802 6.892 1.09.47 1.942.75 2.604.959 1.095.348 2.091.3 2.879.183.879-.13 2.698-1.103 3.078-2.171.381-1.068.381-1.984.267-2.171-.114-.187-.419-.304-.887-.538zM12 1c-6.075 0-11 4.925-11 11s4.925 11 11 11 11-4.925 11-11-4.925-11-11-11zm0 2c4.97 0 9 4.03 9 9s-4.03 9-9 9-9-4.03-9-9 4.03-9 9-9z"/></svg>
-                <span>PRENOTA SU WHATSAPP</span>
-            </div>
-            <div class="loading-spinner" id="btnLoading"></div>
-        </button>
+        <div class="btn-content" id="btnNormal">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.412 2.503 1.112 3.487l-.751 2.733 2.8-.735c.94.512 2.017.807 3.16.808 3.181 0 5.767-2.584 5.768-5.764 0-3.18-2.584-5.767-5.764-5.767l-.157.002z"/>
+    </svg>
+
+    <div class="btn-text">
+        <span>INVIA PRENOTAZIONE SU</span>
+        <span>WHATSAPP</span>
     </div>
 </div>
 
