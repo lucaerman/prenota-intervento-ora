@@ -371,16 +371,20 @@ button#mainBtn:active {
             <div class="chat-bubble" id="chatBubble"></div>
         </div>
 
-        <div class="btn-content" id="btnNormal">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.412 2.503 1.112 3.487l-.751 2.733 2.8-.735c.94.512 2.017.807 3.16.808 3.181 0 5.767-2.584 5.768-5.764 0-3.18-2.584-5.767-5.764-5.767l-.157.002z"/>
-    </svg>
+        <button id="mainBtn">
+    <div class="btn-content" id="btnNormal">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.412 2.503 1.112 3.487l-.751 2.733 2.8-.735c.94.512 2.017.807 3.16.808 3.181 0 5.767-2.584 5.768-5.764 0-3.18-2.584-5.767-5.764-5.767l-.157.002z"/>
+        </svg>
 
-    <div class="btn-text">
-        <span>INVIA PRENOTAZIONE SU</span>
-        <span>WHATSAPP</span>
+        <div class="btn-text">
+            <span>INVIA PRENOTAZIONE SU</span>
+            <span>WHATSAPP</span>
+        </div>
     </div>
-</div>
+
+    <div class="loading-spinner" id="btnLoading"></div>
+</button>
 
 <div class="modal" id="modal">
     <div class="box">
