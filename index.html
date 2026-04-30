@@ -20,6 +20,21 @@
     <title>Prenotazione Intervento</title>
 
     <style>
+        /* Banner Istruzioni PWA */
+#pwa-install-banner {
+    display: none;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: white;
+    font-size: 13px;
+    animation: fadeIn 0.5s ease;
+}
+.install-icon { font-size: 20px; margin-right: 10px; }
+.step-highlight { color: #22c55e; font-weight: bold; }
+
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
@@ -204,6 +219,14 @@
 
 <div class="container" id="mainContainer">
     <div class="container-inner">
+        <div id="pwa-install-banner">
+    <div style="display: flex; align-items: center; margin-bottom: 8px;">
+        <span class="install-icon">📲</span>
+        <strong>INSTALLA L'APP</strong>
+    </div>
+    <p id="pwa-instructions"></p>
+</div>
+
         <h2>🔥 PRENOTA INTERVENTO</h2>
 
         <div class="progress-wrapper">
@@ -452,6 +475,32 @@
     document.getElementById("annulla").onclick = () => document.getElementById("modal").style.display="none";
 
     popola(); updateUI();
+
+    function checkPWA() {
+    const banner = document.getElementById('pwa-install-banner');
+    const instructions = document.getElementById('pwa-instructions');
+    
+    // Controlla se l'app è già in modalità "standalone" (già installata)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+    if (!isStandalone) {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        
+        if (/iphone|ipad|ipod/.test(userAgent)) {
+            // Istruzioni per iOS
+            banner.style.display = 'block';
+            instructions.innerHTML = 'Per installare: premi l\'icona <span class="step-highlight">Condividi</span> (quadrato con freccia) e poi <span class="step-highlight">"Aggiungi alla schermata Home"</span>.';
+        } else if (/android/.test(userAgent)) {
+            // Istruzioni per Android (Chrome)
+            banner.style.display = 'block';
+            instructions.innerHTML = 'Per installare: premi i <span class="step-highlight">tre puntini</span> in alto e seleziona <span class="step-highlight">"Installa applicazione"</span>.';
+        }
+    }
+}
+
+// Esegui il controllo all'avvio
+window.addEventListener('DOMContentLoaded', checkPWA);
+
 </script>
 </body>
 </html>
