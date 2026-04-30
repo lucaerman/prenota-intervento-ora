@@ -501,6 +501,14 @@
 // Esegui il controllo all'avvio
 window.addEventListener('DOMContentLoaded', checkPWA);
 
+    if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('Service Worker registrato!', reg))
+      .catch(err => console.err('Errore registrazione SW:', err));
+  });
+}
+
 </script>
 </body>
 </html>
