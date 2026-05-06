@@ -146,6 +146,10 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        input:not(:placeholder-shown):not(.valid) {
+    border-color: #ef4444 !important; /* Rosso se ha scritto qualcosa ma non è valido */
+}
+
         input:focus, select:focus, textarea:focus {
             background: rgba(255, 255, 255, 0.12);
             border-color: #ef4444;
@@ -386,9 +390,24 @@
     });
 
     function valida(el) {
-        if(el.value.trim().length >= 2) el.classList.add("valid");
-        else el.classList.remove("valid");
+    let isValid = false;
+    const value = el.value.trim();
+
+    if (el.id === "nomeCompleto") {
+        // Verifica che ci siano almeno due parole (Nome e Cognome)
+        // La regex controlla: parola + spazio + parola
+        isValid = /^[a-zA-ZÀ-ÿ']{2,}\s+[a-zA-ZÀ-ÿ']{2,}/.test(value);
+    } else if (el.type === "tel") {
+        // Verifica numero di telefono base (almeno 7 cifre)
+        isValid = /^[0-9\s+]{7,15}$/.test(value);
+    } else {
+        // Per gli altri campi basta che siano più lunghi di 2 caratteri
+        isValid = value.length >= 2;
     }
+    
+    if(isValid) el.classList.add("valid");
+    else el.classList.remove("valid");
+}
 
     document.getElementById("citta").addEventListener("change", function() {
         const opts = document.getElementById("listaCitta").childNodes;
@@ -443,12 +462,28 @@
     const btnNormal = document.getElementById("btnNormal");
     const btnLoading = document.getElementById("btnLoading");
 
-    mainBtn.onclick = function() {
-        const nome = document.getElementById("nomeCompleto").value.trim();
-        const tel = document.getElementById("telefono").value.trim();
-        if(!nome || !tel) { alert("Per favore, inserisci Nome e Telefono."); return; }
-        document.getElementById("modal").style.display = "flex";
-    };
+mainBtn.onclick = function() {
+    const nomeInput = document.getElementById("nomeCompleto");
+    const nomeValue = nomeInput.value.trim();
+    const tel = document.getElementById("telefono").value.trim();
+
+    // Controllo specifico per Nome e Cognome (presenza dello spazio)
+    const haNomeECognome = nomeValue.includes(" ") && nomeValue.split(" ").filter(p => p.length >= 2).length >= 2;
+
+    if(!haNomeECognome) {
+        alert("Per favore, inserisci sia il Nome che il Cognome separati da uno spazio.");
+        nomeInput.focus();
+        nomeInput.classList.remove("valid"); // Rimuove il verde se era presente
+        return;
+    }
+
+    if(!tel) { 
+        alert("Per favore, inserisci un numero di cellulare."); 
+        return; 
+    }
+    
+    document.getElementById("modal").style.display = "flex";
+};
 
     document.getElementById("conferma").onclick = function() {
         const d = (id) => document.getElementById(id).value.trim();
