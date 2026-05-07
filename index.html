@@ -565,7 +565,7 @@ window.addEventListener('DOMContentLoaded', checkPWA);
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
       .then(reg => console.log('Service Worker registrato!', reg))
-      .catch(err => console.err('Errore registrazione SW:', err));
+      .catch(err => console.error('Errore registrazione SW:', err));
   });
 }
 
