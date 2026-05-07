@@ -463,24 +463,52 @@
     const btnLoading = document.getElementById("btnLoading");
 
 mainBtn.onclick = function() {
+    const d = (id) => document.getElementById(id).value.trim();
     const nomeInput = document.getElementById("nomeCompleto");
-    const nomeValue = nomeInput.value.trim();
-    const tel = document.getElementById("telefono").value.trim();
+    
+    // Recupero i valori dei campi obbligatori
+    const nomeValue = d("nomeCompleto");
+    const indirizzo = d("indirizzo");
+    const tel = d("telefono");
+    const citta = d("citta");
+    const marca = d("marca");
 
-    // Controllo specifico per Nome e Cognome (presenza dello spazio)
+    // Controllo Nome e Cognome (almeno due parole)
     const haNomeECognome = nomeValue.includes(" ") && nomeValue.split(" ").filter(p => p.length >= 2).length >= 2;
 
-    if(!haNomeECognome) {
-        alert("Per favore, inserisci sia il Nome che il Cognome separati da uno spazio.");
+    if (!haNomeECognome) {
+        alert("Inserisci Nome e Cognome completi.");
         nomeInput.focus();
-        nomeInput.classList.remove("valid"); // Rimuove il verde se era presente
+        return;
+    }
+    
+    if (!indirizzo || indirizzo.length < 4) {
+        alert("Inserisci un indirizzo valido.");
+        document.getElementById("indirizzo").focus();
         return;
     }
 
-    if(!tel) { 
-        alert("Per favore, inserisci un numero di cellulare."); 
-        return; 
+    if (!citta) {
+        alert("Seleziona o inserisci la città.");
+        document.getElementById("citta").focus();
+        return;
     }
+
+    if (!tel || tel.length < 7) {
+        alert("Inserisci un numero di cellulare valido.");
+        document.getElementById("telefono").focus();
+        return;
+    }
+
+    if (!marca) {
+        alert("Indica la marca della stufa.");
+        document.getElementById("marca").focus();
+        return;
+    }
+    
+    // Se tutti i controlli sono OK, mostra la modale di conferma
+    document.getElementById("modal").style.display = "flex";
+};
     
     document.getElementById("modal").style.display = "flex";
 };
