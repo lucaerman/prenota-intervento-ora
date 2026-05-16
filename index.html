@@ -38,15 +38,14 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            /* Colore scuro di base */
+            /* Sfondo scuro profondo di base */
             background-color: #020617; 
             
-            /* Il logo si ripete lateralmente per riempire lo schermo sui computer */
-            background-image: url('icon-512.png'); 
+            /* Richiamiamo il nuovo logo trasparente */
+            background-image: url('logo-trasparente.png'); 
             background-repeat: repeat; 
             background-position: center; 
-            /* Dimensione fissa ideale per far vedere i loghi interi ai lati del modulo */
-            background-size: 380px; 
+            background-size: 380px; /* Dimensione ideale per farlo vedere intero ai lati del form sui PC */
             background-attachment: fixed; 
             
             min-height: 100vh; 
@@ -113,7 +112,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Contenuto interno modificato: gradiente semitrasparente per far intravedere il logo sotto */
+        /* Contenuto interno: gradiente leggermente opaco per far intravedere il logo trasparente come filigrana */
         .container-inner {
             position: relative;
             border-radius: 23px;
@@ -121,10 +120,9 @@
             z-index: 1;
             height: 100%;
             width: 100%;
-            /* Uso i colori blu scuro della tua app ma con opacità (0.9) per l'effetto filigrana */
-            background: radial-gradient(circle at 20% 20%, rgba(30, 58, 138, 0.9), rgba(2, 6, 23, 0.93));
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); 
+            background: radial-gradient(circle at 20% 20%, rgba(30, 58, 138, 0.88), rgba(2, 6, 23, 0.94));
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px); 
         }
 
         h2 { color: #fff; text-align: center; font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 30px; }
