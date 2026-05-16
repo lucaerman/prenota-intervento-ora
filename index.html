@@ -42,19 +42,31 @@
             background-color: #020617; 
             
             /* Richiamiamo il nuovo logo trasparente */
-            background-image: url('logo-trasparente.PNG'); 
-            background-repeat: repeat; 
-            background-position: center; 
-            background-size: 380px; /* Dimensione ideale per farlo vedere intero ai lati del form sui PC */
-            background-attachment: fixed; 
-            
-            min-height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom) 20px; 
-            overflow-x: hidden; 
-        }
+           body {
+    background-color: #020617;
+
+    background-image:
+        linear-gradient(rgba(2,6,23,0.78), rgba(2,6,23,0.78)),
+        url('./logo-trasparente.png');
+
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: min(65vw, 420px);
+    background-attachment: fixed;
+
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        env(safe-area-inset-top)
+        20px
+        env(safe-area-inset-bottom)
+        20px;
+
+    overflow-x: hidden;
+}
 
         /* --- SPLASH SCREEN --- */
         #splash-screen {
