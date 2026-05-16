@@ -21,24 +21,31 @@
 
     <style>
         /* Banner Istruzioni PWA */
-#pwa-install-banner {
-    display: none;
-    background: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 15px;
-    padding: 15px;
-    margin-bottom: 20px;
-    color: white;
-    font-size: 13px;
-    animation: fadeIn 0.5s ease;
-}
-.install-icon { font-size: 20px; margin-right: 10px; }
-.step-highlight { color: #22c55e; font-weight: bold; }
+        #pwa-install-banner {
+            display: none;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 13px;
+            animation: fadeIn 0.5s ease;
+        }
+        .install-icon { font-size: 20px; margin-right: 10px; }
+        .step-highlight { color: #22c55e; font-weight: bold; }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617); 
+            /* Sfondo principale scuro combinato con l'immagine del tuo logo al centro */
+            background-color: #020617; 
+            background-image: url('icon-512.png'); 
+            background-repeat: no-repeat; 
+            background-position: center; 
+            background-size: contain; 
+            background-attachment: fixed; 
+            
             min-height: 100vh; 
             display: flex; 
             align-items: center; 
@@ -106,7 +113,7 @@
         /* Contenuto interno per coprire il centro del bagliore */
         .container-inner {
             position: relative;
-            background: #0b132b; /* Tinta unita simile allo sfondo per mascherare */
+            background: #0b132b; 
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
             border-radius: 23px;
             padding: 25px;
@@ -118,7 +125,7 @@
 
         h2 { color: #fff; text-align: center; font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 30px; }
         
-        /* --- PROGRESS BAR NUOVA --- */
+        /* --- PROGRESS BAR --- */
         .progress-wrapper { position: relative; margin-bottom: 30px; }
         .progress-container { 
             width: 100%; background: rgba(255, 255, 255, 0.05); border-radius: 20px; 
@@ -147,8 +154,8 @@
         }
 
         input:not(:placeholder-shown):not(.valid) {
-    border-color: #ef4444 !important; /* Rosso se ha scritto qualcosa ma non è valido */
-}
+            border-color: #ef4444 !important; 
+        }
 
         input:focus, select:focus, textarea:focus {
             background: rgba(255, 255, 255, 0.12);
