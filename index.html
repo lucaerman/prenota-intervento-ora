@@ -37,31 +37,26 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         
-           body {
-    background-color: #020617;
-
-    background-image:
-        linear-gradient(rgba(2,6,23,0.78), rgba(2,6,23,0.78)),
-        url('./logo-trasparente.PNG');
-
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: min(65vw, 420px);
-    background-attachment: fixed;
-
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding:
-        env(safe-area-inset-top)
-        20px
-        env(safe-area-inset-bottom)
-        20px;
-
-    overflow-x: hidden;
-}
+        body {
+            background-color: #020617;
+            background-image:
+                linear-gradient(rgba(2,6,23,0.78), rgba(2,6,23,0.78)),
+                url('./logo-trasparente.PNG');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: min(65vw, 420px);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding:
+                env(safe-area-inset-top)
+                20px
+                env(safe-area-inset-bottom)
+                20px;
+            overflow-x: hidden;
+        }
 
         /* --- SPLASH SCREEN --- */
         #splash-screen {
@@ -78,8 +73,17 @@
         .skeleton-overlay { position: absolute; width: 100%; max-width: 420px; padding: 25px; opacity: 0.15; filter: blur(4px); pointer-events: none; }
         .sk-box { background: #fff; height: 120px; border-radius: 20px; width: 100%; margin-bottom: 20px; }
         .sk-line { background: #fff; height: 45px; border-radius: 12px; margin-bottom: 15px; width: 100%; }
-        .splash-logo { font-size: 90px; margin-bottom: 15px; animation: splashPulse 1.25s infinite alternate ease-in-out; filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.5)); z-index: 2; }
-        @keyframes splashPulse { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        
+        /* Modificato per gestire correttamente l'immagine del tuo logo */
+        .splash-logo { 
+            width: 120px; 
+            height: auto; 
+            margin-bottom: 25px; 
+            animation: splashPulse 1.25s infinite alternate ease-in-out; 
+            z-index: 2; 
+        }
+        @keyframes splashPulse { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
+        
         .loading-text { color: white; font-size: 14px; font-weight: 700; margin-bottom: 15px; letter-spacing: 2px; text-transform: uppercase; z-index: 2; opacity: 0.8; }
         .loader-container { width: 240px; height: 8px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); z-index: 2; }
         .loader-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e); animation: loadProgress 2.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards; }
@@ -119,7 +123,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Contenuto interno: gradiente leggermente opaco per far intravedere il logo trasparente come filigrana */
+        /* Contenuto interno */
         .container-inner {
             position: relative;
             border-radius: 23px;
@@ -128,10 +132,10 @@
             height: 100%;
             width: 100%;
             background: radial-gradient(
-    circle at top,
-    rgba(30, 58, 138, 0.35),
-    rgba(2, 6, 23, 0.45)
-);
+                circle at top,
+                rgba(30, 58, 138, 0.35),
+                rgba(2, 6, 23, 0.45)
+            );
             backdrop-filter: blur(8px); 
             -webkit-backdrop-filter: blur(8px); 
         }
@@ -231,32 +235,35 @@
         .no { background: transparent; color: #aaa; border: none; cursor: pointer; padding: 10px; }
         select option { background: #0f172a; color: white; }
 
-         /* RESPONSIVE TABLET + SMARTPHONE */
-@media (max-width: 768px) {
-
-    body {
-        background-size: 75vw;
-        background-attachment: scroll;
-    }
-
-    .container {
-        max-width: 100%;
-    }
-
-    .container-inner {
-        padding: 20px;
-    }
-}   
-            </style>
+        /* RESPONSIVE TABLET + SMARTPHONE */
+        @media (max-width: 768px) {
+            body {
+                background-size: 75vw;
+                background-attachment: scroll;
+            }
+            .container {
+                max-width: 100%;
+            }
+            .container-inner {
+                padding: 20px;
+            }
+        }   
+    </style>
 </head>
 <body>
 
-<div id="splash-screen">
-    <div class="skeleton-overlay"><div class="sk-box"></div><div class="sk-line"></div><div class="sk-line"></div></div>
-    <div class="splash-logo">🔥</div>
-    <div class="loading-text">CARICAMENTO ASSISTENZA...</div>
-    <div class="loader-container"><div class="loader-bar"></div></div>
-</div>
+    <!-- --- SPLASH SCREEN --- -->
+    <div id="splash-screen">
+        <div class="skeleton-overlay">
+            <div class="sk-box"></div>
+            <div class="sk-line"></div>
+            <div class="sk-line"></div>
+        </div>
+        <img src="./logo-trasparente.PNG" alt="Logo" class="splash-logo">
+        <div class="loading-text">CARICAMENTO ASSISTENZA...</div>
+        <div class="loader-container">
+            <div class="loader-bar"></div>
+        </div>
 
 <div class="container" id="mainContainer">
     <div class="container-inner">
