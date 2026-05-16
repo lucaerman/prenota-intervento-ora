@@ -38,12 +38,15 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            /* Sfondo principale scuro combinato con l'immagine del tuo logo al centro */
+            /* Colore scuro di base */
             background-color: #020617; 
+            
+            /* Il logo si ripete lateralmente per riempire lo schermo sui computer */
             background-image: url('icon-512.png'); 
-            background-repeat: no-repeat; 
+            background-repeat: repeat; 
             background-position: center; 
-            background-size: contain; 
+            /* Dimensione fissa ideale per far vedere i loghi interi ai lati del modulo */
+            background-size: 380px; 
             background-attachment: fixed; 
             
             min-height: 100vh; 
@@ -82,7 +85,7 @@
             position: relative;
             background: rgba(255, 255, 255, 0.1); 
             border-radius: 25px; 
-            padding: 2px; /* Spessore del bordo */
+            padding: 2px; 
             overflow: hidden; 
             opacity: 0; transform: translateY(30px); 
             transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s;
@@ -110,17 +113,18 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Contenuto interno per coprire il centro del bagliore */
+        /* Contenuto interno modificato: gradiente semitrasparente per far intravedere il logo sotto */
         .container-inner {
             position: relative;
-            background: #0b132b; 
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
             border-radius: 23px;
             padding: 25px;
             z-index: 1;
             height: 100%;
             width: 100%;
-            background: radial-gradient(circle at 20% 20%, #1e3a8a, #020617);
+            /* Uso i colori blu scuro della tua app ma con opacità (0.9) per l'effetto filigrana */
+            background: radial-gradient(circle at 20% 20%, rgba(30, 58, 138, 0.9), rgba(2, 6, 23, 0.93));
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); 
         }
 
         h2 { color: #fff; text-align: center; font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 30px; }
