@@ -120,21 +120,45 @@ body {
         }
         .container.active { opacity: 1; transform: translateY(0); }
 
-        /* Bagliore rotante */
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(
-                transparent, 
-                rgba(34, 197, 94, 0.8), 
-                transparent 30%
-            );
-            animation: rotate 4.5s linear infinite;
-        }
+  /* Bordo luminoso elegante */
+.container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: 25px;
+
+    background: linear-gradient(
+        130deg,
+        rgba(34,197,94,0.9),
+        rgba(255,255,255,0.15),
+        rgba(34,197,94,0.9)
+    );
+
+    background-size: 300% 300%;
+
+    animation: borderMove 6s linear infinite;
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    z-index: 0;
+}
+
+/* Movimento solo sul bordo */
+@keyframes borderMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+}
 
         @keyframes rotate {
             from { transform: rotate(0deg); }
@@ -151,11 +175,11 @@ body {
             width: 100%;
             background: radial-gradient(
     circle at top,
-    rgba(30, 58, 138, 0.22),
-    rgba(2, 6, 23, 0.28)
+    rgba(30, 58, 138, 0.15),
+    rgba(2, 6, 23, 0.20)
 );
-            backdrop-filter: blur(4px); 
-            -webkit-backdrop-filter: blur(4px); 
+            backdrop-filter: blur(2px); 
+            -webkit-backdrop-filter: blur(2px); 
         }
 
         h2 { color: #fff; text-align: center; font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 30px; }
